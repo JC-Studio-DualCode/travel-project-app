@@ -10,8 +10,6 @@ import EditCityPage from "./pages/EditCityPage"
 
 
 function App() {
- 
-
   return (
     <>
       <h1>CityVerse</h1>
@@ -34,4 +32,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MainURL } from "../config/api";
 import { Link } from "react-router-dom";
 
-function ProjectListPage() {
+function CityListPage() {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,4 +51,4 @@ function ProjectListPage() {
   );
 }
 
-export default ProjectListPage;
+export default CityListPage;

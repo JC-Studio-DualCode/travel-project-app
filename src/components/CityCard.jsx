@@ -1,5 +1,5 @@
 
-function App() {
+function CityCard() {
  
 
   return (
@@ -10,4 +10,4 @@ function App() {
   )
 }
 
-export default App
+export default CityCard
