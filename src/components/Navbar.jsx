@@ -1,13 +1,11 @@
 
-function App() {
- 
-
+function Navbar() {
   return (
-    <>
-      <h1>CityVerse</h1>
-       
-    </>
-  )
+    <nav className="navbar">
+      <img className="logo" src={logo} alt="" />
+      <h2>IRON E-COMMERCE</h2>
+    </nav>
+  );
 }
 
-export default App
+export default Navbar;
