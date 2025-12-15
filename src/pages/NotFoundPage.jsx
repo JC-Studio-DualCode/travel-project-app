@@ -1,13 +1,13 @@
 
-function App() {
+function NotFoundPage() {
  
 
   return (
     <>
-      <h1>CityVerse</h1>
+      <h1>Not found page</h1>
        
     </>
   )
 }
 
-export default App
+export default NotFoundPage

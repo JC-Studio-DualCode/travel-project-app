@@ -1,4 +1,12 @@
-
+import Navbar from "./components/Navbar"
+import { Routes, Route } from "react-router-dom"
+import HomePage from "./pages/HomePage"
+import CityDetailsPage from "./pages/CityDetailsPage"
+import CityListPage from "./pages/CityListPage"
+import AddCityPage from "./pages/AddCityPage"
+import AboutPage from "./pages/AboutPage"
+import NotFoundPage from "./pages/NotFoundPage"
+import EditCityPage from "./pages/EditCityPage"
 
 
 function App() {
@@ -7,7 +15,21 @@ function App() {
   return (
     <>
       <h1>CityVerse</h1>
+
+      <Navbar  />
        
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/:countryName" element={<CityListPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/addnewcity" element={<AddCityPage />} />
+        <Route path="/:countryName/:cityName" element={<CityDetailsPage />} />
+        <Route path="/:countryName/:cityName/edit" element={<EditCityPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+
+
+
     </>
   )
 }

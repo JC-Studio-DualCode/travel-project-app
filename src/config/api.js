@@ -1,0 +1,1 @@
+export const MainURL = "https://project-react-app-f2487-default-rtdb.europe-west1.firebasedatabase.app"

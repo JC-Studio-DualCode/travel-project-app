@@ -1,13 +1,13 @@
+import CityListPage from "./CityListPage"
 
-function App() {
+function HomePage() {
  
 
   return (
     <>
-      <h1>CityVerse</h1>
-       
+       <CityListPage />
     </>
   )
 }
 
-export default App
+export default HomePage

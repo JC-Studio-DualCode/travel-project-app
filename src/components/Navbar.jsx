@@ -1,11 +1,25 @@
+import { NavLink } from "react-router-dom"
 
 function Navbar() {
-  return (
-    <nav className="navbar">
-      <img className="logo" src={logo} alt="" />
-      <h2>IRON E-COMMERCE</h2>
-    </nav>
-  );
+    return (
+        <>
+            
+            
+            <nav className="navbar">
+                <NavLink to="/">
+                    <button>Home</button>
+                </NavLink>
+
+                <NavLink to="/about">
+                    <button>About</button>
+                </NavLink>
+
+                <NavLink to="/cities/add">
+                    <button>Add New City</button>
+                </NavLink>
+            </nav>
+        </>
+    )
 }
 
-export default Navbar;
+export default Navbar
