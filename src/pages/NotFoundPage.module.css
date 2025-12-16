@@ -1,0 +1,44 @@
+.page {
+  min-height: calc(100vh - 120px);
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 640px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.code {
+  margin: 0;
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #0f172a;
+}
+
+.title {
+  margin: 8px 0 8px;
+  font-size: 28px;
+}
+
+.text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}

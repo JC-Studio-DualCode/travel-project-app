@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MainURL } from "../config/api";
 import { Link } from "react-router-dom";
+import styles from "./CityListPage.module.css";
 
 function CityListPage() {
   const [cities, setCities] = useState([]);
@@ -26,26 +27,28 @@ function CityListPage() {
       });
   }, []);
 
-  if (loading) return <p>Loading cities...</p>;
+  if (loading) return <p className={styles.loading}>Loading cities...</p>;
 
   return (
-    <div className="container">
-      <div className="home-header">
-      </div>
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>City List</h1>
+      </header>
 
-      <div className="city-list">
+      <div className={styles.grid}>
         {cities.map((city) => (
-          <div className="card" key={city.id}>
-            <img src={city.image} alt={city.name} />
-            <h3>{city.name}</h3>
-            <p>{city.description}</p>
-            <p>⭐ {city.averagerating}</p>
-            <p>{city.country}</p>
+          <article className={styles.card} key={city.id}>
+            <img className={styles.image} src={city.image} alt={city.name} />
 
-            <Link to={`/cities/${city.id}`}>
-              <button>More details</button>
+            <h3 className={styles.name}>{city.name}</h3>
+            <p className={styles.description}>{city.description}</p>
+            <p className={styles.meta}>⭐ {city.averagerating}</p>
+            <p className={styles.meta}>{city.country}</p>
+
+            <Link to={`/cities/${city.id}`} className={styles.link}>
+              <button className={styles.button}>More details</button>
             </Link>
-          </div>
+          </article>
         ))}
       </div>
     </div>
