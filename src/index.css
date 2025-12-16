@@ -90,23 +90,7 @@ h1 {
 .card a {
   text-decoration: none;
 }
-nav {
-  display: flex;
-  gap: 12px;
-  padding: 14px 20px;
-}
 
-nav a {
-  text-decoration: none;
-  font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 8px;
-  color: #111;
-}
-
-nav a:hover {
-  background: rgba(0,0,0,0.06);
-}
 
 /* Layout base */
 body {
@@ -122,26 +106,7 @@ body {
   padding: 24px;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  gap: 10px;
-  padding: 14px 24px;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
-}
 
-.navbar a {
-  text-decoration: none;
-  color: #0f172a;
-  font-weight: 600;
-  padding: 8px 10px;
-  border-radius: 10px;
-}
-
-.navbar a:hover {
-  background: #eef2ff;
-}
 
 /* Home header */
 .home {
@@ -279,47 +244,6 @@ body {
 .muted {
   opacity: 0.8;
 }
-/* ===== About Page ===== */
-.about {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 20px;
-}
-
-.about-hero {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 36px 28px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-.about-title h1 {
-  font-size: 42px;
-  margin: 0 0 10px 0;
-  letter-spacing: -0.5px;
-}
-
-.about-subtitle {
-  margin: 0;
-  font-size: 16px;
-  color: #3b3b3b;
-  opacity: 0.9;
-}
-
-.about-lead {
-  margin-top: 16px;
-  max-width: 850px;
-  line-height: 1.6;
-  color: #333;
-}
-
-.about-actions {
-  margin-top: 22px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
 
 .btn {
   display: inline-flex;
@@ -351,70 +275,6 @@ body {
   background: rgba(0,0,0,0.04);
 }
 
-.about-grid {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-.about-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px 18px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-}
-
-.about-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 30px rgba(0,0,0,0.1);
-}
-
-.about-card h3 {
-  margin: 10px 0 8px;
-  font-size: 16px;
-}
-
-.about-card p {
-  margin: 0;
-  color: #333;
-  opacity: 0.9;
-  line-height: 1.5;
-}
-
-.about-card code {
-  background: rgba(0,0,0,0.06);
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.9em;
-}
-
-.about-stack {
-  margin-top: 18px;
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px 18px;
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-.about-stack h2 {
-  margin: 0 0 12px 0;
-  font-size: 18px;
-}
-
-.about-hero {
-  margin-bottom: 28px;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%
-    #fafafa 100%
-  );
-}
-
-
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -430,15 +290,7 @@ body {
   font-size: 13px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-  .about-title h1 {
-    font-size: 34px;
-  }
-}
+
 
 
 
