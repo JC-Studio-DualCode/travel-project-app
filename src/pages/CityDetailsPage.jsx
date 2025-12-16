@@ -5,61 +5,43 @@ import { MainURL } from "../config/api";
 import styles from "./CityDetailsPage.module.css";
 
 function CityDetailsPage() {
-  const [city, setCity] = useState(null);
   const { cityId } = useParams();
   const navigate = useNavigate();
 
+  const [city, setCity] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+
   useEffect(() => {
-    axios.get(`${MainURL}/cities/${cityId}.json`)
-      .then((res) => setCity(res.data))
-      .catch((err) => console.log(err));
+    setLoading(true);
+
+    axios
+      .get(`${MainURL}/cities/${cityId}.json`)
+      .then((res) => {
+        setCity(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log("Error fetching city:", err);
+        setLoading(false);
+      });
   }, [cityId]);
 
   const deleteCity = () => {
+    const ok = window.confirm("¿Seguro que quieres borrar esta ciudad?");
+    if (!ok) return;
+
+    setDeleting(true);
+
     axios
       .delete(`${MainURL}/cities/${cityId}.json`)
       .then(() => navigate("/cities"))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("Error deleting city:", err);
+        setDeleting(false);
+      });
   };
 
-  if (!city) return <Loader />;
-
-  return (
-    <div className="cityDetailsPage">
-      <img src={city.image} alt={city.name} />
-      <h1>{city.name}</h1>
-      <h3>{city.country}</h3>
-
-      <p>{city.description}</p>
-
-      <p>⭐ {city.averageRating}</p>
-
-     
-      <h4>Points of interest</h4>
-      <ul>
-        {city.pointsOfInterest?.map((poi, index) => (
-          <li key={index}>{poi}</li>
-        ))}
-      </ul>
-
-      
-      <h4>Reviews</h4>
-      {city.reviews?.map((review, index) => (
-        <div key={index}>
-          <strong>{review.user}</strong> ⭐ {review.rating}
-          <p>{review.comment}</p>
-        </div>
-      ))}
-
-      <Link to={`/cities/${cityId}/edit`}>
-        <button>Edit</button>
-      </Link>
-
-      <button onClick={deleteCity}>Delete</button>
-
-      <Link to="/cities">
-        <button>Back to cities</button>
-      </Link>
   if (loading) {
     return <p className={styles.loading}>Cargando...</p>;
   }
@@ -67,7 +49,9 @@ function CityDetailsPage() {
   if (!city) {
     return (
       <div className={styles.page}>
-        <Link to="/" className="btn ghost">← Volver</Link>
+        <div className={styles.header}>
+          <Link to="/cities" className="btn ghost">← Volver</Link>
+        </div>
         <h1 className={styles.notFoundTitle}>Ciudad no encontrada</h1>
       </div>
     );
@@ -79,11 +63,32 @@ function CityDetailsPage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/" className="btn ghost">← Volver</Link>
-        <h1 className={styles.title}>{city.name}</h1>
+        <Link to="/cities" className="btn ghost">← Volver</Link>
+
+        <div className={styles.headerRight}>
+          <Link to={`/cities/${cityId}/edit`} className="btn ghost">
+            Editar
+          </Link>
+
+          <button
+            type="button"
+            className="btn primary"
+            onClick={deleteCity}
+            disabled={deleting}
+          >
+            {deleting ? "Borrando..." : "Borrar"}
+          </button>
+        </div>
       </div>
 
+      <h1 className={styles.title}>{city.name}</h1>
+      <p className={styles.meta}>{city.country}</p>
+
       <p className={styles.description}>{city.description}</p>
+
+      <p className={styles.meta}>
+        ⭐ {city.averagerating ?? city.averageRating ?? "—"}
+      </p>
 
       <div className={styles.gallery}>
         {mainImage && (
@@ -99,6 +104,34 @@ function CityDetailsPage() {
           />
         ))}
       </div>
+
+      {!!city.pointsOfInterest?.length && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Points of interest</h2>
+          <ul className={styles.list}>
+            {city.pointsOfInterest.map((poi, index) => (
+              <li key={index}>{poi}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {!!city.reviews?.length && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Reviews</h2>
+
+          <div className={styles.reviews}>
+            {city.reviews.map((review, index) => (
+              <article key={index} className={styles.reviewCard}>
+                <p className={styles.reviewHeader}>
+                  <strong>{review.user}</strong> ⭐ {review.rating}
+                </p>
+                <p className={styles.reviewText}>{review.comment}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
