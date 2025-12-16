@@ -4,9 +4,32 @@ import styles from "./Navbar.module.css";
 function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <NavLink className={styles.navLink} to="/">Home</NavLink>
-      <NavLink className={styles.navLink} to="/about">About</NavLink>
-      <NavLink className={styles.navLink} to="/cities/add">Add New City</NavLink>
+
+
+
+
+
+
+      <NavLink 
+      to="/"
+      className={({ isActive }) => (isActive ? `${styles.link} ${styles.active}` :styles.link)}
+      >
+        Home
+      </NavLink>
+
+      <NavLink
+      to="/about"
+      className={({ isActive }) => (isActive ? `${styles.link} ${styles.active}` :styles.link)}
+      >
+        About
+      </NavLink>
+
+      <NavLink
+      to="/cities/add"
+      className={({ isActive }) => isActive ? `${styles.link} ${styles.cta}` : `${styles.link} ${styles.cta}`}
+      >
+        Add New City
+      </NavLink>
     </nav>
   );
 }
