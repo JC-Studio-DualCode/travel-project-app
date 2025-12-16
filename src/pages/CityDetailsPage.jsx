@@ -1,11 +1,31 @@
 import { useParams, Link } from "react-router-dom";
-import { mockCities } from "../data/mockCities";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { MainURL } from "../config/api";
 
 
 function CityDetailsPage() {
-  const { citySlug } = useParams();
+  const { cityId } = useParams();
 
-  const city = mockCities.find((c) => c.slug === citySlug);
+  const [city, setCity] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`${MainURL}/cities/${cityId}.json`)
+      .then((response) => {
+        setCity(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching city data:", error);
+        setLoading(false);
+      });
+  }, [cityId]);
+
+  if (loading) {
+    return <p style={{ padding: "2rem" }}>Cargando...</p>;
+  }
 
   if (!city) {
     return (
@@ -16,6 +36,8 @@ function CityDetailsPage() {
     );
   }
 
+  const images = city.images || [];
+
   return (
     <div className="details">
       <Link to="/" className="back">← Volver</Link>
@@ -24,9 +46,10 @@ function CityDetailsPage() {
       <p className="details-desc">{city.description}</p>
 
       <div className="gallery">
-        {city.images.map((url, i) => (
+        {images.map((url, i) => (
           <img key={i} src={url} alt={`${city.name} ${i + 1}`} />
         ))}
+        <img src={city.mainImage} alt={city.name} />
       </div>
     </div>
   );
