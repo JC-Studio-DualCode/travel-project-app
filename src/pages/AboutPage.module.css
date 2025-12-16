@@ -9,7 +9,6 @@
 }
 
 .aboutHero {
-  margin-bottom: 28px;
   background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   border-radius: 18px;
   padding: 36px 28px;
@@ -102,8 +101,8 @@
   justify-content: center;
   background: rgba(37, 99, 235, 0.12);
   border: 1px solid rgba(37, 99, 235, 0.18);
-  color: ·#2563eb;
-  margin-bottom: 10;
+  color: #2563eb;
+  margin-bottom: 10px;
 }
 
 .aboutStack {
@@ -133,7 +132,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  color:#0f172a;
+  color: #0f172a;
 }
 
 .chip {
@@ -149,6 +148,36 @@
   border-color: #cbd5e1;
   cursor: default;
 }
+
+.stackGrid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.stackItem{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #f8fafc;
+}
+
+.stackItem span{
+  font-weight: 700;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+@media (max-width: 900px){
+  .stackGrid{
+    grid-template-columns: 1fr;
+  }
+}
+
 
 @media (max-width: 900px) {
   .aboutGrid {

@@ -2,9 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
-import Loader from "../components/Loader";
-
-
+import styles from "./CityDetailsPage.module.css";
 
 function CityDetailsPage() {
   const [city, setCity] = useState(null);
@@ -62,6 +60,45 @@ function CityDetailsPage() {
       <Link to="/cities">
         <button>Back to cities</button>
       </Link>
+  if (loading) {
+    return <p className={styles.loading}>Cargando...</p>;
+  }
+
+  if (!city) {
+    return (
+      <div className={styles.page}>
+        <Link to="/" className="btn ghost">← Volver</Link>
+        <h1 className={styles.notFoundTitle}>Ciudad no encontrada</h1>
+      </div>
+    );
+  }
+
+  const images = Array.isArray(city.images) ? city.images : [];
+  const mainImage = city.mainImage || city.image || "";
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <Link to="/" className="btn ghost">← Volver</Link>
+        <h1 className={styles.title}>{city.name}</h1>
+      </div>
+
+      <p className={styles.description}>{city.description}</p>
+
+      <div className={styles.gallery}>
+        {mainImage && (
+          <img className={styles.galleryImg} src={mainImage} alt={city.name} />
+        )}
+
+        {images.map((url, i) => (
+          <img
+            className={styles.galleryImg}
+            key={i}
+            src={url}
+            alt={`${city.name} ${i + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 }

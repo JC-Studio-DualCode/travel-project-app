@@ -95,6 +95,25 @@ function AddCityPage(props) {
             </form>
         </div>
     )
+import styles from "./AddCityPage.module.css";
+
+function AddCityPage() {
+  return (
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Añadir ciudad</h1>
+        <p className={styles.subtitle}>
+          Completa el formulario para añadir una nueva ciudad
+        </p>
+      </header>
+
+      <section className={styles.card}>
+        <p className={styles.placeholder}>
+          Aquí irá el formulario para añadir la ciudad.
+        </p>
+      </section>
+    </div>
+  );
 }
 
-export default AddCityPage
+export default AddCityPage;
