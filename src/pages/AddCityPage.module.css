@@ -1,7 +1,7 @@
 .page {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 48px 20px;
 }
 
 .header {
@@ -9,33 +9,69 @@
 }
 
 .title {
-  margin: 0 0 6px;
   font-size: 42px;
-  letter-spacing: -0.5px;
+  margin: 0 0 8px;
 }
 
 .subtitle {
   margin: 0;
   color: #475569;
-  font-size: 16px;
 }
 
 .card {
-  background: #ffffff;
+  background: white;
   border-radius: 16px;
   padding: 24px;
   border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
 
-.placeholder {
-  margin: 0;
-  color: #64748b;
-  font-style: italic;
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
 }
 
-@media (max-width: 640px) {
-  .title {
-    font-size: 34px;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 800px) {
+  .form {
+    grid-template-columns: 1fr;
   }
 }

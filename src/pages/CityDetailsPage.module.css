@@ -1,13 +1,48 @@
 .page {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 48px 20px;
 }
 
 .header {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.headerRight {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.loading {
+  padding: 2rem;
+}
+
+.notFoundTitle {
+  margin-top: 14px;
+  font-size: 34px;
+}
+
+/* Hero */
+.hero {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.heroText {
+  display: grid;
+  gap: 10px;
 }
 
 .title {
@@ -16,13 +51,28 @@
   letter-spacing: -0.5px;
 }
 
-.description {
-  margin: 0 0 18px;
+.meta {
+  margin: 0;
   color: #475569;
+}
+
+.description {
+  margin: 0;
+  color: #0f172a;
   line-height: 1.6;
 }
 
+.heroImg {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Gallery */
 .gallery {
+  margin-top: 16px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
@@ -30,38 +80,73 @@
 
 .galleryImg {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
   border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
 }
 
-.loading {
-  padding: 32px 20px;
-  text-align: center;
+/* Sections */
+.section {
+  margin-top: 18px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  color: #0f172a;
+}
+
+/* Reviews */
+.reviews {
+  display: grid;
+  gap: 12px;
+}
+
+.reviewCard {
+  background: #f8fafc;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.reviewHeader {
+  margin: 0 0 6px;
+}
+
+.reviewText {
+  margin: 0;
   color: #475569;
+  line-height: 1.55;
 }
 
-.notFoundTitle {
-  margin: 18px 0 0;
-  font-size: 34px;
-}
-
-@media (max-width: 980px) {
-  .gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 640px) {
+  .title {
+    font-size: 34px;
+  }
+
+  .heroImg {
+    height: 240px;
+  }
+
   .gallery {
     grid-template-columns: 1fr;
   }
+
   .galleryImg {
     height: 240px;
-  }
-  .title {
-    font-size: 34px;
   }
 }

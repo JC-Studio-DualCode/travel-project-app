@@ -59,6 +59,7 @@ function CityDetailsPage() {
 
   const images = Array.isArray(city.images) ? city.images : [];
   const mainImage = city.mainImage || city.image || "";
+  const rating = city.averagerating ?? city.averageRating ?? "—";
 
   return (
     <div className={styles.page}>
@@ -81,29 +82,31 @@ function CityDetailsPage() {
         </div>
       </div>
 
-      <h1 className={styles.title}>{city.name}</h1>
-      <p className={styles.meta}>{city.country}</p>
+      <div className={styles.hero}>
+        <div className={styles.heroText}>
+          <h1 className={styles.title}>{city.name}</h1>
+          <p className={styles.meta}>{city.country}</p>
+          <p className={styles.description}>{city.description}</p>
+          <p className={styles.meta}>⭐ {rating}</p>
+        </div>
 
-      <p className={styles.description}>{city.description}</p>
-
-      <p className={styles.meta}>
-        ⭐ {city.averagerating ?? city.averageRating ?? "—"}
-      </p>
-
-      <div className={styles.gallery}>
         {mainImage && (
-          <img className={styles.galleryImg} src={mainImage} alt={city.name} />
+          <img className={styles.heroImg} src={mainImage} alt={city.name} />
         )}
-
-        {images.map((url, i) => (
-          <img
-            className={styles.galleryImg}
-            key={i}
-            src={url}
-            alt={`${city.name} ${i + 1}`}
-          />
-        ))}
       </div>
+
+      {images.length > 0 && (
+        <div className={styles.gallery}>
+          {images.map((url, i) => (
+            <img
+              className={styles.galleryImg}
+              key={i}
+              src={url}
+              alt={`${city.name} ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       {!!city.pointsOfInterest?.length && (
         <section className={styles.section}>

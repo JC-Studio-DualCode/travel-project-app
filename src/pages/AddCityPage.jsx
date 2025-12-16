@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import { MainURL } from "../config/api";
 import { useNavigate } from "react-router-dom";
+import { MainURL } from "../config/api";
 import styles from "./AddCityPage.module.css";
 
 function AddCityPage() {
@@ -28,14 +28,13 @@ function AddCityPage() {
       .post(`${MainURL}/cities.json`, newCity)
       .then(() => {
         navigate("/cities");
-
         setImage("");
         setName("");
         setDescription("");
         setAveragerating("");
         setCountry("");
       })
-      .catch((e) => console.log("Error creating a new City...", e));
+      .catch((err) => console.log("Error creating city", err));
   };
 
   return (
@@ -69,12 +68,12 @@ function AddCityPage() {
             />
           </label>
 
-          <label className={styles.field}>
+          <label className={`${styles.field} ${styles.full}`}>
             Descripción
             <textarea
+              rows="4"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              rows="4"
               required
             />
           </label>
@@ -120,3 +119,4 @@ function AddCityPage() {
 }
 
 export default AddCityPage;
+

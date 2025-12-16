@@ -23,15 +23,23 @@ function EditCityPage() {
       .then((res) => {
         const city = res.data;
 
+        if (!city) {
+          setLoading(false);
+          return;
+        }
+
         setImage(city.image || "");
         setName(city.name || "");
         setDescription(city.description || "");
-        setAverageRating(city.averageRating || "");
+        setAverageRating(city.averageRating ?? city.averagerating ?? "");
         setCountry(city.country || "");
 
         setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }, [cityId]);
 
   const handleSubmit = (e) => {
@@ -41,7 +49,7 @@ function EditCityPage() {
       image,
       name,
       description,
-      averageRating: Number(averageRating),
+      averageRating: averageRating === "" ? "" : Number(averageRating),
       country,
     };
 
@@ -64,48 +72,55 @@ function EditCityPage() {
 
       <section className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label>
+          <label className={styles.field}>
             Image URL
             <input
               type="url"
               value={image}
               onChange={(e) => setImage(e.target.value)}
+              required
             />
           </label>
 
-          <label>
+          <label className={styles.field}>
             Name
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </label>
 
-          <label>
+          <label className={styles.field}>
             Country
             <input
               type="text"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
+              required
             />
           </label>
 
-          <label>
-            Description
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </label>
-
-          <label>
+          <label className={styles.field}>
             Average rating
             <input
               type="number"
+              min="0"
+              max="5"
               step="0.1"
               value={averageRating}
               onChange={(e) => setAverageRating(e.target.value)}
+            />
+          </label>
+
+          <label className={`${styles.field} ${styles.full}`}>
+            Description
+            <textarea
+              rows="4"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
             />
           </label>
 
