@@ -12,19 +12,17 @@ import EditCityPage from "./pages/EditCityPage"
 function App() {
   return (
     <>
-      <h1>CityVerse</h1>
+      <Navbar />
 
-      <Navbar  />
-       
-    <Routes>
-  <Route path="/" element={<HomePage />} />
-  <Route path="/cities" element={<CityListPage />} />
-  <Route path="/cities/:cityId" element={<CityDetailsPage />} />
-  <Route path="/cities/:cityId/edit" element={<EditCityPage />} />
-  <Route path="/addnewcity" element={<AddCityPage />} />
-  <Route path="/about" element={<AboutPage />} />
-  <Route path="*" element={<NotFoundPage />} />
-</Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cities" element={<CityListPage />} />
+        <Route path="/cities/:cityId" element={<CityDetailsPage />} />
+        <Route path="/cities/:cityId/edit" element={<EditCityPage />} />
+        <Route path="/addnewcity" element={<AddCityPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
 
 
 
