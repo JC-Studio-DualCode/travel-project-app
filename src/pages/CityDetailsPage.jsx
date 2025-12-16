@@ -1,56 +1,67 @@
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
+import Loader from "../components/Loader";
+
 
 
 function CityDetailsPage() {
-  const { cityId } = useParams();
-
   const [city, setCity] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { cityId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${MainURL}/cities/${cityId}.json`)
-      .then((response) => {
-        setCity(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching city data:", error);
-        setLoading(false);
-      });
+    axios.get(`${MainURL}/cities/${cityId}.json`)
+      .then((res) => setCity(res.data))
+      .catch((err) => console.log(err));
   }, [cityId]);
 
-  if (loading) {
-    return <p style={{ padding: "2rem" }}>Cargando...</p>;
-  }
+  const deleteCity = () => {
+    axios
+      .delete(`${MainURL}/cities/${cityId}.json`)
+      .then(() => navigate("/cities"))
+      .catch((err) => console.log(err));
+  };
 
-  if (!city) {
-    return (
-      <div style={{ padding: "2rem" }}>
-        <Link to="/">← Volver</Link>
-        <h1>Ciudad no encontrada</h1>
-      </div>
-    );
-  }
-
-  const images = city.images || [];
+  if (!city) return <Loader />;
 
   return (
-    <div className="details">
-      <Link to="/" className="back">← Volver</Link>
-
+    <div className="cityDetailsPage">
+      <img src={city.image} alt={city.name} />
       <h1>{city.name}</h1>
-      <p className="details-desc">{city.description}</p>
+      <h3>{city.country}</h3>
 
-      <div className="gallery">
-        {images.map((url, i) => (
-          <img key={i} src={url} alt={`${city.name} ${i + 1}`} />
+      <p>{city.description}</p>
+
+      <p>⭐ {city.averageRating}</p>
+
+     
+      <h4>Points of interest</h4>
+      <ul>
+        {city.pointsOfInterest?.map((poi, index) => (
+          <li key={index}>{poi}</li>
         ))}
-        <img src={city.mainImage} alt={city.name} />
-      </div>
+      </ul>
+
+      
+      <h4>Reviews</h4>
+      {city.reviews?.map((review, index) => (
+        <div key={index}>
+          <strong>{review.user}</strong> ⭐ {review.rating}
+          <p>{review.comment}</p>
+        </div>
+      ))}
+
+      <Link to={`/cities/${cityId}/edit`}>
+        <button>Edit</button>
+      </Link>
+
+      <button onClick={deleteCity}>Delete</button>
+
+      <Link to="/cities">
+        <button>Back to cities</button>
+      </Link>
     </div>
   );
 }

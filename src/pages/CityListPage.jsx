@@ -31,7 +31,6 @@ function CityListPage() {
   return (
     <div className="container">
       <div className="home-header">
-      <h1>City List</h1>
       </div>
 
       <div className="city-list">
