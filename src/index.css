@@ -90,11 +90,23 @@ h1 {
 .card a {
   text-decoration: none;
 }
-
-.navbar{
-  
+nav {
+  display: flex;
+  gap: 12px;
+  padding: 14px 20px;
 }
 
+nav a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #111;
+}
+
+nav a:hover {
+  background: rgba(0,0,0,0.06);
+}
 
 /* Layout base */
 body {
@@ -347,11 +359,17 @@ body {
 }
 
 .about-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   background: #fff;
   border-radius: 16px;
   padding: 18px 18px;
   border: 1px solid rgba(0,0,0,0.06);
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.1);
 }
 
 .about-card h3 {
@@ -386,6 +404,16 @@ body {
   margin: 0 0 12px 0;
   font-size: 18px;
 }
+
+.about-hero {
+  margin-bottom: 28px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%
+    #fafafa 100%
+  );
+}
+
 
 .chips {
   display: flex;
