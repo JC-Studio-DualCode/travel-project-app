@@ -17,21 +17,20 @@ function ReviewForm({ cityId, reviews, onAddReview }) {
       rating: Number(rating),
     };
 
-    const updatedReviews = [...reviews, newReview];
+    // Add newest review at the top
+    const updatedReviews = [newReview, ...reviews];
 
     setSubmitting(true);
 
     axios
-      .patch(`${MainURL}/cities/${cityId}.json`, {
-        reviews: updatedReviews,
-      })
+      .patch(`${MainURL}/cities/${cityId}.json`, { reviews: updatedReviews })
       .then(() => {
-        onAddReview(updatedReviews); 
+        onAddReview(updatedReviews); // Update UI immediately
         setUser("");
         setComment("");
         setRating(5);
       })
-      .catch((err) => console.log("Error adding review:", err))
+      .catch((err) => console.error("Error adding review:", err))
       .finally(() => setSubmitting(false));
   };
 

@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
 import styles from "./AddCityPage.module.css";
 
-import { FiPlus, FiArrowLeft, FiMapPin } from "react-icons/fi";
+import { FiPlus, FiArrowLeft, FiMapPin, FiTrash2 } from "react-icons/fi";
 
 function AddCityPage() {
   const { country } = useParams();
@@ -18,10 +18,32 @@ function AddCityPage() {
   const [averageRating, setAverageRating] = useState("");
   const [saving, setSaving] = useState(false);
 
+  // Estado para los puntos de interés
+  const [pointsOfInterest, setPointsOfInterest] = useState([
+    { name: "", url: "" }
+  ]);
+
   const backToCitiesUrl = useMemo(
     () => `/countries/${encodeURIComponent(safeCountry)}/cities`,
     [safeCountry]
   );
+
+  // Añadir un nuevo POI vacío
+  const addPOI = () => {
+    setPointsOfInterest([...pointsOfInterest, { name: "", url: "" }]);
+  };
+
+  // Eliminar un POI por índice
+  const removePOI = (index) => {
+    setPointsOfInterest(pointsOfInterest.filter((_, i) => i !== index));
+  };
+
+  // Actualizar el nombre o URL de un POI
+  const updatePOI = (index, field, value) => {
+    const newPOIs = [...pointsOfInterest];
+    newPOIs[index][field] = value;
+    setPointsOfInterest(newPOIs);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,10 +53,12 @@ function AddCityPage() {
       name: name.trim(),
       description: description.trim(),
       image: image.trim(),
-      country: safeCountry.trim(), // bloqueado, pero guardamos limpio
+      country: safeCountry.trim(),
+      pointsOfInterest: pointsOfInterest
+        .filter((poi) => poi.name.trim() !== "")
+        .map((poi) => ({ name: poi.name.trim(), url: poi.url.trim() }))
     };
 
-    // Solo guardamos rating si el usuario puso algo
     if (averageRating !== "") {
       newCity.averageRating = Number(averageRating);
     }
@@ -55,21 +79,13 @@ function AddCityPage() {
       {/* HERO */}
       <section className={styles.addHero}>
         <div className={styles.addTitle}>
-          <h1>
-            Add City in {safeCountry}
-          </h1>
-
+          <h1>Add City in {safeCountry}</h1>
           <p className={styles.addSubtitle}>
-            Add a new city to this country with an image, description and rating.
+            Add a new city to this country with image, description, rating, and points of interest.
           </p>
-
-          <p className={styles.addLead}>
-            The country is locked to keep your data consistent.
-          </p>
-
           <div className={styles.addActions}>
             <Link to={backToCitiesUrl} className="btn ghost">
-              <FiArrowLeft style={{ verticalAlign: "middle", marginRight: 8 }} />
+              <FiArrowLeft style={{ marginRight: 8 }} />
               Back to Cities
             </Link>
           </div>
@@ -83,9 +99,6 @@ function AddCityPage() {
             <div className={styles.field}>
               <span className={styles.label}>Country</span>
               <input className={styles.input} type="text" value={safeCountry} disabled />
-              <span className={styles.hint}>
-                This comes from the URL param (<code>:country</code>).
-              </span>
             </div>
 
             <div className={styles.field}>
@@ -109,9 +122,6 @@ function AddCityPage() {
                 onChange={(e) => setImage(e.target.value)}
                 placeholder="https://..."
               />
-              <span className={styles.hint}>
-                Use a real URL (Unsplash, Wikipedia, etc.) so the card looks great.
-              </span>
             </div>
 
             <div className={styles.field}>
@@ -124,9 +134,6 @@ function AddCityPage() {
                 onChange={(e) => setAverageRating(e.target.value)}
                 placeholder="e.g. 4.5"
               />
-              <span className={styles.hint}>
-                Optional. Leave empty if you don&apos;t want to rate it yet.
-              </span>
             </div>
 
             <div className={`${styles.field} ${styles.full}`}>
@@ -138,17 +145,49 @@ function AddCityPage() {
                 placeholder="Short description..."
               />
             </div>
+
+            {/* POINTS OF INTEREST */}
+            <div className={`${styles.field} ${styles.full}`}>
+              <span className={styles.label}>Points of Interest</span>
+              {pointsOfInterest.map((poi, index) => (
+                <div key={index} className={styles.poiRow}>
+                  <input
+                    type="text"
+                    placeholder="POI Name"
+                    value={poi.name}
+                    onChange={(e) => updatePOI(index, "name", e.target.value)}
+                    className={styles.input}
+                  />
+                  <input
+                    type="url"
+                    placeholder="POI Image URL"
+                    value={poi.url}
+                    onChange={(e) => updatePOI(index, "url", e.target.value)}
+                    className={styles.input}
+                  />
+                  <button
+                    type="button"
+                    className={styles.removeBtn}
+                    onClick={() => removePOI(index)}
+                  >
+                    <FiTrash2 />
+                  </button>
+                </div>
+              ))}
+              <button type="button" className="btn secondary" onClick={addPOI}>
+                <FiPlus style={{ marginRight: 4 }} /> Add Point of Interest
+              </button>
+            </div>
           </div>
 
           <div className={styles.actions}>
             <button type="submit" className="btn primary" disabled={saving}>
-              <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
+              <FiPlus style={{ marginRight: 8 }} />
               {saving ? "Saving..." : "Add City"}
             </button>
-
             <span className={styles.hint} style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
               <FiMapPin size={16} />
-              Tip: Add a nice image URL to make the list look premium.
+              Tip: Add images for your POIs to make the city card look amazing.
             </span>
           </div>
         </form>

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
 import Loader from "../components/Loader";
 import styles from "./EditCityPage.module.css";
+import { FiPlus, FiTrash2 } from "react-icons/fi";
 
 function EditCityPage() {
   const { cityId } = useParams();
@@ -16,7 +17,9 @@ function EditCityPage() {
   const [description, setDescription] = useState("");
   const [averageRating, setAverageRating] = useState("");
   const [country, setCountry] = useState("");
+  const [pointsOfInterest, setPointsOfInterest] = useState([{ name: "", url: "" }]);
 
+  // Fetch city data
   useEffect(() => {
     axios
       .get(`${MainURL}/cities/${cityId}.json`)
@@ -33,6 +36,11 @@ function EditCityPage() {
         setDescription(city.description || "");
         setAverageRating(city.averageRating ?? city.averagerating ?? "");
         setCountry(city.country || "");
+        setPointsOfInterest(
+          city.pointsOfInterest?.length > 0
+            ? city.pointsOfInterest
+            : [{ name: "", url: "" }]
+        );
 
         setLoading(false);
       })
@@ -42,6 +50,24 @@ function EditCityPage() {
       });
   }, [cityId]);
 
+  // Add new POI
+  const addPOI = () => {
+    setPointsOfInterest([...pointsOfInterest, { name: "", url: "" }]);
+  };
+
+  // Remove POI by index
+  const removePOI = (index) => {
+    setPointsOfInterest(pointsOfInterest.filter((_, i) => i !== index));
+  };
+
+  // Update POI
+  const updatePOI = (index, field, value) => {
+    const newPOIs = [...pointsOfInterest];
+    newPOIs[index][field] = value;
+    setPointsOfInterest(newPOIs);
+  };
+
+  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -51,11 +77,14 @@ function EditCityPage() {
       description,
       averageRating: averageRating === "" ? "" : Number(averageRating),
       country,
+      pointsOfInterest: pointsOfInterest
+        .filter((poi) => poi.name.trim() !== "")
+        .map((poi) => ({ name: poi.name.trim(), url: poi.url.trim() })),
     };
 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, updatedCity)
-      .then(() => navigate(`/cities/${cityId}`))
+      .then(() => navigate(`/countries/${country}/cities/${cityId}`))
       .catch((err) => console.log("Error updating city...", err));
   };
 
@@ -123,6 +152,45 @@ function EditCityPage() {
               required
             />
           </label>
+
+          {/* Points of Interest */}
+          <div className={`${styles.field} ${styles.full}`}>
+            <span className={styles.label}>Points of Interest</span>
+            {pointsOfInterest.map((poi, index) => (
+              <div key={index} className={styles.poiRow}>
+                <input
+                  type="text"
+                  placeholder="POI Name"
+                  value={poi.name}
+                  onChange={(e) => updatePOI(index, "name", e.target.value)}
+                  className={styles.input}
+                  required
+                />
+                <input
+                  type="url"
+                  placeholder="POI Image URL"
+                  value={poi.url}
+                  onChange={(e) => updatePOI(index, "url", e.target.value)}
+                  className={styles.input}
+                />
+                <button
+                  type="button"
+                  className={styles.removeBtn}
+                  onClick={() => removePOI(index)}
+                >
+                  <FiTrash2 />
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn secondary"
+              onClick={addPOI}
+              style={{ marginTop: "8px" }}
+            >
+              <FiPlus style={{ marginRight: 4 }} /> Add Point of Interest
+            </button>
+          </div>
 
           <div className={styles.actions}>
             <button className="btn primary" type="submit">
