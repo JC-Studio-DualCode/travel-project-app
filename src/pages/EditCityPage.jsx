@@ -55,7 +55,7 @@ function EditCityPage() {
 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, updatedCity)
-      .then(() => navigate(`/cities/${cityId}`))
+      .then(() => navigate(`/countries/${country}/cities/${cityId}`))
       .catch((err) => console.log("Error updating city...", err));
   };
 
