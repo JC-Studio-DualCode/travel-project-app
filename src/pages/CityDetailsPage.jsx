@@ -2,15 +2,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
+import ReviewForm from "../components/ReviewForm";
 import styles from "./CityDetailsPage.module.css";
 
 function CityDetailsPage() {
-  const { country, cityId } = useParams(); // ahora también capturamos el país
+  const { country, cityId } = useParams();
   const navigate = useNavigate();
 
   const [city, setCity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +37,7 @@ function CityDetailsPage() {
 
     axios
       .delete(`${MainURL}/cities/${cityId}.json`)
-      .then(() => navigate(`/countries/${country}/cities`)) // volvemos a la lista filtrada por país
+      .then(() => navigate(`/countries/${country}/cities`))
       .catch((err) => {
         console.log("Error deleting city:", err);
         setDeleting(false);
@@ -61,12 +63,13 @@ function CityDetailsPage() {
 
   const images = Array.isArray(city.images) ? city.images : [];
   const mainImage = city.mainImage || city.image || "";
-  const rating = city.averagerating ?? city.averageRating ?? "—";
-  const mapQuery = encodeURIComponent(`${city.name}, ${city.country || ""}`);
+  const rating = city.averageRating ?? "—";
+  const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
   return (
     <div className={styles.page}>
+      {/* HEADER */}
       <div className={styles.header}>
         <Link to={`/countries/${country}/cities`} className="btn ghost">
           ← Back
@@ -91,6 +94,7 @@ function CityDetailsPage() {
         </div>
       </div>
 
+      {/* HERO */}
       <div className={styles.hero}>
         <div className={styles.heroText}>
           <h1 className={styles.title}>{city.name}</h1>
@@ -109,16 +113,21 @@ function CityDetailsPage() {
         </div>
 
         {mainImage && (
-          <img className={styles.heroImg} src={mainImage} alt={city.name} />
+          <img
+            className={styles.heroImg}
+            src={mainImage}
+            alt={city.name}
+          />
         )}
       </div>
 
+      {/* GALLERY */}
       {images.length > 0 && (
         <div className={styles.gallery}>
           {images.map((url, i) => (
             <img
-              className={styles.galleryImg}
               key={i}
+              className={styles.galleryImg}
               src={url}
               alt={`${city.name} ${i + 1}`}
             />
@@ -126,6 +135,7 @@ function CityDetailsPage() {
         </div>
       )}
 
+      {/* POINTS OF INTEREST */}
       {!!city.pointsOfInterest?.length && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Points of interest</h2>
@@ -137,9 +147,34 @@ function CityDetailsPage() {
         </section>
       )}
 
-      {!!city.reviews?.length && (
-        <section className={styles.section}>
+      {/* REVIEWS */}
+      <section className={styles.section}>
+        <div className={styles.reviewsHeader}>
           <h2 className={styles.sectionTitle}>Reviews</h2>
+
+          <button
+            className="btn ghost"
+            onClick={() => setShowReviewForm((prev) => !prev)}
+          >
+            {showReviewForm ? "Cancel" : "Add review"}
+          </button>
+        </div>
+
+        {showReviewForm && (
+          <ReviewForm
+            cityId={cityId}
+            reviews={city.reviews || []}
+            onAddReview={(updatedReviews) => {
+              setCity((prev) => ({
+                ...prev,
+                reviews: updatedReviews,
+              }));
+              setShowReviewForm(false);
+            }}
+          />
+        )}
+
+        {!!city.reviews?.length && (
           <div className={styles.reviews}>
             {city.reviews.map((review, index) => (
               <article key={index} className={styles.reviewCard}>
@@ -150,8 +185,8 @@ function CityDetailsPage() {
               </article>
             ))}
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 }

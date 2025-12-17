@@ -42,7 +42,7 @@ function CityListPage() {
 
   return (
     <div className={styles.cityList}>
-      {/* HERO */}
+  
       <section className={styles.cityHero}>
         <div className={styles.cityTitle}>
           <h1>
@@ -77,7 +77,7 @@ function CityListPage() {
         </div>
       </section>
 
-      {/* GRID */}
+ 
       <section className={styles.cityGrid}>
         {cities.map((city) => (
           <div key={city.id} className={styles.cityCard}>
