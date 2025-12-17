@@ -5,7 +5,7 @@ import { MainURL } from "../config/api";
 import styles from "./CityDetailsPage.module.css";
 
 function CityDetailsPage() {
-  const { cityId } = useParams();
+  const { country, cityId } = useParams(); // ahora también capturamos el país
   const navigate = useNavigate();
 
   const [city, setCity] = useState(null);
@@ -35,7 +35,7 @@ function CityDetailsPage() {
 
     axios
       .delete(`${MainURL}/cities/${cityId}.json`)
-      .then(() => navigate("/cities"))
+      .then(() => navigate(`/countries/${country}/cities`)) // volvemos a la lista filtrada por país
       .catch((err) => {
         console.log("Error deleting city:", err);
         setDeleting(false);
@@ -43,14 +43,16 @@ function CityDetailsPage() {
   };
 
   if (loading) {
-    return <p className={styles.loading}>"Loading..."</p>;
+    return <p className={styles.loading}>Loading...</p>;
   }
 
   if (!city) {
     return (
       <div className={styles.page}>
         <div className={styles.header}>
-          <Link to="/cities" className="btn ghost">← Back</Link>
+          <Link to={`/countries/${country}/cities`} className="btn ghost">
+            ← Back
+          </Link>
         </div>
         <h1 className={styles.notFoundTitle}>City not found</h1>
       </div>
@@ -63,14 +65,18 @@ function CityDetailsPage() {
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country || ""}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
-
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/cities" className="btn ghost">← Back</Link>
+        <Link to={`/countries/${country}/cities`} className="btn ghost">
+          ← Back
+        </Link>
 
         <div className={styles.headerRight}>
-          <Link to={`/cities/${cityId}/edit`} className="btn ghost">
+          <Link
+            to={`/countries/${country}/cities/${cityId}/edit`}
+            className="btn ghost"
+          >
             Edit
           </Link>
 
@@ -100,7 +106,6 @@ function CityDetailsPage() {
           >
             Open in Google Maps
           </a>
-
         </div>
 
         {mainImage && (
@@ -135,7 +140,6 @@ function CityDetailsPage() {
       {!!city.reviews?.length && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Reviews</h2>
-
           <div className={styles.reviews}>
             {city.reviews.map((review, index) => (
               <article key={index} className={styles.reviewCard}>
