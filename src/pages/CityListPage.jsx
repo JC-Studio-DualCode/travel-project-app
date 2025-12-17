@@ -42,6 +42,15 @@ function CityListPage() {
 
   return (
     <div className={styles.cityList}>
+<nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+  <Link to="/">Home</Link>
+  <span className={styles.crumbSep}>/</span>
+  <Link to="/countries">Countries</Link>
+  <span className={styles.crumbSep}>/</span>
+  <span>{safeCountry}</span>
+</nav>
+
+
       {/* HERO */}
       <section className={styles.cityHero}>
         <div className={styles.cityTitle}>

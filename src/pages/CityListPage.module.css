@@ -140,6 +140,46 @@
   flex: 1;
   font-size: 14px;
 }
+.cardDesc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cityCard:hover img {
+  transform: scale(1.04);
+}
+
+.imageWrap img {
+  transition: transform 0.35s ease;
+}
+
+.breadcrumbs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  color: #0f172a;
+  opacity: 0.75;
+  margin-bottom: 12px;
+}
+
+.breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(0,0,0,0.25);
+}
+
+.breadcrumbs a:hover {
+  opacity: 0.95;
+}
+
+.crumbSep {
+  opacity: 0.5;
+}
+
+
+
 
 /* Responsive igual que About */
 @media (max-width: 900px) {

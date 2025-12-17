@@ -6,10 +6,10 @@ import Loader from "../components/Loader";
 import styles from "./CountryListPage.module.css";
 
 import { FcGlobe } from "react-icons/fc";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiPlus } from "react-icons/fi";
 
 function CountryListPage() {
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState([]); // [{ name, count }]
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,16 +20,20 @@ function CountryListPage() {
       .then((res) => {
         const citiesObj = res.data || {};
 
-        // Saca country de cada city, limpia null/undefined y evita repetidos
-        const uniqueCountries = [
-          ...new Set(
-            Object.values(citiesObj)
-              .map((city) => city?.country)
-              .filter(Boolean)
-          ),
-        ].sort((a, b) => a.localeCompare(b));
+        // 1) contar ciudades por país
+        const counts = Object.values(citiesObj).reduce((acc, city) => {
+          const c = city?.country?.trim();
+          if (!c) return acc;
+          acc[c] = (acc[c] || 0) + 1;
+          return acc;
+        }, {});
 
-        setCountries(uniqueCountries);
+        // 2) convertir a array para render
+        const list = Object.entries(counts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        setCountries(list);
         setLoading(false);
       })
       .catch((err) => {
@@ -38,13 +42,18 @@ function CountryListPage() {
       });
   }, []);
 
-  const count = useMemo(() => countries.length, [countries]);
+  const countCountries = useMemo(() => countries.length, [countries]);
 
   if (loading) return <Loader />;
 
   return (
     <div className={styles.country}>
-      {/* HERO (igual vibes que AboutPage) */}
+      <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+        <Link to="/">Home</Link>
+        <span className={styles.crumbSep}>/</span>
+        <span>Countries</span>
+      </nav>
+
       <section className={styles.countryHero}>
         <div className={styles.countryTitle}>
           <h1>
@@ -56,13 +65,15 @@ function CountryListPage() {
           </p>
 
           <p className={styles.countryLead}>
-            Found <strong>{count}</strong> countries in the dataset.
+            Found <strong>{countCountries}</strong> countries in the dataset.
           </p>
 
           <div className={styles.countryActions}>
-            <Link className="btn primary" to="/cities">
-              Explore Cities
+            <Link className="btn primary" to="/countries/add">
+              <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
+              Add Country
             </Link>
+
             <Link className="btn ghost" to="/">
               Back Home
             </Link>
@@ -70,20 +81,21 @@ function CountryListPage() {
         </div>
       </section>
 
-      {/* GRID */}
       <section className={styles.countryGrid}>
-        {countries.map((country) => (
+        {countries.map(({ name, count }) => (
           <Link
-            key={country}
-            to={`/countries/${encodeURIComponent(country)}/cities`}
+            key={name}
+            to={`/countries/${encodeURIComponent(name)}/cities`}
             className={styles.countryCard}
           >
             <div className={styles.iconBadge}>
               <FiMapPin size={22} />
             </div>
 
-            <h3>{country}</h3>
-            <p className={styles.cardHint}>View cities →</p>
+            <h3>{name}</h3>
+            <p className={styles.cardHint}>
+              {count} {count === 1 ? "city" : "cities"} →
+            </p>
           </Link>
         ))}
       </section>
