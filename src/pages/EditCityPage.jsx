@@ -21,34 +21,38 @@ function EditCityPage() {
 
   // Fetch city data
   useEffect(() => {
-    axios
-      .get(`${MainURL}/cities/${cityId}.json`)
-      .then((res) => {
-        const city = res.data;
+  axios
+    .get(`${MainURL}/cities/${cityId}.json`)
+    .then((res) => {
+      const city = res.data;
 
-        if (!city) {
-          setLoading(false);
-          return;
-        }
-
-        setImage(city.image || "");
-        setName(city.name || "");
-        setDescription(city.description || "");
-        setAverageRating(city.averageRating ?? city.averagerating ?? "");
-        setCountry(city.country || "");
-        setPointsOfInterest(
-          city.pointsOfInterest?.length > 0
-            ? city.pointsOfInterest
-            : [{ name: "", url: "" }]
-        );
-
+      if (!city) {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [cityId]);
+        return;
+      }
+
+      setImage(city.image || "");
+      setName(city.name || "");
+      setDescription(city.description || "");
+      setAverageRating(city.averageRating ?? city.averagerating ?? "");
+      setCountry(city.country || "");
+
+      // Transformamos POIs para que siempre sean {name, url}
+      const pois =
+        city.pointsOfInterest && city.pointsOfInterest.length > 0
+          ? city.pointsOfInterest.map((poi) =>
+              typeof poi === "string" ? { name: poi, url: "" } : poi
+            )
+          : [{ name: "", url: "" }];
+
+      setPointsOfInterest(pois);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+}, [cityId]);
 
   // Add new POI
   const addPOI = () => {

@@ -70,6 +70,9 @@ function CityDetailsPage() {
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
+  // Aseguramos que pointsOfInterest sea siempre un array
+  const pois = Array.isArray(city.pointsOfInterest) ? city.pointsOfInterest : [];
+
   return (
     <div className={styles.page}>
       {/* HEADER */}
@@ -135,24 +138,31 @@ function CityDetailsPage() {
 
       {/* POINTS OF INTEREST */}
       {city.pointsOfInterest?.length > 0 && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Points of Interest</h2>
-          <ul className={styles.list}>
-            {city.pointsOfInterest.map((poi, index) => (
-              <li key={index} className={styles.poiItem}>
-                <strong>{poi.name}</strong>
-                {poi.url && (
-                  <img
-                    src={poi.url}
-                    alt={poi.name}
-                    style={{ width: 100, marginLeft: 8 }}
-                  />
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+  <section className={styles.section}>
+    <h2 className={styles.sectionTitle}>Points of Interest</h2>
+    <ul className={styles.list}>
+      {city.pointsOfInterest.map((poi, index) => {
+        // Si es string, lo mostramos tal cual
+        const name = typeof poi === "string" ? poi : poi.name;
+        const url = typeof poi === "string" ? null : poi.url;
+
+        return (
+          <li key={index} className={styles.poiItem}>
+            <strong>{name}</strong>
+            {url && (
+              <img
+                src={url}
+                alt={name}
+                style={{ width: 100, marginLeft: 8 }}
+              />
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
 
       {/* REVIEWS */}
       <section className={styles.section}>
