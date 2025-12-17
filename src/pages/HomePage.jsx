@@ -49,7 +49,7 @@ function HomePage() {
 
           <div className={styles.actions}>
             <Link className="btn primary" to="/countries">
-              Explore
+              Start Exploring
             </Link>
           
           </div>

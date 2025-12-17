@@ -1,93 +1,52 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { MainURL } from "../config/api";
-import { Link } from "react-router-dom";
-import styles from "./CityListPage.module.css";
+import Loader from "../components/Loader";
 
 function CityListPage() {
+  const { country } = useParams();
+
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
       .get(`${MainURL}/cities.json`)
-      .then((response) => {
-        if (response.data) {
-          const citiesArray = Object.keys(response.data).map((id) => ({
-            id,
-            ...response.data[id],
-          }));
-          setCities(citiesArray);
-        }
+      .then((res) => {
+        const citiesObj = res.data || {};
+        const filteredCities = Object.entries(citiesObj)
+          .filter(([_, city]) => city.country === country)
+          .map(([id, city]) => ({ id, ...city }));
+        setCities(filteredCities);
         setLoading(false);
       })
-      .catch((err) => {
-        console.log("Error getting Cities from Firebase", err);
-        setLoading(false);
-      });
-  }, []);
+      .catch((err) => console.log(err));
+  }, [country]);
 
-  const normalizedSearch = search.trim().toLowerCase();
-
-  const filteredCities = cities.filter((city) => {
-    const name = (city.name || "").toLowerCase();
-    const country = (city.country || "").toLowerCase();
-    return (
-      name.includes(normalizedSearch) ||
-      country.includes(normalizedSearch)
-    );
-  });
-
-  if (loading) {
-    return <p className={styles.loading}>Loading cities...</p>;
-  }
+  if (loading) return <Loader />;
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>City List</h1>
-        <Link className="btn primary" to="/cities/add">
-          Add New City
-        </Link>
+    <div className="cityListPage">
+      <h1>Cities in {country}</h1>
 
-        
-        <input
-          className={styles.search}
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by city or country..."
-        />
-      </header>
+      <Link to={`/countries/${country}/cities/add`} className="btn primary">
+        Add City
+      </Link>
 
-      {filteredCities.length === 0 && (
-        <p className={styles.empty}>
-          No results for “{search}”. Try another city or country.
-        </p>
-      )}
-
-      <div className={styles.grid}>
-        {filteredCities.map((city) => (
-          <article className={styles.card} key={city.id}>
-            <img
-              className={styles.image}
-              src={city.image}
-              alt={city.name}
-            />
-
-            <h3 className={styles.name}>{city.name}</h3>
-            <p className={styles.description}>{city.description}</p>
-
-            <p className={styles.meta}>⭐ {city.averagerating}</p>
-            <p className={styles.meta}>{city.country}</p>
-
-            <Link to={`/cities/${city.id}`} className={styles.link}>
-              <button className={styles.button}>
-                More details
-              </button>
+      <div className="cityGrid">
+        {cities.map((city) => (
+          <div key={city.id} className="cityCard">
+            <img src={city.image} alt={city.name} />
+            <h3>{city.name}</h3>
+            <p>{city.description}</p>
+            <Link
+              to={`/countries/${country}/cities/${city.id}`}
+              className="btn ghost"
+            >
+              View
             </Link>
-          </article>
+          </div>
         ))}
       </div>
     </div>

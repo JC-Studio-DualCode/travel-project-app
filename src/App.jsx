@@ -14,17 +14,28 @@ function App() {
     <>
       <Navbar />
 
-    <Routes>
+   <Routes>
   <Route path="/" element={<HomePage />} />
+
   <Route path="/countries" element={<CountryListPage />} />
-  <Route path="/countries/cities" element={<CityListPage />} />
-  <Route path="/countries/cities/add" element={<AddCityPage />} />
-  <Route path="/countries/cities/:cityId/edit" element={<EditCityPage />} />
-  <Route path="/countries/cities/:cityId" element={<CityDetailsPage />} />
+  <Route path="/countries/:country/cities" element={<CityListPage />} />
+
+  <Route
+    path="/countries/:country/cities/add"
+    element={<AddCityPage />}
+  />
+  <Route
+    path="/countries/:country/cities/:cityId/edit"
+    element={<EditCityPage />}
+  />
+  <Route
+    path="/countries/:country/cities/:cityId"
+    element={<CityDetailsPage />}
+  />
+
   <Route path="/about" element={<AboutPage />} />
   <Route path="*" element={<NotFoundPage />} />
 </Routes>
-
 
     </>
   )
