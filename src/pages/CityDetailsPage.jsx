@@ -46,14 +46,10 @@ function CityDetailsPage() {
 
     axios
       .delete(`${MainURL}/cities/${cityId}.json`)
-<<<<<<< HEAD
       .then(() => {
         // después de borrar, vuelve al listado del país si existe
         navigate(backToCitiesUrl);
       })
-=======
-      .then(() => navigate(`/countries/${country}/cities`)) // volvemos a la lista filtrada por país
->>>>>>> d64ce3e238ef045c20f1fe339cf6f154d5dc0e24
       .catch((err) => {
         console.log("Error deleting city:", err);
         setDeleting(false);
@@ -68,13 +64,7 @@ function CityDetailsPage() {
     return (
       <div className={styles.page}>
         <div className={styles.header}>
-<<<<<<< HEAD
           <Link to="/countries" className="btn ghost">← Back</Link>
-=======
-          <Link to={`/countries/${country}/cities`} className="btn ghost">
-            ← Back
-          </Link>
->>>>>>> d64ce3e238ef045c20f1fe339cf6f154d5dc0e24
         </div>
         <h1 className={styles.notFoundTitle}>City not found</h1>
       </div>
