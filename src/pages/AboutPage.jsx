@@ -21,11 +21,6 @@ function AboutPage() {
             Built as an Ironhack project to practice React Router, API integration with Axios,
             and clean component-driven UI.
           </p>
-
-          <div className={styles.aboutActions}>
-            <Link className="btn primary" to="/cities">Explore Cities</Link>
-            <Link className="btn ghost" to="/">Back Home</Link>
-          </div>
         </div>
       </section>
 
