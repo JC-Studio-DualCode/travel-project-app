@@ -6,10 +6,10 @@ import Loader from "../components/Loader";
 import styles from "./CountryListPage.module.css";
 
 import { FcGlobe } from "react-icons/fc";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiPlus } from "react-icons/fi";
 
 function CountryListPage() {
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState([]); // [{ name, count }]
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,16 +20,18 @@ function CountryListPage() {
       .then((res) => {
         const citiesObj = res.data || {};
 
-        // Saca country de cada city, limpia null/undefined y evita repetidos
-        const uniqueCountries = [
-          ...new Set(
-            Object.values(citiesObj)
-              .map((city) => city?.country)
-              .filter(Boolean)
-          ),
-        ].sort((a, b) => a.localeCompare(b));
+        const counts = Object.values(citiesObj).reduce((acc, city) => {
+          const c = city?.country?.trim();
+          if (!c) return acc;
+          acc[c] = (acc[c] || 0) + 1;
+          return acc;
+        }, {});
 
-        setCountries(uniqueCountries);
+        const list = Object.entries(counts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        setCountries(list);
         setLoading(false);
       })
       .catch((err) => {
@@ -38,57 +40,80 @@ function CountryListPage() {
       });
   }, []);
 
-  const count = useMemo(() => countries.length, [countries]);
+  const countriesCount = useMemo(() => countries.length, [countries]);
+  const totalCities = useMemo(
+    () => countries.reduce((sum, c) => sum + c.count, 0),
+    [countries]
+  );
 
   if (loading) return <Loader />;
 
   return (
-    <div className={styles.country}>
-      {/* HERO (igual vibes que AboutPage) */}
-      <section className={styles.countryHero}>
-        <div className={styles.countryTitle}>
-          <h1>
-            Countries <FcGlobe style={{ verticalAlign: "middle" }} />
-          </h1>
+    <div className={styles.pageBg}>
+      <div className={styles.country}>
+        <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+          <Link to="/">Home</Link>
+          <span className={styles.crumbSep}>/</span>
+          <span>Countries</span>
+        </nav>
 
-          <p className={styles.countrySubtitle}>
-            Pick a country and jump into its city list.
-          </p>
+        {/* HERO - Travel vibes */}
+        <section className={styles.countryHero}>
+          <div className={styles.heroOverlay}>
+            <div className={styles.countryTitle}>
+              <div className={styles.heroKicker}>Travel Journal • CityVerse</div>
 
-          <p className={styles.countryLead}>
-            Found <strong>{count}</strong> countries in the dataset.
-          </p>
+              <h1>
+                Explore Countries <FcGlobe style={{ verticalAlign: "middle" }} />
+              </h1>
 
-          <div className={styles.countryActions}>
-            <Link className="btn primary" to="/cities">
-              Explore Cities
-            </Link>
-            <Link className="btn ghost" to="/">
-              Back Home
-            </Link>
-          </div>
-        </div>
-      </section>
+              <p className={styles.countrySubtitle}>
+                Pick a country and jump into its city memories.
+              </p>
 
-      {/* GRID */}
-      <section className={styles.countryGrid}>
-        {countries.map((country) => (
-          <Link
-            key={country}
-            to={`/countries/${encodeURIComponent(country)}/cities`}
-            className={styles.countryCard}
-          >
-            <div className={styles.iconBadge}>
-              <FiMapPin size={22} />
+              <div className={styles.heroChips}>
+                <span className={styles.chip}>{countriesCount} countries</span>
+                <span className={styles.chip}>{totalCities} cities saved</span>
+              </div>
+
+              <div className={styles.countryActions}>
+                <Link className="btn primary" to="/countries/add">
+                  <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
+                  Add Country
+                </Link>
+
+                <Link className="btn ghost" to="/">
+                  Back Home
+                </Link>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <h3>{country}</h3>
-            <p className={styles.cardHint}>View cities →</p>
-          </Link>
-        ))}
-      </section>
+        {/* GRID */}
+        <section className={styles.countryGrid}>
+          {countries.map(({ name, count }) => (
+            <Link
+              key={name}
+              to={`/countries/${encodeURIComponent(name)}/cities`}
+              className={styles.countryCard}
+            >
+              <div className={styles.iconBadge}>
+                <FiMapPin size={22} />
+              </div>
+
+              <h3>{name}</h3>
+
+              <p className={styles.cardHint}>
+                {count} {count === 1 ? "city" : "cities"} • Open memories →
+              </p>
+            </Link>
+          ))}
+        </section>
+      </div>
     </div>
   );
 }
 
 export default CountryListPage;
+

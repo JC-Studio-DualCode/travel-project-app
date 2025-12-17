@@ -8,6 +8,8 @@ import AboutPage from "./pages/AboutPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import EditCityPage from "./pages/EditCityPage"
 import CountryListPage from "./pages/CountryListPage"
+import AddCountryPage from "./pages/AddCountryPage";
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
   <Route path="/" element={<HomePage />} />
 
   <Route path="/countries" element={<CountryListPage />} />
+  <Route path="/countries/add" element={<AddCountryPage />} />
   <Route path="/countries/:country/cities" element={<CityListPage />} />
 
   <Route

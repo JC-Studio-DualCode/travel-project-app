@@ -21,17 +21,8 @@ function Navbar() {
       >
         About
       </NavLink>
-
-      {/* CTA — no necesita estado activo */}
-      <NavLink
-        to="/countries/cities/add"
-        className={`${styles.link} ${styles.cta}`}
-      >
-        Add New City
-      </NavLink>
     </nav>
   );
 }
 
 export default Navbar;
-
