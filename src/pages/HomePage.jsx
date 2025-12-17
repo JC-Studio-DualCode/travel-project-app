@@ -58,57 +58,62 @@ function HomePage() {
     return next;
   };
 
-  // ✅ interval random independiente por card
+  // ✅ interval random independiente por card (MÁS LENTO)
   useEffect(() => {
     const makeInterval = ({ setFade, setIndex, slides, minMs, maxMs }) => {
-      let timeoutId;
+      let mainTimeoutId = null;
+      let fadeTimeoutId = null;
 
       const tick = () => {
         setFade(true);
 
-        setTimeout(() => {
+        fadeTimeoutId = setTimeout(() => {
           setIndex((prev) => pickNextIndex(prev, slides.length));
           setFade(false);
 
           const nextDelay = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
-          timeoutId = setTimeout(tick, nextDelay);
-        }, 220);
+          mainTimeoutId = setTimeout(tick, nextDelay);
+        }, 260); // fade suave
       };
 
       const firstDelay = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
-      timeoutId = setTimeout(tick, firstDelay);
+      mainTimeoutId = setTimeout(tick, firstDelay);
 
-      return () => clearTimeout(timeoutId);
+      return () => {
+        clearTimeout(mainTimeoutId);
+        clearTimeout(fadeTimeoutId);
+      };
     };
 
+    // ✅ Rangos más “humanos” para que no cambien una tras otra
     const stopPhoto = makeInterval({
       setFade: setFadePhoto,
       setIndex: setPhotoIndex,
       slides: photoSlides,
-      minMs: 2800,
-      maxMs: 6200,
+      minMs: 9000,
+      maxMs: 16000,
     });
 
     const stopMap = makeInterval({
       setFade: setFadeMap,
       setIndex: setMapIndex,
       slides: mapSlides,
-      minMs: 3200,
-      maxMs: 7000,
+      minMs: 11000,
+      maxMs: 19000,
     });
 
     const stopRating = makeInterval({
       setFade: setFadeRating,
       setIndex: setRatingIndex,
       slides: ratingSlides,
-      minMs: 2600,
-      maxMs: 6800,
+      minMs: 10000,
+      maxMs: 18000,
     });
 
     // pill change aparte (suave)
     const pillTimer = setInterval(() => {
       setPillIndex((prev) => (prev + 1) % 3);
-    }, 2500);
+    }, 2600);
 
     return () => {
       stopPhoto();
@@ -131,6 +136,7 @@ function HomePage() {
           <div className={styles.heroText}>
             <div className={styles.topRow}>
               <p className={styles.badge}>Travel Journal • Personal Memories</p>
+
               <span className={styles.stat}>
                 {citiesCount === null ? "Loading..." : `${citiesCount} cities saved`}
               </span>
@@ -187,7 +193,7 @@ function HomePage() {
             style={{ backgroundImage: `url("${photoBg}")` }}
           >
             <div className={`${styles.iconBadge} ${styles.iconPhoto}`}>
-              <FiImage size={26} />
+              <FiImage size={28} />
             </div>
             <h3>Photo-first memories</h3>
             <p>Attach an image and keep your trips visual — like a personal album.</p>
@@ -198,7 +204,7 @@ function HomePage() {
             style={{ backgroundImage: `url("${mapBg}")` }}
           >
             <div className={`${styles.iconBadge} ${styles.iconMap}`}>
-              <FiMapPin size={26} />
+              <FiMapPin size={28} />
             </div>
             <h3>Places you’ve lived</h3>
             <p>Explore destinations and jump to Google Maps from the city details.</p>
@@ -209,7 +215,7 @@ function HomePage() {
             style={{ backgroundImage: `url("${ratingBg}")` }}
           >
             <div className={`${styles.iconBadge} ${styles.iconStar}`}>
-              <FiStar size={26} />
+              <FiStar size={28} />
             </div>
             <h3>Your rating, your story</h3>
             <p>Rate each city to remember what you loved (or what you’d skip next time).</p>
