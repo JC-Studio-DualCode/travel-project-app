@@ -20,7 +20,6 @@ function CountryListPage() {
       .then((res) => {
         const citiesObj = res.data || {};
 
-        // 1) contar ciudades por país
         const counts = Object.values(citiesObj).reduce((acc, city) => {
           const c = city?.country?.trim();
           if (!c) return acc;
@@ -28,7 +27,6 @@ function CountryListPage() {
           return acc;
         }, {});
 
-        // 2) convertir a array para render
         const list = Object.entries(counts)
           .map(([name, count]) => ({ name, count }))
           .sort((a, b) => a.name.localeCompare(b.name));
@@ -42,65 +40,80 @@ function CountryListPage() {
       });
   }, []);
 
-  const countCountries = useMemo(() => countries.length, [countries]);
+  const countriesCount = useMemo(() => countries.length, [countries]);
+  const totalCities = useMemo(
+    () => countries.reduce((sum, c) => sum + c.count, 0),
+    [countries]
+  );
 
   if (loading) return <Loader />;
 
   return (
-    <div className={styles.country}>
-      <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-        <Link to="/">Home</Link>
-        <span className={styles.crumbSep}>/</span>
-        <span>Countries</span>
-      </nav>
+    <div className={styles.pageBg}>
+      <div className={styles.country}>
+        <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+          <Link to="/">Home</Link>
+          <span className={styles.crumbSep}>/</span>
+          <span>Countries</span>
+        </nav>
 
-      <section className={styles.countryHero}>
-        <div className={styles.countryTitle}>
-          <h1>
-            Countries <FcGlobe style={{ verticalAlign: "middle" }} />
-          </h1>
+        {/* HERO - Travel vibes */}
+        <section className={styles.countryHero}>
+          <div className={styles.heroOverlay}>
+            <div className={styles.countryTitle}>
+              <div className={styles.heroKicker}>Travel Journal • CityVerse</div>
 
-          <p className={styles.countrySubtitle}>
-            Pick a country and jump into its city list.
-          </p>
+              <h1>
+                Explore Countries <FcGlobe style={{ verticalAlign: "middle" }} />
+              </h1>
 
-          <p className={styles.countryLead}>
-            Found <strong>{countCountries}</strong> countries in the dataset.
-          </p>
+              <p className={styles.countrySubtitle}>
+                Pick a country and jump into its city memories.
+              </p>
 
-          <div className={styles.countryActions}>
-            <Link className="btn primary" to="/countries/add">
-              <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
-              Add Country
-            </Link>
+              <div className={styles.heroChips}>
+                <span className={styles.chip}>{countriesCount} countries</span>
+                <span className={styles.chip}>{totalCities} cities saved</span>
+              </div>
 
-            <Link className="btn ghost" to="/">
-              Back Home
-            </Link>
-          </div>
-        </div>
-      </section>
+              <div className={styles.countryActions}>
+                <Link className="btn primary" to="/countries/add">
+                  <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
+                  Add Country
+                </Link>
 
-      <section className={styles.countryGrid}>
-        {countries.map(({ name, count }) => (
-          <Link
-            key={name}
-            to={`/countries/${encodeURIComponent(name)}/cities`}
-            className={styles.countryCard}
-          >
-            <div className={styles.iconBadge}>
-              <FiMapPin size={22} />
+                <Link className="btn ghost" to="/">
+                  Back Home
+                </Link>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <h3>{name}</h3>
-            <p className={styles.cardHint}>
-              {count} {count === 1 ? "city" : "cities"} →
-            </p>
-          </Link>
-        ))}
-      </section>
+        {/* GRID */}
+        <section className={styles.countryGrid}>
+          {countries.map(({ name, count }) => (
+            <Link
+              key={name}
+              to={`/countries/${encodeURIComponent(name)}/cities`}
+              className={styles.countryCard}
+            >
+              <div className={styles.iconBadge}>
+                <FiMapPin size={22} />
+              </div>
+
+              <h3>{name}</h3>
+
+              <p className={styles.cardHint}>
+                {count} {count === 1 ? "city" : "cities"} • Open memories →
+              </p>
+            </Link>
+          ))}
+        </section>
+      </div>
     </div>
   );
 }
 
 export default CountryListPage;
+
