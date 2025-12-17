@@ -47,7 +47,11 @@ function CityListPage() {
     <div className={styles.page}>
       <header className={styles.header}>
         <h1 className={styles.title}>City List</h1>
+        <Link className="btn primary" to="/cities/add">
+          Add New City
+        </Link>
 
+        
         <input
           className={styles.search}
           type="text"

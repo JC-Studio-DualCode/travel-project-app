@@ -51,9 +51,7 @@ function HomePage() {
             <Link className="btn primary" to="/cities">
               Explore Cities
             </Link>
-            <Link className="btn ghost" to="/cities/add">
-              Add New City
-            </Link>
+          
           </div>
         </div>
 
@@ -86,15 +84,16 @@ function HomePage() {
       </section>
 
       <section className={styles.grid}>
+        
         <article className={styles.card}>
-          <div className={styles.iconBadge}>
+          <div className={`${styles.card} ${styles.cardPhoto}`}>
             <FiImage size={22} />
           </div>
           <h3>Photo-first memories</h3>
           <p>Attach an image and keep your trips visual — like a personal album.</p>
         </article>
 
-        <article className={styles.card}>
+        <article className={`${styles.card} ${styles.cardMap}`}>
           <div className={styles.iconBadge}>
             <FiMapPin size={22} />
           </div>
@@ -102,7 +101,7 @@ function HomePage() {
           <p>Explore destinations and jump to Google Maps from the city details.</p>
         </article>
 
-        <article className={styles.card}>
+        <article className={`${styles.card} ${styles.cardRating}`}>
           <div className={styles.iconBadge}>
             <FiStar size={22} />
           </div>
