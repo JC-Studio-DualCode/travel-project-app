@@ -1,3 +1,14 @@
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.title {
+  /* lo demás igual... */
+  text-shadow: 0 12px 30px rgba(0,0,0,0.10);
+}
+
 .home {
   max-width: 1100px;
   margin: 0 auto;
@@ -12,7 +23,7 @@
   position: relative;
   overflow: hidden;
 
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(250,250,250,0.92) 100%);
   border-radius: 18px;
   padding: 36px 28px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
@@ -24,7 +35,7 @@
   align-items: center;
 }
 
-/* Fondo tipo landing (imagen real + overlay sutil para legibilidad) */
+/* Fondo del hero: usa /public/images/hero1-city.jpg */
 .heroBg {
   position: absolute;
   inset: 0;
@@ -33,18 +44,17 @@
   background-image:
     linear-gradient(
       90deg,
-      rgba(255,255,255,0.92) 0%,
-      rgba(255,255,255,0.88) 45%,
-      rgba(255,255,255,0.74) 100%
+      rgba(255,255,255,0.78) 0%,
+      rgba(255,255,255,0.62) 45%,
+      rgba(255,255,255,0.40) 100%
     ),
-    url("/hero-city.jpg");
+    url("/images/hero1-city.jpg");
 
   background-size: cover;
   background-position: center;
-  filter: saturate(1.05) contrast(1.02);
+  filter: saturate(1.12) contrast(1.08);
 }
 
-/* Mantener contenido por encima del fondo */
 .heroText,
 .heroVisual {
   position: relative;
@@ -68,7 +78,7 @@
   border: 1px solid rgba(37, 99, 235, 0.18);
   background: rgba(37, 99, 235, 0.08);
   color: #0f172a;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 12px;
 }
 
@@ -79,19 +89,19 @@
   border-radius: 999px;
   border: 1px solid rgba(0,0,0,0.10);
   background: rgba(255,255,255,0.92);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 12px;
   color: #0f172a;
   box-shadow: 0 10px 25px rgba(0,0,0,0.04);
 }
 
 .title {
-  display: inline-flex;
-  align-items: center;
-  font-size: 42px;
   margin: 14px 0 10px 0;
-  letter-spacing: -0.5px;
-  gap: 10px;
+  letter-spacing: -0.8px;
+  font-size: 46px;
+  text-align: center;
+  width: 100%;
+  line-height: 1.05;
 }
 
 .subtitle {
@@ -117,36 +127,72 @@
   flex-wrap: wrap;
 }
 
-/* Visual derecho */
 .heroVisual {
   display: flex;
   justify-content: flex-end;
 }
 
+/* Animación flotante */
+@keyframes floaty {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+/* =========================
+   Memory Card
+========================= */
+
 .memoryCard {
   width: 100%;
-  max-width: 330px;
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,0.06);
-  background: rgba(255,255,255,0.92);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 340px;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    0 22px 55px rgba(2, 6, 23, 0.14),
+    0 1px 0 rgba(255,255,255,0.7) inset;
+
   overflow: hidden;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
+
+  animation: floaty 5.5s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 .memoryTop {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  background: rgba(248,250,252,0.9);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
+  background: linear-gradient(
+    180deg,
+    rgba(241, 245, 249, 0.95) 0%,
+    rgba(255, 255, 255, 0.70) 100%
+  );
 }
 
+/* ✅ PUNTOS con color (3 variaciones) */
 .dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: rgba(0,0,0,0.14);
+
+  background: linear-gradient(180deg, #e5edff, #c7d2fe);
+
+  box-shadow:
+    0 1px 2px rgba(37, 99, 235, 0.25),
+    0 1px 0 rgba(255,255,255,0.8) inset;
+}
+
+.memoryTop .dot:nth-child(2) {
+  background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+}
+
+.memoryTop .dot:nth-child(3) {
+  background: linear-gradient(180deg, #e5e7eb, #d1d5db);
 }
 
 .memoryBody {
@@ -155,25 +201,30 @@
   gap: 10px;
 }
 
-.memoryLineLg {
-  height: 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.08);
-}
-
-.memoryLine {
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.08);
-  width: 88%;
-}
-
+/* ✅ Líneas con vida (no “loading” agresivo) */
+.memoryLineLg,
+.memoryLine,
 .memoryLineSm {
-  height: 10px;
   border-radius: 999px;
-  background: rgba(0,0,0,0.08);
-  width: 62%;
+  background: linear-gradient(
+    90deg,
+    rgba(37, 99, 235, 0.20),
+    rgba(37, 99, 235, 0.06),
+    rgba(37, 99, 235, 0.20)
+  );
+  background-size: 200% 100%;
+  animation: memoryPulse 3.6s ease-in-out infinite;
 }
+
+@keyframes memoryPulse {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
+.memoryLineLg { height: 12px; width: 92%; }
+.memoryLine { height: 10px; width: 86%; }
+.memoryLineSm { height: 10px; width: 60%; }
 
 .pills {
   display: flex;
@@ -183,42 +234,72 @@
 }
 
 .pill {
-  padding: 7px 10px;
+  padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #f8fafc;
-  font-weight: 700;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255,255,255,0.86);
+  font-weight: 800;
   font-size: 12px;
   color: #0f172a;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+.pillActive {
+  background: rgba(37, 99, 235, 0.10);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Stamp (se queda igual) */
 .stamp {
   margin-top: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-
   padding: 10px 12px;
   border-radius: 14px;
   border: 1px solid rgba(37, 99, 235, 0.18);
   background: rgba(37, 99, 235, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.stamp::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.14), transparent);
+  transform: translateX(-60%);
+  animation: shine 3.8s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-60%); }
+  50% { transform: translateX(60%); }
+  100% { transform: translateX(160%); }
 }
 
 .stampLabel {
-  font-weight: 800;
+  font-weight: 900;
   font-size: 12px;
   letter-spacing: 0.08em;
   color: #2563eb;
+  z-index: 1;
 }
 
 .stampValue {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 12px;
   color: #0f172a;
+  z-index: 1;
 }
 
-/* Grid */
+/* =========================
+   Grid cards (igual)
+========================= */
+
 .grid {
   align-items: stretch;
   margin-top: 18px;
@@ -227,9 +308,8 @@
   gap: 14px;
 }
 
-/* Cards base */
 .card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
   border-radius: 16px;
   padding: 18px;
   border: 1px solid rgba(0,0,0,0.06);
@@ -246,17 +326,18 @@
   overflow: hidden;
   background-size: cover;
   background-position: center;
+  filter: saturate(1.08) contrast(1.05);
 }
 
-/* Overlay sutil: deja ver la foto pero mantiene legibilidad */
 .card::before{
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.86) 0%,
-    rgba(255,255,255,0.92) 100%
+    rgba(255,255,255,0.10) 0%,
+    rgba(255,255,255,0.30) 70%,
+    rgba(255,255,255,0.42) 100%
   );
   z-index: 0;
 }
@@ -264,6 +345,10 @@
 .card > *{
   position: relative;
   z-index: 1;
+}
+
+.cardFading {
+  opacity: 0.55;
 }
 
 .card:hover {
@@ -274,14 +359,22 @@
 .card h3 {
   margin: 10px 0 8px;
   font-size: 16px;
+  font-weight: 900;
 }
 
+.card h3,
 .card p {
-  margin: 0;
-  color: #333;
-  opacity: 0.9;
-  line-height: 1.5;
-  flex: 1;
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+
+  padding: 0;
+  border-radius: 0;
+  width: auto;
+
+  color: #0f172a;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.55);
 }
 
 .iconBadge {
@@ -295,19 +388,6 @@
   border: 1px solid rgba(37, 99, 235, 0.18);
   color: #2563eb;
   margin-bottom: 10px;
-}
-
-/* Fondos reales (sutiles) */
-.cardPhoto {
-  background-image: url("/card-photo.jpg");
-}
-
-.cardMap {
-  background-image: url("/card-map.jpg");
-}
-
-.cardRating {
-  background-image: url("/card-rating.jpg");
 }
 
 @media (max-width: 900px) {
@@ -324,6 +404,6 @@
   }
 
   .title {
-    font-size: 34px;
+    font-size: 36px;
   }
 }
