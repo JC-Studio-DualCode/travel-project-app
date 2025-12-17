@@ -48,8 +48,8 @@ function HomePage() {
           </p>
 
           <div className={styles.actions}>
-            <Link className="btn primary" to="/cities">
-              Explore Cities
+            <Link className="btn primary" to="/countries">
+              Explore
             </Link>
           
           </div>

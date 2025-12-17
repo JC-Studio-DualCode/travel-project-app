@@ -7,7 +7,7 @@ import AddCityPage from "./pages/AddCityPage"
 import AboutPage from "./pages/AboutPage"
 import NotFoundPage from "./pages/NotFoundPage"
 import EditCityPage from "./pages/EditCityPage"
-
+import CountryListPage from "./pages/CountryListPage"
 
 function App() {
   return (
@@ -16,10 +16,11 @@ function App() {
 
     <Routes>
   <Route path="/" element={<HomePage />} />
-  <Route path="/cities" element={<CityListPage />} />
-  <Route path="/cities/add" element={<AddCityPage />} />
-  <Route path="/cities/:cityId/edit" element={<EditCityPage />} />
-  <Route path="/cities/:cityId" element={<CityDetailsPage />} />
+  <Route path="/countries" element={<CountryListPage />} />
+  <Route path="/countries/cities" element={<CityListPage />} />
+  <Route path="/countries/cities/add" element={<AddCityPage />} />
+  <Route path="/countries/cities/:cityId/edit" element={<EditCityPage />} />
+  <Route path="/countries/cities/:cityId" element={<CityDetailsPage />} />
   <Route path="/about" element={<AboutPage />} />
   <Route path="*" element={<NotFoundPage />} />
 </Routes>
