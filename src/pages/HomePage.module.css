@@ -8,17 +8,56 @@
   margin-bottom: 32px;
 }
 
-.homeHero {
+.hero {
   background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
   border-radius: 18px;
   padding: 36px 28px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
   border: 1px solid rgba(0,0,0,0.06);
+
   display: grid;
-  gap: 12px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 22px;
+  align-items: center;
 }
 
-.homeTitle h1 {
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(37, 99, 235, 0.08);
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.topRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stat{
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  color: #0f172a;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+}
+
+
+.title {
   display: inline-flex;
   align-items: center;
   font-size: 42px;
@@ -27,14 +66,14 @@
   gap: 10px;
 }
 
-.homeSubtitle {
+.subtitle {
   margin: 0;
   font-size: 16px;
   color: #3b3b3b;
   opacity: 0.9;
 }
 
-.homeLead {
+.lead {
   font-size: 16px;
   opacity: 0.95;
   margin-top: 16px;
@@ -43,15 +82,183 @@
   color: #333;
 }
 
-.homeActions {
+.actions {
   margin-top: 22px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
+/* Visual suave */
+.heroVisual {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.memoryCard {
+  width: 100%;
+  max-width: 330px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.memoryTop {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: #f8fafc;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.14);
+}
+
+.memoryBody {
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.memoryLineLg {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+}
+
+.memoryLine {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  width: 88%;
+}
+
+.memoryLineSm {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  width: 62%;
+}
+
+.pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.pill {
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  font-weight: 700;
+  font-size: 12px;
+  color: #0f172a;
+}
+
+/* “stamp” para vibe de diario */
+.stamp {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.stampLabel {
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #2563eb;
+}
+
+.stampValue {
+  font-weight: 700;
+  font-size: 12px;
+  color: #0f172a;
+}
+
+/* Grid de cards (patrón About) */
+.grid {
+  align-items: stretch;
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  margin: 10px 0 8px;
+  font-size: 16px;
+}
+
+.card p {
+  margin: 0;
+  color: #333;
+  opacity: 0.9;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.iconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 900px) {
-  .homeTitle h1 {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroVisual {
+    justify-content: flex-start;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
     font-size: 34px;
   }
 }
