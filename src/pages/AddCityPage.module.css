@@ -1,77 +1,163 @@
-.page {
+.add {
   max-width: 1100px;
   margin: 0 auto;
   padding: 48px 20px;
 }
 
-.header {
-  margin-bottom: 24px;
+.add > section {
+  margin-bottom: 32px;
 }
 
-.title {
-  font-size: 42px;
-  margin: 0 0 8px;
-}
-
-.subtitle {
-  margin: 0;
-  color: #475569;
-}
-
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid rgba(0,0,0,0.06);
+/* HERO (misma fórmula que AboutHero) */
+.addHero {
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 18px;
+  padding: 36px 28px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  display: grid;
+  gap: 12px;
 }
 
+.addTitle h1 {
+  display: inline-flex;
+  align-items: center;
+  font-size: 42px;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+  gap: 10px;
+}
+
+.addSubtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #3b3b3b;
+  opacity: 0.9;
+}
+
+.addLead {
+  font-size: 16px;
+  opacity: 0.95;
+  margin-top: 16px;
+  max-width: 850px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.addActions {
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* mismo iconBadge que About */
+.iconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  color: #2563eb;
+}
+
+/* CARD del formulario (mismo look que AboutStack/AboutCard) */
+.formCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* FORM */
 .form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  align-items: start;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #0f172a;
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.15);
-  font-size: 14px;
-  font-family: inherit;
-}
-
-.field input:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  gap: 8px;
 }
 
 .full {
   grid-column: 1 / -1;
 }
 
+.label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #f8fafc;
+  outline: none;
+  font-size: 14px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+  background: #fff;
+}
+
+.hint {
+  font-size: 12px;
+  color: #333;
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
 .actions {
-  grid-column: 1 / -1;
+  margin-top: 8px;
   display: flex;
   gap: 12px;
-  margin-top: 12px;
   flex-wrap: wrap;
 }
 
-@media (max-width: 800px) {
-  .form {
+/* code style (por consistencia con About) */
+.formCard code,
+.addHero code {
+  background: rgba(0,0,0,0.06);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+@media (max-width: 900px) {
+  .formGrid {
     grid-template-columns: 1fr;
+  }
+
+  .addTitle h1 {
+    font-size: 34px;
   }
 }
