@@ -52,8 +52,8 @@ function HomePage() {
 
           {/* Solo 1 botón en Home */}
           <div className={styles.actions}>
-            <Link className="btn primary" to="/cities">
-              Explore
+            <Link className="btn primary" to="/countries">
+              Start Exploring
             </Link>
           </div>
         </div>
