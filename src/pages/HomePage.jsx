@@ -26,6 +26,9 @@ function HomePage() {
   return (
     <div className={styles.home}>
       <section className={styles.hero}>
+        {/* Fondo con imagen + overlay (landing style) */}
+        <div className={styles.heroBg} aria-hidden="true" />
+
         <div className={styles.heroText}>
           <div className={styles.topRow}>
             <p className={styles.badge}>Travel Journal • Personal Memories</p>
@@ -47,14 +50,15 @@ function HomePage() {
             Capture the places you’ve been, what you felt, and what you’d recommend — all in one clean space.
           </p>
 
+          {/* Solo 1 botón en Home */}
           <div className={styles.actions}>
-            <Link className="btn primary" to="/countries">
+            <Link className="btn primary" to="/cities">
               Explore
             </Link>
-          
           </div>
         </div>
 
+        {/* Bloque visual derecho (se mantiene) */}
         <div className={styles.heroVisual} aria-hidden="true">
           <div className={styles.memoryCard}>
             <div className={styles.memoryTop}>
@@ -83,10 +87,10 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Cards con fondo real sutil */}
       <section className={styles.grid}>
-        
-        <article className={styles.card}>
-          <div className={`${styles.card} ${styles.cardPhoto}`}>
+        <article className={`${styles.card} ${styles.cardPhoto}`}>
+          <div className={styles.iconBadge}>
             <FiImage size={22} />
           </div>
           <h3>Photo-first memories</h3>
