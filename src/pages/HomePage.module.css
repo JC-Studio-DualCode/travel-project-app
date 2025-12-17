@@ -371,7 +371,7 @@
   background-position: center;
   filter: saturate(1.08) contrast(1.05);
 
-  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.45s ease;
 }
 
 
@@ -423,6 +423,7 @@
   line-height: 1.6;
   color: #334155;
 }
+/* Icono arriba-izquierda: SIN marco blanco */
 /* Icono arriba-izquierda: SIN marco blanco */
 .iconBadge {
   position: absolute;
