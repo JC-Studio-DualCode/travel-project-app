@@ -1,54 +1,116 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MainURL } from "../config/api";
 import Loader from "../components/Loader";
+import styles from "./CityListPage.module.css";
+
+import { FiMapPin, FiPlus, FiArrowLeft } from "react-icons/fi";
 
 function CityListPage() {
   const { country } = useParams();
+  const safeCountry = useMemo(
+    () => decodeURIComponent(country || ""),
+    [country]
+  );
 
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(`${MainURL}/cities.json`)
       .then((res) => {
         const citiesObj = res.data || {};
+
         const filteredCities = Object.entries(citiesObj)
-          .filter(([_, city]) => city.country === country)
+          .filter(([_, city]) => city?.country === safeCountry)
           .map(([id, city]) => ({ id, ...city }));
+
         setCities(filteredCities);
         setLoading(false);
       })
-      .catch((err) => console.log(err));
-  }, [country]);
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [safeCountry]);
 
   if (loading) return <Loader />;
 
   return (
-    <div className="cityListPage">
-      <h1>Cities in {country}</h1>
+    <div className={styles.cityList}>
+      {/* HERO */}
+      <section className={styles.cityHero}>
+        <div className={styles.cityTitle}>
+          <h1>
+            Cities in {safeCountry}
+          </h1>
 
-      <Link to={`/countries/${country}/cities/add`} className="btn primary">
-        Add City
-      </Link>
+          <p className={styles.citySubtitle}>
+            Browse the city list and open details. You can also add a new city.
+          </p>
 
-      <div className="cityGrid">
-        {cities.map((city) => (
-          <div key={city.id} className="cityCard">
-            <img src={city.image} alt={city.name} />
-            <h3>{city.name}</h3>
-            <p>{city.description}</p>
+          <p className={styles.cityLead}>
+            Found <strong>{cities.length}</strong> cities.
+          </p>
+
+          <div className={styles.cityActions}>
             <Link
-              to={`/countries/${country}/cities/${city.id}`}
+              to={`/countries/${encodeURIComponent(safeCountry)}/cities/add`}
+              className="btn primary"
+            >
+              <FiPlus style={{ verticalAlign: "middle", marginRight: 8 }} />
+              Add City
+            </Link>
+
+            <Link
+              to="/countries"
+              className="btn ghost"
+            >
+              <FiArrowLeft style={{ verticalAlign: "middle", marginRight: 8 }} />
+              Back to Countries
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* GRID */}
+      <section className={styles.cityGrid}>
+        {cities.map((city) => (
+          <div key={city.id} className={styles.cityCard}>
+            <div className={styles.cardTop}>
+              <div className={styles.iconBadge}>
+                <FiMapPin size={22} />
+              </div>
+
+              <div className={styles.cardTitleBlock}>
+                <h3>{city.name}</h3>
+                <p className={styles.cardMeta}>{safeCountry}</p>
+              </div>
+            </div>
+
+            <div className={styles.imageWrap}>
+              <img
+                src={city.image}
+                alt={city.name}
+                loading="lazy"
+              />
+            </div>
+
+            <p className={styles.cardDesc}>{city.description}</p>
+
+            <Link
+              to={`/countries/${encodeURIComponent(safeCountry)}/cities/${city.id}`}
               className="btn ghost"
             >
               View
             </Link>
           </div>
         ))}
-      </div>
+      </section>
     </div>
   );
 }

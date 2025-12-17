@@ -1,0 +1,124 @@
+.country {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+.country > section {
+  margin-bottom: 32px;
+}
+
+.countryHero {
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 18px;
+  padding: 36px 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.countryTitle h1 {
+  display: inline-flex;
+  align-items: center;
+  font-size: 42px;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+  gap: 10px;
+}
+
+.countrySubtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #3b3b3b;
+  opacity: 0.9;
+}
+
+.countryLead {
+  font-size: 16px;
+  opacity: 0.95;
+  margin-top: 16px;
+  max-width: 850px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.countryActions {
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* GRID (clon del aboutGrid) */
+.countryGrid {
+  align-items: stretch;
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+/* CARD (clon del aboutCard) */
+.countryCard {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: space-between;
+
+  text-decoration: none;
+  color: inherit;
+}
+
+.countryCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.countryCard h3 {
+  margin: 10px 0 8px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.cardHint {
+  margin: 0;
+  color: #333;
+  opacity: 0.75;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+/* Reutilizamos el mismo “badge” que AboutPage */
+.iconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+/* Responsive igual que About */
+@media (max-width: 900px) {
+  .countryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .countryTitle h1 {
+    font-size: 34px;
+  }
+}
