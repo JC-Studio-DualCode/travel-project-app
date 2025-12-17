@@ -18,9 +18,9 @@ function AddCityPage() {
   const [averageRating, setAverageRating] = useState("");
   const [saving, setSaving] = useState(false);
 
-  // Nuevo estado para los puntos de interés
+  // Estado para los puntos de interés
   const [pointsOfInterest, setPointsOfInterest] = useState([
-    { name: "", image: "" }
+    { name: "", url: "" }
   ]);
 
   const backToCitiesUrl = useMemo(
@@ -30,7 +30,7 @@ function AddCityPage() {
 
   // Añadir un nuevo POI vacío
   const addPOI = () => {
-    setPointsOfInterest([...pointsOfInterest, { name: "", image: "" }]);
+    setPointsOfInterest([...pointsOfInterest, { name: "", url: "" }]);
   };
 
   // Eliminar un POI por índice
@@ -38,7 +38,7 @@ function AddCityPage() {
     setPointsOfInterest(pointsOfInterest.filter((_, i) => i !== index));
   };
 
-  // Actualizar el nombre o imagen de un POI
+  // Actualizar el nombre o URL de un POI
   const updatePOI = (index, field, value) => {
     const newPOIs = [...pointsOfInterest];
     newPOIs[index][field] = value;
@@ -53,10 +53,10 @@ function AddCityPage() {
       name: name.trim(),
       description: description.trim(),
       image: image.trim(),
-      country: safeCountry.trim(), // bloqueado
+      country: safeCountry.trim(),
       pointsOfInterest: pointsOfInterest
         .filter((poi) => poi.name.trim() !== "")
-        .map((poi) => ({ name: poi.name.trim(), url: poi.image.trim() }))
+        .map((poi) => ({ name: poi.name.trim(), url: poi.url.trim() }))
     };
 
     if (averageRating !== "") {
@@ -146,7 +146,7 @@ function AddCityPage() {
               />
             </div>
 
-            {/* NUEVOS POINTS OF INTEREST */}
+            {/* POINTS OF INTEREST */}
             <div className={`${styles.field} ${styles.full}`}>
               <span className={styles.label}>Points of Interest</span>
               {pointsOfInterest.map((poi, index) => (
@@ -161,8 +161,8 @@ function AddCityPage() {
                   <input
                     type="url"
                     placeholder="POI Image URL"
-                    value={poi.image}
-                    onChange={(e) => updatePOI(index, "image", e.target.value)}
+                    value={poi.url}
+                    onChange={(e) => updatePOI(index, "url", e.target.value)}
                     className={styles.input}
                   />
                   <button

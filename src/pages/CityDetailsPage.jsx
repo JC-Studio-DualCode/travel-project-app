@@ -42,7 +42,6 @@ function CityDetailsPage() {
 
   // Delete review by object reference
   const deleteReview = (reviewToDelete) => {
-
     const updatedReviews = city.reviews.filter((r) => r !== reviewToDelete);
 
     axios
@@ -137,10 +136,19 @@ function CityDetailsPage() {
       {/* POINTS OF INTEREST */}
       {city.pointsOfInterest?.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Points of interest</h2>
+          <h2 className={styles.sectionTitle}>Points of Interest</h2>
           <ul className={styles.list}>
             {city.pointsOfInterest.map((poi, index) => (
-              <li key={index}>{poi}</li>
+              <li key={index} className={styles.poiItem}>
+                <strong>{poi.name}</strong>
+                {poi.url && (
+                  <img
+                    src={poi.url}
+                    alt={poi.name}
+                    style={{ width: 100, marginLeft: 8 }}
+                  />
+                )}
+              </li>
             ))}
           </ul>
         </section>
