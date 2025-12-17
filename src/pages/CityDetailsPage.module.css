@@ -150,3 +150,9 @@
     height: 240px;
   }
 }
+
+.mapBtn {
+  margin-top: 14px;
+  align-self: flex-start;
+}
+

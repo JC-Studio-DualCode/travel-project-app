@@ -17,12 +17,9 @@ function App() {
     <Routes>
   <Route path="/" element={<HomePage />} />
   <Route path="/cities" element={<CityListPage />} />
-
   <Route path="/cities/add" element={<AddCityPage />} />
-
   <Route path="/cities/:cityId/edit" element={<EditCityPage />} />
   <Route path="/cities/:cityId" element={<CityDetailsPage />} />
-
   <Route path="/about" element={<AboutPage />} />
   <Route path="*" element={<NotFoundPage />} />
 </Routes>

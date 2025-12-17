@@ -28,7 +28,7 @@ function CityDetailsPage() {
   }, [cityId]);
 
   const deleteCity = () => {
-    const ok = window.confirm("¿Seguro que quieres borrar esta ciudad?");
+    const ok = window.confirm("Are you sure you want to delete this city?");
     if (!ok) return;
 
     setDeleting(true);
@@ -43,16 +43,16 @@ function CityDetailsPage() {
   };
 
   if (loading) {
-    return <p className={styles.loading}>Cargando...</p>;
+    return <p className={styles.loading}>"Loading..."</p>;
   }
 
   if (!city) {
     return (
       <div className={styles.page}>
         <div className={styles.header}>
-          <Link to="/cities" className="btn ghost">← Volver</Link>
+          <Link to="/cities" className="btn ghost">← Back</Link>
         </div>
-        <h1 className={styles.notFoundTitle}>Ciudad no encontrada</h1>
+        <h1 className={styles.notFoundTitle}>City not found</h1>
       </div>
     );
   }
@@ -60,15 +60,18 @@ function CityDetailsPage() {
   const images = Array.isArray(city.images) ? city.images : [];
   const mainImage = city.mainImage || city.image || "";
   const rating = city.averagerating ?? city.averageRating ?? "—";
+  const mapQuery = encodeURIComponent(`${city.name}, ${city.country || ""}`);
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/cities" className="btn ghost">← Volver</Link>
+        <Link to="/cities" className="btn ghost">← Back</Link>
 
         <div className={styles.headerRight}>
           <Link to={`/cities/${cityId}/edit`} className="btn ghost">
-            Editar
+            Edit
           </Link>
 
           <button
@@ -77,7 +80,7 @@ function CityDetailsPage() {
             onClick={deleteCity}
             disabled={deleting}
           >
-            {deleting ? "Borrando..." : "Borrar"}
+            {deleting ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>
@@ -88,6 +91,16 @@ function CityDetailsPage() {
           <p className={styles.meta}>{city.country}</p>
           <p className={styles.description}>{city.description}</p>
           <p className={styles.meta}>⭐ {rating}</p>
+
+          <a
+            className={`btn ghost ${styles.mapBtn}`}
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open in Google Maps
+          </a>
+
         </div>
 
         {mainImage && (
