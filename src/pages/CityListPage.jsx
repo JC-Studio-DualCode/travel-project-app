@@ -17,6 +17,7 @@ function CityListPage() {
   useEffect(() => {
     setLoading(true);
 
+  
     axios
       .get(`${MainURL}/cities.json`)
       .then((res) => {
