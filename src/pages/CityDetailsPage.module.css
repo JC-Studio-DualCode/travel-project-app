@@ -62,8 +62,8 @@
   font-weight: 800;
   color: rgba(15, 23, 42, 0.85);
 
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
 
   backdrop-filter: blur(10px) saturate(145%);
@@ -122,8 +122,8 @@
   text-decoration: none;
 
   color: rgba(15, 23, 42, 0.92);
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
 
   display: inline-flex;
   align-items: center;
@@ -149,7 +149,7 @@
 
 .dangerBtn {
   color: #7f1d1d;
-  background: rgba(254, 242, 242, 0.7);
+  background: rgba(254, 242, 242, 0.95); /* más blanco */
   border-color: rgba(239, 68, 68, 0.22);
 }
 
@@ -216,8 +216,8 @@
   padding: 18px;
   border-radius: 18px;
 
-  background: rgba(255, 255, 255, 0.66);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 16px 46px rgba(2, 6, 23, 0.12);
 
   backdrop-filter: blur(10px) saturate(145%);
@@ -232,8 +232,8 @@
 }
 
 .heroKicker {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
   padding: 7px 10px;
 
@@ -278,6 +278,18 @@
   max-width: 70ch;
 }
 
+.heroAverage {
+  font-size: 32px; /* más grande */
+  font-weight: 900;
+  color: #1e40af;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  padding: 10px 16px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
 .heroChips {
   display: flex;
   gap: 10px;
@@ -294,8 +306,8 @@
   font-size: 12px;
   font-weight: 900;
 
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
 
   backdrop-filter: blur(10px) saturate(145%);
@@ -387,9 +399,9 @@
   height: 160px;
   object-fit: cover;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 10px 26px rgba(2, 6, 23, 0.10);
-  background: rgba(255, 255, 255, 0.66);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
 }
 
 /* =========================
@@ -407,8 +419,8 @@
   border-radius: 16px;
   cursor: pointer;
 
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
 
   backdrop-filter: blur(10px) saturate(145%);
@@ -497,11 +509,11 @@
 
 .reviewCard {
   position: relative;
-  padding: 14px;
+  padding: 20px 14px;
   border-radius: 16px;
 
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
 
   backdrop-filter: blur(10px) saturate(145%);
@@ -514,6 +526,7 @@
   gap: 10px;
   align-items: center;
   margin-bottom: 8px;
+  position: relative; /* necesario para centrar rating */
 }
 
 .reviewUser {
@@ -522,12 +535,16 @@
 }
 
 .reviewRating {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
   font-weight: 900;
-  font-size: 13px;
   color: #92400e;
-  background: rgba(250, 204, 21, 0.18);
-  border: 1px solid rgba(250, 204, 21, 0.24);
-  padding: 6px 10px;
+  background: rgba(250, 204, 21, 0.25);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  padding: 5px 14px;
   border-radius: 999px;
 }
 
@@ -566,8 +583,8 @@
    Empty State
 ========================= */
 .emptyState {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   padding: 18px;

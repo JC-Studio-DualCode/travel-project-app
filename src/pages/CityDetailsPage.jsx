@@ -243,7 +243,7 @@ function CityDetailsPage() {
 
           <h1 className={styles.heroTitle}>{city.name}</h1>
           <p className={styles.heroSubtitle}>
-            Guarda recuerdos, revisa ratings y mantén tu “travel journal” bien pro.
+            Save memories, check ratings, and keep your travel journal looking professional.
           </p>
 
           <div className={styles.heroChips}>
@@ -326,7 +326,7 @@ function CityDetailsPage() {
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionTitle}>Points of Interest</h2>
               <p className={styles.sectionHint}>
-                Si un POI trae URL/imagen, puedes usarla como imagen principal.
+                Click on one of the images to enlarge it.
               </p>
             </div>
 
@@ -346,7 +346,7 @@ function CityDetailsPage() {
                   >
                     <div className={styles.poiTop}>
                       <strong className={styles.poiName}>{name}</strong>
-                      {url ? <span className={styles.poiBadge}>Use image</span> : null}
+                     
                     </div>
 
                     {url ? (
