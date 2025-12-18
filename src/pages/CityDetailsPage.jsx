@@ -230,7 +230,7 @@ function CityDetailsPage() {
                   >
                     ✕
                   </button>
-                  <div className={styles.reviewHeader}>{review.user}</div>
+                  <div className={styles.reviewHeader}><strong>{review.user}</strong></div>
                   <div className={styles.reviewText}>{review.comment}</div>
                   <div className={styles.reviewRating}>⭐ {review.rating}</div>
                 </div>
