@@ -1,123 +1,404 @@
-
+/* =========================
+   Page background (FIJO)
+========================= */
 .pageBg {
   min-height: 100vh;
   position: relative;
-  background-image: url("/images/hero-cities-map.png");
+  isolation: isolate;
+  color: #0f172a;
+}
+
+.pageBg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0.12) 55%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.35),
+      rgba(248, 250, 252, 0.18)
+    ),
+    url("/images/hero-cities-map.png");
+
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
-  background-attachment: fixed;
+
+  filter: saturate(1.12) contrast(1.04);
 }
-.pageBg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(248, 250, 252, 0.55);
-  z-index: 0;
-  pointer-events: none;
-}
+
+
+/* =========================
+   Container
+========================= */
 .cityList {
-  max-width: 1100px;
   margin: 0 auto;
-  padding: 48px 20px;
+  max-width: 1100px;
+  padding: 32px 20px;
   position: relative;
   z-index: 1;
 }
 
-.breadcrumbs {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 13px;
-  color: #0f172a;
-  opacity: 0.78;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
+.cityList > section {
+  margin-bottom: 24px;
 }
 
-.breadcrumbs a {
+/* =========================
+   Breadcrumbs pill
+========================= */
+.breadcrumbs {
+  align-items: center;
+  display: inline-flex;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15, 23, 42, 0.85);
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.crumbLink {
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+  font-weight: 900;
+  opacity: 0.9;
+}
+
+.crumbLink:hover {
+  opacity: 1;
 }
 
 .crumbSep {
-  opacity: 0.5;
+  opacity: 0.55;
+  transform: translateY(1px);
 }
+
+.crumbCurrent {
+  font-weight: 900;
+}
+
+/* =========================
+   Micro animations (load)
+========================= */
+@keyframes enterUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes enterSoft {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enterTitle {
+  animation: enterUp 520ms ease both;
+}
+
+.enterSoft {
+  animation: enterSoft 480ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enterTitle,
+  .enterSoft {
+    animation: none;
+  }
+}
+
+/* =========================
+   Title
+========================= */
+.heroTitle {
+  margin: 0 0 10px;
+  width: 100%;
+  text-align: left;
+
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  line-height: 1.15;
+
+  text-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+
+/* =========================
+   Hero
+========================= */
 .cityHero {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(10px);
+  max-width: 700px;
+  margin: 0 0 10px 0;
   position: relative;
-  max-width: 390px;
-  margin: 0 0 26px 0;
+  text-align: left;
 }
 
-
-.heroOverlay {
-  padding: 20px 20px;
+.heroTopRow {
+  display: flex;
+  gap: 10px;
 }
 
-.cityTitle h1 {
-  margin: 0;
-  font-size: clamp(26px, 3vw, 34px);
-  line-height: 1.1;
-  letter-spacing: -0.8px;
+.heroKicker {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 7px 10px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
-.citySubtitle {
-  margin: 0;
+
+.heroSecondaryChips {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+}
+
+.heroJournal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.redPin {
+  transform: translateY(1px);
+}
+
+.heroSubtitlePill {
+  display: inline-block;
   max-width: 60ch;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #0f172a;
-  opacity: 0.78;
-}
 
-.cityLead {
-  margin-top: 10px;
+  padding: 8px 12px;
   font-size: 14px;
-  opacity: 0.82;
+  font-weight: 700;
+  opacity: 0.88;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
+.heroChips {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+/* =========================
+   Search
+========================= */
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  max-width: 320px;
+  padding: 10px 12px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.searchRow:focus-within {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.searchIcon {
+  opacity: 0.75;
+  transform: translateY(1px);
+}
+
+.searchInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.searchInput::placeholder {
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.clearBtn {
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+}
+
+/* =========================
+   Actions
+========================= */
+.actionsPill {
+  margin-top: 14px;
+  padding: 10px 12px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  display: inline-flex;
+}
 
 .cityActions {
-  margin-top: 22px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
+.btnSm {
+  border-radius: 12px !important;
+  font-size: 13px !important;
+  padding: 8px 12px !important;
+}
+
+/* Divider */
+.heroDivider {
+  margin: 18px 0 10px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(15, 23, 42, 0.15),
+    transparent
+  );
+}
+
+/* =========================
+   Grid + Scroll reveal
+========================= */
 .cityGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 16px;
 }
 
 .cityCard {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  background: rgba(255, 255, 255, 0.90);
-  border-radius: 16px;
+  /* hidden initial */
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(1px);
+
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease,
+    filter 520ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+
   padding: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  min-height: 240px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.10);
+
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 .cityCard:hover {
+  border-color: rgba(37, 99, 235, 0.28);
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  border-color: rgba(37, 99, 235, 0.22);
+  box-shadow: 0 22px 55px rgba(2, 6, 23, 0.16);
 }
 
 .cardTop {
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  justify-content: space-between;
 }
 
 .iconBadge {
@@ -136,18 +417,50 @@
 .cardTitleBlock h3 {
   margin: 0;
   font-size: 16px;
+  font-weight: 900;
 }
 
 .cardMeta {
   margin: 4px 0 0;
   font-size: 13px;
   opacity: 0.72;
+  font-weight: 700;
+}
+
+.cardBadges {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingBadge,
+.ratingBadgeMuted {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.ratingBadge {
+  color: #92400e;
+  background: rgba(250, 204, 21, 0.20);
+  border: 1px solid rgba(250, 204, 21, 0.28);
+}
+
+.ratingBadgeMuted {
+  color: rgba(15, 23, 42, 0.7);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .imageWrap {
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .imageWrap img {
@@ -161,22 +474,169 @@
   margin: 0;
   opacity: 0.86;
   line-height: 1.5;
+  font-weight: 700;
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-@media (max-width: 900px) {
+.viewBtn {
+  margin-top: auto;
+}
+
+/* =========================
+   States
+========================= */
+.emptyState {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  margin-top: 14px;
+  padding: 18px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.emptyTitle {
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+
+.emptyHint {
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.75;
+}
+
+.clearEmptyBtn {
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  border-radius: 14px;
+  color: #1e40af;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  margin-top: 12px;
+  padding: 10px 14px;
+}
+
+/* =========================
+   Skeleton
+========================= */
+.skeletonCard {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  min-height: 260px;
+  overflow: hidden;
+  padding: 18px;
+  position: relative;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.skeletonTop {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.skeletonIcon {
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 12px;
+  height: 38px;
+  width: 38px;
+}
+
+.skeletonBadge {
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 999px;
+  height: 24px;
+  width: 66px;
+}
+
+.skeletonImage {
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 14px;
+  height: 180px;
+}
+
+.skeletonLineLg {
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 10px;
+  height: 14px;
+  margin: 16px 0 10px;
+  width: 65%;
+}
+
+.skeletonLineSm {
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 10px;
+  height: 12px;
+  width: 45%;
+}
+
+/* =========================
+   Mobile compact
+========================= */
+@media (max-width: 520px) {
+  .cityList {
+    padding: 18px 14px;
+  }
+
+  .breadcrumbs {
+    padding: 7px 10px;
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .heroTitle {
+    font-size: 32px;
+    margin: 6px 0 10px;
+  }
+
+  .heroKicker,
+  .heroJournal {
+    font-size: 10px;
+    padding: 6px 9px;
+  }
+
+  .heroChips {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+
+  .searchRow {
+    max-width: 100%;
+    padding: 9px 10px;
+  }
+
+  .actionsPill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cityActions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btnSm {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
   .cityGrid {
+    gap: 12px;
     grid-template-columns: 1fr;
-  }
-
-  .cityTitle h1 {
-    font-size: 34px;
-  }
-
-  /* en mobile el fixed a veces da lag */
-  .pageBg {
-    background-attachment: scroll;
   }
 }

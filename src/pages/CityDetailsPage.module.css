@@ -1,369 +1,654 @@
-/* ==========================
-   Page Wrapper & Global
-========================== */
-.pageWrapper {
+/* =========================
+   Page background (FIJO)
+========================= */
+.pageBg {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
-    url("/public/images/fondoDetails.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  padding: 40px 0;
-}
+  position: relative;
+  isolation: isolate;
 
-.page {
-  max-width: 1000px;
-  width: 95%;
-  padding: 32px;
-  color: #1e293b;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-/* ==========================
-   Buttons (Blue)
-========================== */
-.blueBtn {
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  font-weight: 600;
   font-size: 16px;
-  border-radius: 12px;
-  padding: 12px 20px;
+  line-height: 1.6;
+  color: #0f172a;
+}
+
+.pageBg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0.12) 55%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.35),
+      rgba(248, 250, 252, 0.18)
+    ),
+    url("/images/hero-cities-map.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  filter: saturate(1.12) contrast(1.04);
+}
+
+/* =========================
+   Container
+========================= */
+.container {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 32px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   Breadcrumbs (pill)
+========================= */
+.breadcrumbs {
+  align-items: center;
+  display: inline-flex;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(15, 23, 42, 0.85);
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.crumbLink {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 900;
+  opacity: 0.9;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  min-width: 100px;
-  justify-content: center;
 }
 
-.blueBtn:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
+.crumbLink:hover {
+  opacity: 1;
 }
 
-/* ==========================
-   Header
-========================== */
-.header {
+.crumbSep {
+  opacity: 0.55;
+  transform: translateY(1px);
+}
+
+.crumbCurrent {
+  font-weight: 900;
+}
+
+/* =========================
+   Top Bar
+========================= */
+.topBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.topBarRight {
+  display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.headerRight {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+/* =========================
+   Buttons
+========================= */
+.btnPill {
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
 
-/* ==========================
-   Hero
-========================== */
-.countryHero {
-  border-radius: 18px;
-  overflow: hidden;
-  font-family: inherit;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(10px);
-  position: relative;
-  width: 100%;
-  margin-bottom: 24px;
-}
+  color: rgba(15, 23, 42, 0.92);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 
-.heroOverlay {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.countryTitle {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.countryTitle h1 {
-  font-size: clamp(30px, 3.6vw, 42px);
-  margin: 0;
-}
-
-.countrySubtitle {
-  margin: 0;
-  font-weight: 600;
-  font-size: 16px;
-  color: #0f172a;
-  opacity: 0.78;
-}
-
-/* Chips hero */
-.heroChips {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.chip {
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #0f172a;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+
+  transition: transform 200ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
-.averageChip {
-  font-size: 20px;
+.btnPill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.12);
+}
+
+.btnPill:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dangerBtn {
+  color: #7f1d1d;
+  background: rgba(254, 242, 242, 0.7);
+  border-color: rgba(239, 68, 68, 0.22);
+}
+
+.dangerBtn:hover {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.btnPrimary {
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+
+  background: rgba(37, 99, 235, 0.92);
+  color: white;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  transition: transform 200ms ease, box-shadow 220ms ease, filter 220ms ease;
+  text-decoration: none;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 45px rgba(37, 99, 235, 0.22);
+  filter: brightness(1.02);
+}
+
+/* =========================
+   Micro animation
+========================= */
+@keyframes enterUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.enterUp {
+  animation: enterUp 520ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enterUp {
+    animation: none;
+  }
+}
+
+/* =========================
+   Hero
+========================= */
+.hero {
+  padding: 18px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 16px 46px rgba(2, 6, 23, 0.12);
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.heroTopRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.heroKicker {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 7px 10px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.82;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.heroMiniPill {
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.20);
+  border-radius: 999px;
+  padding: 7px 10px;
+
+  font-size: 11px;
+  font-weight: 900;
+  color: #1e40af;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.heroTitle {
+  margin: 12px 0 8px;
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 900;
+  letter-spacing: -0.6px;
+  line-height: 1.12;
+  text-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+
+.heroSubtitle {
+  margin: 0;
+  font-size: 14px;
   font-weight: 700;
-  color: #facc15;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 205, 0, 0.4);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  opacity: 0.78;
+  max-width: 70ch;
 }
 
-/* Google Maps button wrapper */
-.countryActions {
-  margin-top: 18px;
+.heroChips {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+.heroActions {
+  margin-top: 14px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
 }
 
-/* Imagen principal */
-.heroImageWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+/* Main image */
+.mainImageWrap {
   margin-top: 16px;
 }
 
-.heroImg {
+.mainImage {
   width: 100%;
-  max-width: 700px;
-  height: 350px;
+  height: clamp(240px, 34vw, 360px);
   object-fit: cover;
   border-radius: 16px;
-  border: 1px solid rgba(100,116,139,0.3);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border: 1px solid rgba(100, 116, 139, 0.28);
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.10);
 }
 
-/* ==========================
-   Gallery
-========================== */
-.gallery {
+/* Divider */
+.divider {
+  margin: 18px 0 10px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(15, 23, 42, 0.15),
+    transparent
+  );
+}
+
+/* =========================
+   Sections
+========================= */
+.section {
+  margin-top: 18px;
+}
+
+.sectionHead {
   display: flex;
-  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 12px;
-  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.2px;
+}
+
+.sectionHint {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.65;
+}
+
+/* =========================
+   Gallery
+========================= */
+.gallery {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.galleryBtn {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .galleryImg {
-  width: 250px;
-  height: 200px;
+  width: 100%;
+  height: 160px;
   object-fit: cover;
   border-radius: 14px;
-  border: 1px solid rgba(100,116,139,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.10);
+  background: rgba(255, 255, 255, 0.66);
 }
 
-/* ==========================
-   Points of Interest (POIs)
-========================== */
-.poiList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
+/* =========================
+   POIs
+========================= */
+.poiGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
-.poiItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  background: #dbe6f0;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(100,116,139,0.3);
+.poiCard {
+  text-align: left;
+  padding: 14px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 150px;
+
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
+
+  transition: transform 200ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
-.poiItem:hover {
+.poiCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: rgba(37, 99, 235, 0.26);
+  box-shadow: 0 20px 50px rgba(2, 6, 23, 0.14);
 }
 
-.poiItem img {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 8px;
+.poiCard:disabled {
+  cursor: default;
+  opacity: 0.85;
 }
 
-/* ==========================
-   Reviews
-========================== */
-.reviewsSection {
-  width: 100%;
+.poiTop {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
+.poiName {
+  font-weight: 900;
+  font-size: 13px;
+  margin: 0;
+}
+
+.poiBadge {
+  font-size: 11px;
+  font-weight: 900;
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  color: #1e40af;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.poiImg {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+}
+
+.poiNoImg {
+  width: 100%;
+  height: 120px;
+  border-radius: 12px;
+  border: 1px dashed rgba(100, 116, 139, 0.30);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 12px;
+  opacity: 0.65;
+}
+
+/* =========================
+   Reviews
+========================= */
 .reviewsHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
-.reviewsHeader h2 {
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0;
-  color: #1e293b;
+.formWrap {
+  margin-bottom: 12px;
 }
 
-.addReviewBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 16px;
-  background-color: #1d4ed8;
-  color: white;
-  border-radius: 20px;
-  padding: 10px 18px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-.addReviewBtn:hover {
-  background-color: #1e40af;
-  transform: translateY(-2px);
-}
-
-.reviews {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.reviewsGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
 }
 
 .reviewCard {
-  background: #eef2ff;
-  border-radius: 16px;
-  border: 2px solid #6366f1;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  padding: 16px;
-  width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 14px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
-.reviewCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+.reviewTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reviewUser {
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.reviewRating {
+  font-weight: 900;
+  font-size: 13px;
+  color: #92400e;
+  background: rgba(250, 204, 21, 0.18);
+  border: 1px solid rgba(250, 204, 21, 0.24);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.reviewText {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.85;
 }
 
 .deleteReviewBtn {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: #6366f1;
-  color: white;
-  border: none;
-  border-radius: 50%;
+  top: 10px;
+  right: 10px;
+
   width: 28px;
   height: 28px;
-  font-size: 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  background: rgba(254, 242, 242, 0.8);
+  color: #7f1d1d;
+
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
+  font-weight: 900;
+
+  transition: transform 200ms ease;
 }
 
 .deleteReviewBtn:hover {
-  background-color: #4f46e5;
+  transform: scale(1.05);
 }
 
-.reviewHeader {
-  font-weight: 600;
-  font-size: 15px;
-  color: #1e293b;
+/* =========================
+   Empty State
+========================= */
+.emptyState {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: 18px;
+
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
-.reviewText {
-  font-size: 14px;
-  color: #334155;
+.emptyTitle {
+  font-weight: 900;
+  margin: 0 0 6px;
 }
 
-.reviewRating {
-  font-size: 16px;
-  font-weight: 600;
-  color: #facc15;
+.emptyHint {
+  font-weight: 700;
+  margin: 0;
+  opacity: 0.75;
 }
 
-/* ==========================
-   Responsive
-========================== */
-@media (max-width: 900px) {
-  .heroImg {
-    height: 250px;
+/* =========================
+   Skeleton
+========================= */
+.skeletonHero {
+  height: 340px;
+  border-radius: 18px;
+  background: rgba(2, 6, 23, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  margin-bottom: 14px;
+}
+
+.skeletonRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.skeletonCard {
+  height: 140px;
+  border-radius: 16px;
+  background: rgba(2, 6, 23, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 680px) {
+  .skeletonRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   Mobile compact
+========================= */
+@media (max-width: 520px) {
+  .container {
+    padding: 18px 14px;
   }
 
-  .galleryImg {
-    width: 100%;
-    max-width: 300px;
-    height: 200px;
+  .breadcrumbs {
+    padding: 7px 10px;
+    font-size: 11px;
+    margin-bottom: 12px;
   }
 
-  .title {
-    font-size: 38px;
+  .heroTitle {
+    font-size: 34px;
   }
-}
 
-@media (max-width: 600px) {
-  .addReviewBtn {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .poiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .btnPrimary {
     width: 100%;
     justify-content: center;
   }
 
-  .averageChip {
-    font-size: 18px;
-    padding: 6px 12px;
-  }
-
-  .poiItem {
-    width: 140px;
+  .topBarRight {
+    width: 100%;
   }
 }
