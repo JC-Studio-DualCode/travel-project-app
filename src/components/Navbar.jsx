@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.css";
 
@@ -8,6 +8,12 @@ function Navbar() {
 
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+
+  // ✅ Cierra dropdown si cambias de ruta (consistencia total)
+  const location = useLocation();
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -33,7 +39,7 @@ function Navbar() {
       <nav className={styles.navbar}>
         {/* LEFT */}
         <div className={styles.left}>
-          <NavLink to="/" className={linkClass} onClick={() => setOpen(false)}>
+          <NavLink to="/" className={linkClass}>
             Home
           </NavLink>
 
@@ -44,18 +50,26 @@ function Navbar() {
               className={styles.ctaBtn}
               aria-haspopup="menu"
               aria-expanded={open}
+              aria-controls="start-exploring-menu"
               onClick={() => setOpen((v) => !v)}
+              onKeyDown={(e) => {
+                // ✅ Enter / Space abre/cierra, Escape cierra
+                if (e.key === "Escape") setOpen(false);
+              }}
             >
               Start Exploring
             </button>
 
             {open && (
-              <div className={styles.dropdown} role="menu">
+              <div
+                id="start-exploring-menu"
+                className={styles.dropdown}
+                role="menu"
+              >
                 <NavLink
                   to="/cities"
                   className={styles.dropdownItem}
                   role="menuitem"
-                  onClick={() => setOpen(false)}
                 >
                   All Cities
                 </NavLink>
@@ -64,7 +78,6 @@ function Navbar() {
                   to="/countries"
                   className={styles.dropdownItem}
                   role="menuitem"
-                  onClick={() => setOpen(false)}
                 >
                   Countries
                 </NavLink>
@@ -75,14 +88,14 @@ function Navbar() {
 
         {/* CENTER */}
         <div className={styles.center} aria-label="Brand">
-          <NavLink to="/" className={styles.brand} onClick={() => setOpen(false)}>
+          <NavLink to="/" className={styles.brand}>
             CityVerse
           </NavLink>
         </div>
 
         {/* RIGHT */}
         <div className={styles.right}>
-          <NavLink to="/about" className={linkClass} onClick={() => setOpen(false)}>
+          <NavLink to="/about" className={linkClass}>
             About
           </NavLink>
         </div>
@@ -92,3 +105,4 @@ function Navbar() {
 }
 
 export default Navbar;
+

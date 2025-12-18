@@ -6,15 +6,14 @@
   top: 0;
   z-index: 50;
 
-  /* más fino */
   padding: 10px 0;
 
-  /* separarlo un pelín del borde */
-  backdrop-filter: none;
+  /* para que el nav no “pelee” con el background */
+  isolation: isolate;
 }
 
 /* =========================
-   Navbar (glass)
+   Navbar (glass like Countries/About)
 ========================= */
 .navbar {
   max-width: 1100px;
@@ -24,23 +23,19 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
 
-  /* más fino */
   padding: 8px 14px;
   min-height: 52px;
 
   border-radius: 18px;
 
-  /* glass */
-  background: rgba(255, 255, 255, 0.30);
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(16px) saturate(170%);
-  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  /* ✅ MISMA receta glass */
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 
-  /* sombra suave */
-  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.10);
-
-  /* para que el blur se vea “limpio” */
-  isolation: isolate;
+  /* ✅ sombra consistente */
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.10);
 }
 
 /* =========================
@@ -64,36 +59,38 @@
 }
 
 /* =========================
-   Links
+   Links (pill glass like chips)
 ========================= */
 .link {
   text-decoration: none;
   color: #0f172a;
-  font-weight: 750;
+  font-weight: 800;
 
-  /* más fino */
   padding: 8px 12px;
 
   border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.10);
 
-  /* semi glass */
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* ✅ MISMA receta chips */
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .link:hover {
-  background: rgba(37, 99, 235, 0.12);
   border-color: rgba(37, 99, 235, 0.28);
   transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
 }
 
 .active {
-  background: rgba(37, 99, 235, 0.16);
   border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.10);
 }
 
 /* =========================
@@ -109,12 +106,12 @@
   padding: 6px 10px;
   border-radius: 12px;
 
-  /* para que el texto no se “pierda” en fondos claros */
-  text-shadow: 0 10px 22px rgba(255, 255, 255, 0.7);
+  /* más sutil y consistente */
+  text-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
 }
 
 /* =========================
-   CTA
+   CTA (primary)
 ========================= */
 .cta {
   text-decoration: none;
@@ -123,15 +120,14 @@
   align-items: center;
   justify-content: center;
 
-  /* más fino */
   padding: 8px 12px;
-
   border-radius: 999px;
+
   background: #2563eb;
   border: 1px solid rgba(37, 99, 235, 0.30);
   color: #fff;
 
-  font-weight: 850;
+  font-weight: 900;
 
   transition: transform 0.15s ease, filter 0.15s ease;
 }
@@ -150,7 +146,6 @@
   align-items: center;
 }
 
-/* Convertimos el link CTA en botón con el mismo look */
 .ctaBtn {
   appearance: none;
   cursor: pointer;
@@ -166,7 +161,7 @@
   border: 1px solid rgba(37, 99, 235, 0.30);
   color: #fff;
 
-  font-weight: 850;
+  font-weight: 900;
 
   transition: transform 0.15s ease, filter 0.15s ease;
 }
@@ -186,10 +181,11 @@
   padding: 8px;
   border-radius: 14px;
 
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  backdrop-filter: blur(14px) saturate(170%);
-  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  /* ✅ MISMA receta glass (un pelín más sólido para legibilidad) */
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px) saturate(145%);
+  -webkit-backdrop-filter: blur(10px) saturate(145%);
 
   box-shadow: 0 18px 40px rgba(2, 6, 23, 0.16);
 
@@ -205,10 +201,13 @@
   border-radius: 12px;
 
   color: #0f172a;
-  font-weight: 750;
+  font-weight: 800;
   border: 1px solid transparent;
 
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .dropdownItem:hover {
@@ -216,6 +215,18 @@
   border-color: rgba(37, 99, 235, 0.18);
   transform: translateY(-1px);
 }
+/* =========================
+   Igualar altura links y CTA
+========================= */
+.link,
+.cta,
+.ctaBtn {
+  height: 36px;              /* 🔑 misma altura real */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 /* Mobile: centrado y que no se salga */
 @media (max-width: 740px) {
@@ -223,9 +234,9 @@
     left: 50%;
     transform: translateX(-50%);
     min-width: 220px;
+    top: calc(100% + 12px);
   }
 }
-
 
 /* =========================
    Mobile

@@ -5,7 +5,6 @@ import { MainURL } from "../config/api";
 import styles from "./HomePage.module.css";
 
 function HomePage() {
-
   const [citiesCount, setCitiesCount] = useState(null);
 
   useEffect(() => {
@@ -65,10 +64,7 @@ function HomePage() {
         }, 260);
       };
 
-      mainTimeout = setTimeout(
-        tick,
-        Math.random() * (maxMs - minMs) + minMs
-      );
+      mainTimeout = setTimeout(tick, Math.random() * (maxMs - minMs) + minMs);
 
       return () => {
         clearTimeout(mainTimeout);
@@ -111,15 +107,6 @@ function HomePage() {
   const mapBg = mapSlides[mapIndex];
   const ratingBg = ratingSlides[ratingIndex];
 
-  const [pillIndex, setPillIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setPillIndex((prev) => (prev + 1) % 3);
-    }, 2600);
-    return () => clearInterval(id);
-  }, []);
-
   const pill1Ref = useRef(null);
   const pill2Ref = useRef(null);
 
@@ -127,11 +114,8 @@ function HomePage() {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.revealIn);
-          } else {
-            entry.target.classList.remove(styles.revealIn);
-          }
+          if (entry.isIntersecting) entry.target.classList.add(styles.revealIn);
+          else entry.target.classList.remove(styles.revealIn);
         });
       },
       { threshold: 0.25 }
@@ -143,80 +127,61 @@ function HomePage() {
     return () => io.disconnect();
   }, []);
 
+  const heroPillText =
+    "Explore cities worldwide and build your personal travel list — save favourites and discover new places.";
+
   return (
     <div className={styles.page}>
       <div className={styles.home}>
         <section className={styles.hero}>
           <div className={styles.heroText}>
             <div className={styles.topRow}>
-              <p className={styles.badge}>Travel Journal • Personal Memories</p>
+              <p className={styles.badge}>Travel Journal · CityVerse</p>
               <span className={styles.stat}>
-                {citiesCount === null ? "Loading..." : `${citiesCount} cities saved`}
+                {citiesCount === null ? "Loading..." : `${citiesCount} cities added`}
               </span>
             </div>
 
             <div className={styles.textCardWrapper}>
               <div ref={pill1Ref} className={`${styles.textPill} ${styles.revealBase}`}>
-                <p>
-                  Your personal travel collection — save cities, photos and experiences
-                  from your journeys.
-                </p>
+                <p>{heroPillText}</p>
               </div>
 
               <div ref={pill2Ref} className={`${styles.textPillSecondary} ${styles.revealBase}`}>
-                <p>
-                  Capture the places you've been, what you felt, and what you'd recommend —
-                  all in one clean space.
-                </p>
+                <p>{heroPillText}</p>
               </div>
             </div>
           </div>
         </section>
 
-        <div className={styles.heroVisual} aria-hidden>
-          <div className={styles.memoryCard}>
-            <div className={styles.memoryTop}>
-              <span className={styles.dot} />
-              <span className={styles.dot} />
-              <span className={styles.dot} />
-            </div>
-
-            <div className={styles.memoryBody}>
-              <div className={styles.memoryLineLg} />
-              <div className={styles.memoryLine} />
-              <div className={styles.memoryLineSm} />
-
-              <div className={styles.pills}>
-                <span className={`${styles.pill} ${pillIndex === 0 ? styles.pillActive : ""}`}>Photos</span>
-                <span className={`${styles.pill} ${pillIndex === 1 ? styles.pillActive : ""}`}>Notes</span>
-                <span className={`${styles.pill} ${pillIndex === 2 ? styles.pillActive : ""}`}>Rating</span>
-              </div>
-
-              <div className={styles.stamp}>
-                <span className={styles.stampLabel}>MEMORY</span>
-                <span className={styles.stampValue}>Saved</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* ✅ ELIMINADO COMPLETO: heroVisual / memoryCard */}
 
         <section className={styles.grid}>
-          <article className={`${styles.card} ${fadePhoto ? styles.cardFading : ""}`} style={{ backgroundImage: `url(${photoBg})` }}>
+          <article
+            className={`${styles.card} ${fadePhoto ? styles.cardFading : ""}`}
+            style={{ backgroundImage: `url(${photoBg})` }}
+          >
             <FiImage className={`${styles.iconBadge} ${styles.iconPhoto}`} size={28} />
-            <h3>Photo-first memories</h3>
-            <p>Attach an image and keep your trips visual — like a personal album.</p>
+            <h3>Photos that tell the story</h3>
+            <p>Add an image to each city and keep your travel memories visual.</p>
           </article>
 
-          <article className={`${styles.card} ${fadeMap ? styles.cardFading : ""}`} style={{ backgroundImage: `url(${mapBg})` }}>
+          <article
+            className={`${styles.card} ${fadeMap ? styles.cardFading : ""}`}
+            style={{ backgroundImage: `url(${mapBg})` }}
+          >
             <FiMapPin className={`${styles.iconBadge} ${styles.iconMap}`} size={28} />
-            <h3>Places you’ve lived</h3>
-            <p>Explore destinations and jump to Google Maps from the city details.</p>
+            <h3>Explore and locate cities</h3>
+            <p>Open any city on Google Maps directly from the details page.</p>
           </article>
 
-          <article className={`${styles.card} ${fadeRating ? styles.cardFading : ""}`} style={{ backgroundImage: `url(${ratingBg})` }}>
+          <article
+            className={`${styles.card} ${fadeRating ? styles.cardFading : ""}`}
+            style={{ backgroundImage: `url(${ratingBg})` }}
+          >
             <FiStar className={`${styles.iconBadge} ${styles.iconStar}`} size={28} />
-            <h3>Your rating, your story</h3>
-            <p>Rate each city to remember what you loved (or skipped).</p>
+            <h3>Rate what matters to you</h3>
+            <p>Give each city a rating so you remember what you’d repeat (or avoid).</p>
           </article>
         </section>
       </div>
