@@ -86,10 +86,42 @@ function CountryListPage() {
 
   const hasQuery = query.trim().length > 0;
 
+  // ✅ Scroll reveal del grid (IntersectionObserver)
+  useEffect(() => {
+    if (loading) return;
+
+    const cards = document.querySelectorAll(`.${styles.countryCard}`);
+    if (!cards.length) return;
+
+    const reduceMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    if (reduceMotion) {
+      cards.forEach((el) => el.classList.add(styles.cardVisible));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.cardVisible);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+
+    cards.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [loading, filteredCountries.length, styles.countryCard, styles.cardVisible]);
+
   return (
     <div className={styles.pageBg}>
       <div className={styles.country}>
-        {/* ✅ Breadcrumb mejorado */}
+        {/* ✅ Breadcrumb ahora en “pill” */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -100,68 +132,86 @@ function CountryListPage() {
           <span className={styles.crumbCurrent}>Countries</span>
         </nav>
 
+        {/* ✅ TÍTULO SUBIDO ARRIBA (solo esto) */}
+        <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>
+          Countries
+        </h1>
+
+        {/* ✅ HERO (sin tarjeta grande) */}
         <section className={styles.countryHero}>
-          <div className={styles.heroGlass}>
-            <div className={styles.heroTopRow}>
-              <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
+          <div className={styles.heroTopRow}>
+            <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
+          </div>
 
-              <span className={styles.heroJournal} aria-label="Personal travel journal">
-                <span className={styles.redPin} aria-hidden="true">
-                  📍
-                </span>
-                Personal Travel Journal
+          {/* ✅ Chip secundario debajo del kicker */}
+          <div className={styles.heroSecondaryChips}>
+            <span
+              className={styles.heroJournal}
+              aria-label="Personal travel journal"
+            >
+              <span className={styles.redPin} aria-hidden="true">
+                📍
               </span>
-            </div>
+              Personal Travel Journal
+            </span>
+          </div>
 
-            <h1 className={styles.heroTitle}>
-              Countries
-              <span className={styles.heroIcon} aria-hidden="true">
-                <FcGlobe />
-              </span>
-            </h1>
+          <p
+            className={`${styles.heroSubtitlePill} ${styles.enterSoft}`}
+            style={{ animationDelay: "70ms" }}
+          >
+            Every country holds a story. Yours starts here.
+          </p>
 
-            <p className={styles.heroSubtitle}>
-              Every country holds a story. Yours starts here.
-            </p>
+          <div
+            className={`${styles.heroChips} ${styles.enterSoft}`}
+            style={{ animationDelay: "120ms" }}
+          >
+            <span className={styles.chip}>
+              <FiFlag aria-hidden="true" />
+              {loading ? "—" : displayCountries} countries
+            </span>
 
-            <div className={styles.heroChips}>
-              <span className={styles.chip}>
-                <FiFlag aria-hidden="true" />
-                {loading ? "—" : displayCountries} countries
-              </span>
+            <span className={styles.chip}>
+              <FiStar aria-hidden="true" />
+              {loading ? "—" : displayCities} cities saved
+            </span>
+          </div>
 
-              <span className={styles.chip}>
-                <FiStar aria-hidden="true" />
-                {loading ? "—" : displayCities} cities saved
-              </span>
-            </div>
+          <div
+            className={`${styles.searchRow} ${styles.enterSoft}`}
+            style={{ animationDelay: "170ms" }}
+          >
+            <span className={styles.searchIcon} aria-hidden="true">
+              <FiSearch />
+            </span>
 
-            {/* ✅ Search simple */}
-            <div className={styles.searchRow}>
-              <span className={styles.searchIcon} aria-hidden="true">
-                <FiSearch />
-              </span>
-              <input
-                className={styles.searchInput}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search country…"
-                aria-label="Search country"
-                disabled={loading}
-              />
-              {hasQuery && (
-                <button
-                  className={styles.clearBtn}
-                  type="button"
-                  onClick={() => setQuery("")}
-                  aria-label="Clear search"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
+            <input
+              className={styles.searchInput}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search country…"
+              aria-label="Search country"
+              disabled={loading}
+            />
 
+            {hasQuery && (
+              <button
+                className={styles.clearBtn}
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div
+            className={`${styles.actionsPill} ${styles.enterSoft}`}
+            style={{ animationDelay: "220ms" }}
+          >
             <div className={styles.countryActions}>
               <Link className={`btn primary ${styles.btnSm}`} to="/countries/add">
                 <FiPlus style={{ marginRight: 8, verticalAlign: "middle" }} />
@@ -176,7 +226,8 @@ function CountryListPage() {
           </div>
         </section>
 
-        {/* ✅ Skeleton loader */}
+        <div className={styles.heroDivider} aria-hidden="true" />
+
         {loading ? (
           <section className={styles.countryGrid} aria-label="Loading countries">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -192,13 +243,20 @@ function CountryListPage() {
           </section>
         ) : (
           <>
-            {/* ✅ Si no hay resultados */}
             {filteredCountries.length === 0 ? (
               <div className={styles.emptyState}>
                 <p className={styles.emptyTitle}>No countries found</p>
                 <p className={styles.emptyHint}>
-                  Try a different search (or clear it and explore).
+                  Try a different search or clear it to explore all countries.
                 </p>
+
+                <button
+                  type="button"
+                  className={styles.clearEmptyBtn}
+                  onClick={() => setQuery("")}
+                >
+                  Clear search
+                </button>
               </div>
             ) : (
               <section className={styles.countryGrid}>
@@ -211,14 +269,13 @@ function CountryListPage() {
                       to={`/countries/${encodeURIComponent(name)}/cities`}
                       className={styles.countryCard}
                       aria-label={`Open ${name} cities`}
-                      style={{ animationDelay: `${index * 60}ms` }} // ✅ stagger
+                      style={{ transitionDelay: `${index * 60}ms` }}
                     >
                       <div className={styles.cardTopRow}>
                         <div className={styles.iconBadge} aria-hidden="true">
                           <FiMapPin size={22} />
                         </div>
 
-                        {/* ✅ badge diferenciado si > 1 */}
                         <span
                           className={`${styles.cityBadge} ${
                             isHot ? styles.cityBadgeHot : ""
@@ -234,7 +291,6 @@ function CountryListPage() {
                       </div>
 
                       <h3 className={styles.cardTitle}>{name}</h3>
-
                       <p className={styles.cardHint}>Open memories →</p>
                     </Link>
                   );
