@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { MainURL } from "../config/api";
+import styles from "./ReviewForm.module.css"
 
 function ReviewForm({ cityId, reviews, onAddReview }) {
   const [user, setUser] = useState("");
@@ -35,7 +36,7 @@ function ReviewForm({ cityId, reviews, onAddReview }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="reviewForm">
+    <form onSubmit={handleSubmit} className={styles.reviewForm}>
       <label>
         Nickname
         <input

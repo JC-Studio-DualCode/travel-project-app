@@ -1,21 +1,41 @@
+/* Contenedor principal */
 .add, .edit {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 20px;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
   font-family: 'Segoe UI', sans-serif;
+
+  /* Fondo full page */
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.30),
+      rgba(255, 255, 255, 0.30)
+    ),
+    url("/public/images/fondoDetails.jpeg");
+   background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 48px 20px;
+  box-sizing: border-box;
 }
 
-/* HERO */
+/* HERO centrado */
 .addHero, .editHero {
-  background: linear-gradient(160deg, #a3cef1 0%, #d1f2c7 100%);
+  max-width: 700px; /* ancho igual al del formulario */
+  margin: 0 auto;    /* centrado horizontal */
+  background: linear-gradient(160deg, rgba(163,206,241,0.7) 0%, rgba(209,242,199,0.7) 100%);
   border-radius: 18px;
   padding: 36px 28px;
   box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-  border: 1px solid #8b6d5c; /* marrón suave */
+  border: 1px solid #8b6d5c;
   display: grid;
   gap: 12px;
 }
+.addActions{
+  margin-top: 20px;
+}
 
+/* Títulos y subtítulos */
 .addTitle h1, .editTitle h1 {
   display: inline-flex;
   align-items: center;
@@ -40,6 +60,8 @@
   padding: 24px;
   border: 2px solid #8b6d5c;
   box-shadow: 0 10px 25px rgba(43,58,66,0.15);
+  max-width: 700px; /* ancho máximo para no estirarse demasiado */
+  margin: 20px auto; /* centrado horizontal */
 }
 
 /* FORM */
@@ -112,8 +134,9 @@
 
 .btn.primary {
   background: #2b7a78; 
-  color: #fff;
+  color: #0f1cd6;
   border: none;
+  padding-top: 10px;
 }
 
 .btn.primary:hover {
@@ -121,8 +144,8 @@
 }
 
 .btn.secondary {
-  background: #a96d5d; /* marrón */
-  color: #fff;
+  background: #0206f8; /* marrón */
+  color: #0a19eb;
   border: none;
 }
 
@@ -149,6 +172,7 @@
   justify-content: center;
   transition: background 0.2s ease;
 }
+
 
 .removeBtn:hover {
   background: #c7433d;

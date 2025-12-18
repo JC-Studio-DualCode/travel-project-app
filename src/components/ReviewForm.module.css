@@ -1,0 +1,71 @@
+.reviewForm {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reviewForm:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.reviewForm label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #333333;
+  gap: 5px;
+  font-size: 0.95rem;
+}
+
+.reviewForm input,
+.reviewForm textarea {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reviewForm input:focus,
+.reviewForm textarea:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  outline: none;
+}
+
+.reviewForm textarea {
+  resize: vertical;
+  min-height: 80px;
+  max-height: 200px;
+}
+
+.reviewForm button {
+  padding: 12px 20px;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.reviewForm button:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
+
+.reviewForm button:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}

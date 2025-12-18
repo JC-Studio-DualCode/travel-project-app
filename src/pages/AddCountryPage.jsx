@@ -16,7 +16,7 @@ function AddCountryPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // mini validación básica
+
     if (!country.trim() || !name.trim()) return;
 
     const newCity = {

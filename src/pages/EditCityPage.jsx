@@ -11,7 +11,6 @@ function EditCityPage() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -21,38 +20,33 @@ function EditCityPage() {
 
   // Fetch city data
   useEffect(() => {
-  axios
-    .get(`${MainURL}/cities/${cityId}.json`)
-    .then((res) => {
-      const city = res.data;
+    axios
+      .get(`${MainURL}/cities/${cityId}.json`)
+      .then((res) => {
+        const city = res.data;
+        if (!city) return setLoading(false);
 
-      if (!city) {
+        setImage(city.image || "");
+        setName(city.name || "");
+        setDescription(city.description || "");
+        setAverageRating(city.averageRating ?? city.averagerating ?? "");
+        setCountry(city.country || "");
+
+        const pois =
+          city.pointsOfInterest && city.pointsOfInterest.length > 0
+            ? city.pointsOfInterest.map((poi) =>
+                typeof poi === "string" ? { name: poi, url: "" } : poi
+              )
+            : [{ name: "", url: "" }];
+
+        setPointsOfInterest(pois);
         setLoading(false);
-        return;
-      }
-
-      setImage(city.image || "");
-      setName(city.name || "");
-      setDescription(city.description || "");
-      setAverageRating(city.averageRating ?? city.averagerating ?? "");
-      setCountry(city.country || "");
-
-      // Transformamos POIs para que siempre sean {name, url}
-      const pois =
-        city.pointsOfInterest && city.pointsOfInterest.length > 0
-          ? city.pointsOfInterest.map((poi) =>
-              typeof poi === "string" ? { name: poi, url: "" } : poi
-            )
-          : [{ name: "", url: "" }];
-
-      setPointsOfInterest(pois);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-      setLoading(false);
-    });
-}, [cityId]);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [cityId]);
 
   // Add new POI
   const addPOI = () => {
@@ -95,11 +89,11 @@ function EditCityPage() {
   if (loading) return <Loader />;
 
   return (
-    <div className={styles.page}>
+    <div className={styles.edit}> {/* Background image applied */}
       <header className={styles.header}>
-        <h1 className={styles.title}>Editar ciudad</h1>
+        <h1 className={styles.title}>Edit City</h1>
         <p className={styles.subtitle}>
-          Actualiza la información de la ciudad y guarda los cambios.
+          Update the city information and save your changes.
         </p>
       </header>
 
@@ -107,36 +101,21 @@ function EditCityPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.field}>
             Image URL
-            <input
-              type="url"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              required
-            />
+            <input type="url" value={image} onChange={(e) => setImage(e.target.value)} required />
           </label>
 
           <label className={styles.field}>
-            Name
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            City Name
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           </label>
 
           <label className={styles.field}>
             Country
-            <input
-              type="text"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              required
-            />
+            <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} required />
           </label>
 
           <label className={styles.field}>
-            Average rating
+            Average Rating
             <input
               type="number"
               min="0"
@@ -149,12 +128,7 @@ function EditCityPage() {
 
           <label className={`${styles.field} ${styles.full}`}>
             Description
-            <textarea
-              rows="4"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
+            <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} required />
           </label>
 
           {/* Points of Interest */}
@@ -177,35 +151,22 @@ function EditCityPage() {
                   onChange={(e) => updatePOI(index, "url", e.target.value)}
                   className={styles.input}
                 />
-                <button
-                  type="button"
-                  className={styles.removeBtn}
-                  onClick={() => removePOI(index)}
-                >
+                <button type="button" className={styles.removeBtn} onClick={() => removePOI(index)}>
                   <FiTrash2 />
                 </button>
               </div>
             ))}
-            <button
-              type="button"
-              className="btn secondary"
-              onClick={addPOI}
-              style={{ marginTop: "8px" }}
-            >
+            <button type="button" className="btn primary" onClick={addPOI} style={{ marginTop: "8px" }}>
               <FiPlus style={{ marginRight: 4 }} /> Add Point of Interest
             </button>
           </div>
 
           <div className={styles.actions}>
-            <button className="btn primary" type="submit">
-              Guardar
+            <button className="btn primary saveBtn" type="submit">
+              Save
             </button>
-            <button
-              className="btn ghost"
-              type="button"
-              onClick={() => navigate(-1)}
-            >
-              Cancelar
+            <button className="btn primary cancelBtn" type="button" onClick={() => navigate(-1)}>
+              Cancel
             </button>
           </div>
         </form>
