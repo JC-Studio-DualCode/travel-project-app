@@ -110,32 +110,49 @@ function CityDetailsPage() {
         </div>
 
         {/* HERO */}
-        <div className={styles.hero}>
-          <div className={styles.heroText}>
-            <h1 className={styles.title}>{city.name}</h1>
-            <p className={styles.meta}>{city.country}</p>
-            <p className={styles.description}>{city.description}</p>
-            <p className={styles.averageRating}>⭐ {computedAverageRating}</p>
+        <section className={styles.countryHero}>
+          <div className={styles.heroOverlay}>
+            <div className={styles.countryTitle}>
+              <h1>{city.name}</h1>
+              <p className={styles.countrySubtitle}>{city.country}</p>
 
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.blueBtn}
-            >
-              <SiGooglemaps style={{ marginRight: 8, fontSize: 20 }} />
-              Open in Google Maps
-            </a>
+              <div className={styles.heroChips}>
+                <span className={`${styles.chip} ${styles.averageChip}`}>
+                  ⭐ {computedAverageRating}
+                </span>
+                <span className={styles.chip}>
+                  {city.reviews?.length || 0}{" "}
+                  {city.reviews?.length === 1 ? "review" : "reviews"}
+                </span>
+                <span className={styles.chip}>{pois.length} POIs</span>
+              </div>
+
+              <div className={styles.countryActions}>
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn primary"
+                >
+                  <SiGooglemaps
+                    style={{ marginRight: 8, verticalAlign: "middle" }}
+                  />
+                  Open in Google Maps
+                </a>
+              </div>
+            </div>
+
+            {mainImage && (
+              <div className={styles.heroImageWrapper}>
+                <img
+                  src={mainImage}
+                  alt={city.name}
+                  className={styles.heroImg}
+                />
+              </div>
+            )}
           </div>
-
-          {mainImage && (
-            <img
-              src={mainImage}
-              alt={city.name}
-              className={styles.heroImg}
-            />
-          )}
-        </div>
+        </section>
 
         {/* GALLERY */}
         {images.length > 0 && (
@@ -155,38 +172,37 @@ function CityDetailsPage() {
         {pois.length > 0 && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Points of Interest</h2>
-            <ul className={styles.list}>
+            <div className={styles.poiList}>
               {pois.map((poi, index) => {
                 const name = typeof poi === "string" ? poi : poi.name;
                 const url = typeof poi === "string" ? null : poi.url;
 
                 return (
-                  <li
+                  <div
                     key={index}
                     className={styles.poiItem}
                     onClick={() => url && setMainImage(url)}
                   >
                     <strong>{name}</strong>
                     {url && <img src={url} alt={name} />}
-                  </li>
+                  </div>
                 );
               })}
-            </ul>
+            </div>
           </section>
         )}
 
         {/* REVIEWS */}
-        <section className={styles.section}>
+        <section className={styles.reviewsSection}>
           <div className={styles.reviewsHeader}>
-            <h2 className={styles.sectionTitle}>Reviews</h2>
-
+            <h2>Reviews</h2>
             <button
-              className={styles.blueBtn}
+              className={styles.addReviewBtn}
               onClick={() => setShowReviewForm((prev) => !prev)}
             >
               {showReviewForm ? "Cancel" : (
                 <>
-                  <FcPlus style={{ fontSize: "24px", marginRight: "8px" }} />
+                  <FcPlus style={{ fontSize: "20px" }} />
                   Add Review
                 </>
               )}
@@ -207,19 +223,17 @@ function CityDetailsPage() {
           {city.reviews?.length > 0 && (
             <div className={styles.reviews}>
               {city.reviews.map((review, index) => (
-                <article key={index} className={styles.reviewCard}>
-                  <div className={styles.reviewHeader}>
-                    <strong>{review.user}</strong>
-                    <span className={styles.reviewRating}>⭐ {review.rating}</span>
-                    <button
-                      className={styles.deleteReviewBtn}
-                      onClick={() => deleteReview(review)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <p className={styles.reviewText}>{review.comment}</p>
-                </article>
+                <div key={index} className={styles.reviewCard}>
+                  <button
+                    className={styles.deleteReviewBtn}
+                    onClick={() => deleteReview(review)}
+                  >
+                    ✕
+                  </button>
+                  <div className={styles.reviewHeader}>{review.user}</div>
+                  <div className={styles.reviewText}>{review.comment}</div>
+                  <div className={styles.reviewRating}>⭐ {review.rating}</div>
+                </div>
               ))}
             </div>
           )}
