@@ -6,7 +6,6 @@
   position: relative;
   filter: saturate(1.05) contrast(1.05);
 
-  /* background image from /public/images */
   background: url("/images/hero-countries-map.png") center top / cover no-repeat;
 }
 
@@ -16,7 +15,8 @@
   position: absolute;
   inset: 0;
 
-  background: rgb(248, 250, 252, 0.25);
+  /* ✅ FIX: rgb() con alpha no es válido */
+  background: rgba(248, 250, 252, 0.55);
   z-index: 0;
   pointer-events: none;
 }
@@ -27,13 +27,16 @@
 .country {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 48px 20px;
+
+  /* un pelín menos padding para que no se vea “vacío” arriba */
+  padding: 32px 20px;
+
   position: relative;
   z-index: 1;
 }
 
 .country > section {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 /* =========================================================
@@ -68,12 +71,13 @@
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(6px);
 }
 
 .heroOverlay {
-  padding: 36px 28px;
+  /* más compacto y elegante */
+  padding: 28px 24px;
 }
 
 .heroKicker {
@@ -95,7 +99,10 @@
 .countryTitle h1 {
   display: inline-flex;
   align-items: center;
-  font-size: 44px;
+
+  /* ✅ mejor responsive (no se vuelve gigante ni microscópico) */
+  font-size: clamp(28px, 4vw, 44px);
+
   margin: 14px 0 10px 0;
   letter-spacing: -0.7px;
   gap: 10px;
@@ -129,7 +136,7 @@
 }
 
 .countryActions {
-  margin-top: 22px;
+  margin-top: 18px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -140,26 +147,34 @@
 ========================================================= */
 .countryGrid {
   align-items: stretch;
-  margin-top: 18px;
+  margin-top: 16px;
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  /* ✅ grid inteligente: se adapta solo */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
   gap: 14px;
 }
 
 .countryCard {
   transition: transform 0.25s ease, box-shadow 0.25s ease,
     border-color 0.25s ease;
+
   background: rgba(255, 255, 255, 0.92);
   border-radius: 16px;
   padding: 18px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  min-height: 150px;
+
+  min-height: 140px;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   justify-content: space-between;
+
   text-decoration: none;
   color: inherit;
 }
@@ -198,12 +213,8 @@
 /* =========================================================
    RESPONSIVE
 ========================================================= */
-@media (max-width: 900px) {
-  .countryGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .countryTitle h1 {
-    font-size: 34px;
+@media (max-width: 520px) {
+  .heroOverlay {
+    padding: 22px 18px;
   }
 }
