@@ -1,53 +1,354 @@
-
+/* =========================
+   Page background (FIJO)
+========================= */
 .pageBg {
   min-height: 100vh;
   position: relative;
-  background: url("/images/hero-countries-map.png") center top / cover no-repeat;
-}
-.pageBg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.25) 55%),
-    linear-gradient(to bottom, rgba(248, 250, 252, 0.70), rgba(248, 250, 252, 0.35));
-  z-index: 0;
-  pointer-events: none;
+  isolation: isolate;
+
+  font-size: 16px;
+  line-height: 1.6;
+  color: #0f172a;
 }
 
+.pageBg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0.12) 55%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.35),
+      rgba(248, 250, 252, 0.18)
+    ),
+    url("/images/hero-countries-map.png");
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  filter: saturate(1.15) contrast(1.05);
+}
+
+/* =========================
+   Container
+========================= */
 .country {
   max-width: 1100px;
   margin: 0 auto;
   padding: 32px 20px;
+
   position: relative;
   z-index: 1;
-}
-
-.countryTitle {
-  max-width: 520px;
 }
 
 .country > section {
   margin-bottom: 24px;
 }
 
-.countryCard {
-  transition: transform 0.25s ease, box-shadow 0.25s ease,
-    border-color 0.25s ease;
-
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 16px;
-  padding: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  min-height: 140px;
+/* =========================
+   Breadcrumb mejorado
+========================= */
+.breadcrumbs {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   gap: 10px;
-  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.crumbLink {
   text-decoration: none;
   color: inherit;
+  font-weight: 700;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.crumbLink:hover {
+  opacity: 1;
+}
+
+.crumbSep {
+  display: inline-flex;
+  opacity: 0.55;
+  transform: translateY(1px);
+}
+
+.crumbCurrent {
+  font-weight: 800;
+  opacity: 0.95;
+}
+
+/* =========================
+   HERO (Liquid Glass)
+========================= */
+.countryHero {
+  max-width: 720px;
+  margin: 0 0 22px 0;
+}
+
+.heroGlass {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.18);
+
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+
+  box-shadow:
+    0 18px 45px rgba(2, 6, 23, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+
+  isolation: isolate;
+}
+
+.heroGlass::before {
+  content: "";
+  position: absolute;
+  inset: -60% -40% auto -40%;
+  height: 140%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.12) 40%,
+    transparent 70%
+  );
+  transform: rotate(6deg);
+  pointer-events: none;
+}
+
+.heroGlass > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ✅ Top row: kicker + personal journal */
+.heroTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.heroKicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.78;
+
+  padding: 7px 10px;
+  border-radius: 999px;
+  display: inline-block;
+
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+/* ✅ Personal Travel Journal */
+.heroJournal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+
+  padding: 7px 10px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.redPin {
+  display: inline-flex;
+  transform: translateY(1px);
+  filter: saturate(1.2);
+}
+
+.heroTitle {
+  margin: 12px 0 6px;
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  line-height: 1.05;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heroIcon {
+  display: inline-flex;
+  transform: translateY(2px);
+}
+
+.heroSubtitle {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+  opacity: 0.82;
+}
+
+.heroChips {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================
+   Search row
+========================= */
+.searchRow {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+}
+
+.searchIcon {
+  display: inline-flex;
+  opacity: 0.75;
+  transform: translateY(1px);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: inherit;
+}
+
+.searchInput::placeholder {
+  opacity: 0.6;
+  font-weight: 700;
+}
+
+.clearBtn {
+  border: none;
+  background: rgba(255, 255, 255, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  filter: saturate(1.1);
+}
+
+.countryActions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ✅ botones más pequeños */
+.btnSm {
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  border-radius: 12px !important;
+}
+
+/* =========================
+   GRID
+========================= */
+.countryGrid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+/* ✅ Card + animación entrada */
+.countryCard {
+  text-decoration: none;
+  color: inherit;
+
+  padding: 18px;
+  border-radius: 16px;
+  min-height: 140px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cardIn 420ms ease forwards;
+}
+
+@keyframes cardIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ respeta reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .countryCard {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .countryCard:hover {
@@ -56,153 +357,192 @@
   border-color: rgba(37, 99, 235, 0.22);
 }
 
-.countryCard h3 {
-  margin: 10px 0 0;
-  font-size: 16px;
+.countryCard:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 4px;
 }
 
-.breadcrumbs {
+.cardTopRow {
   display: flex;
-  gap: 8px;
   align-items: center;
-  font-size: 13px;
-  color: #0f172a;
-  opacity: 0.75;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
-.breadcrumbs a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
-}
-
-.crumbSep {
-  opacity: 0.5;
-}
-
-.countryHero {
-  border-radius: 18px;
-  overflow: hidden;
-  font-family: inherit;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(10px);
-  position: relative;
-  max-width: 360px;
-  margin: 0;
-}
-
-.heroOverlay {
-  padding: 20px 20px;
-  position: relative;
-}
-
-.heroKicker {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #0f172a;
-  opacity: 0.7;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  padding: 7px 10px;
-  border-radius: 999px;
-}
-
-.countryTitle h1 {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 12px;
-  font-size: clamp(30px, 3.6vw, 42px);
-  line-height: 1.05;
-  margin: 0;
-  letter-spacing: -1px;
-}
-
-.countrySubtitle {
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-  max-width: 62ch;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #0f172a;
-  opacity: 0.78;
-}
-
-.heroChips {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px;
 }
-.chip {
-  padding: 7px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.65);
+
+.cardTitle {
+  margin: 0;
+  font-size: 16px;
   font-weight: 800;
-  font-size: 12px;
-  color: #0f172a;
 }
-.countryActions {
-  margin-top: 18px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.countryGrid {
-  align-items: stretch;
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-}
-
-
 
 .cardHint {
   margin: 0;
-  color: #0f172a;
-  opacity: 0.72;
   font-size: 13px;
+  opacity: 0.72;
 }
 
 .iconBadge {
   width: 38px;
   height: 38px;
   border-radius: 12px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   background: rgba(37, 99, 235, 0.12);
   border: 1px solid rgba(37, 99, 235, 0.18);
   color: #2563eb;
-}
-/* Countries: botón primary más “vivo” */
-.countryActions :global(.btn.primary) {
-  background: #1d4ed8;               /* azul más intenso */
-  border-color: rgba(29, 78, 216, 0.35);
 
+  transition: transform 0.25s ease;
 }
 
-.countryActions :global(.btn.primary:hover) {
-  background: #1e40af;
-  filter: none;
+/* ✅ micro-movimiento del pin */
+.countryCard:hover .iconBadge,
+.countryCard:focus-visible .iconBadge {
+  transform: translateY(-2px) rotate(-6deg);
 }
 
+.cityBadge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
 
+  background: rgba(37, 99, 235, 0.10);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  color: #1e40af;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ✅ Diferenciar países con más ciudades */
+.cityBadgeHot {
+  background: rgba(37, 99, 235, 0.16);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.10);
+}
+
+.badgeStar {
+  display: inline-flex;
+  transform: translateY(1px);
+  opacity: 0.9;
+}
+
+/* =========================
+   Skeleton loader
+========================= */
+.skeletonCard {
+  padding: 18px;
+  border-radius: 16px;
+  min-height: 140px;
+
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-60%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(60%);
+  }
+}
+
+.skeletonTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.skeletonIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.06);
+}
+
+.skeletonBadge {
+  width: 66px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.06);
+}
+
+.skeletonLineLg {
+  width: 65%;
+  height: 14px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.06);
+  margin: 18px 0 10px;
+}
+
+.skeletonLineSm {
+  width: 45%;
+  height: 12px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.06);
+}
+
+/* =========================
+   Empty state
+========================= */
+.emptyState {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.emptyTitle {
+  margin: 0 0 6px;
+  font-weight: 900;
+}
+
+.emptyHint {
+  margin: 0;
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+/* =========================
+   Mobile
+========================= */
 @media (max-width: 520px) {
-  .heroOverlay {
-    padding: 22px 18px;
+  .heroGlass {
+    padding: 18px 16px;
+  }
+
+  .countryHero {
+    max-width: 100%;
   }
 }

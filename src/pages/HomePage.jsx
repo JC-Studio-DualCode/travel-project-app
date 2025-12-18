@@ -5,9 +5,7 @@ import { MainURL } from "../config/api";
 import styles from "./HomePage.module.css";
 
 function HomePage() {
-  /* =========================
-     DATA
-  ========================= */
+
   const [citiesCount, setCitiesCount] = useState(null);
 
   useEffect(() => {
@@ -20,9 +18,6 @@ function HomePage() {
       .catch(() => setCitiesCount(0));
   }, []);
 
-  /* =========================
-     SLIDES
-  ========================= */
   const photoSlides = useMemo(
     () => ["/images/card-photo-1.jpg", "/images/card-photo-2.jpg", "/images/card-photo-3.jpg"],
     []
@@ -116,9 +111,6 @@ function HomePage() {
   const mapBg = mapSlides[mapIndex];
   const ratingBg = ratingSlides[ratingIndex];
 
-  /* =========================
-     MEMORY CARD PILLS
-  ========================= */
   const [pillIndex, setPillIndex] = useState(0);
 
   useEffect(() => {
@@ -128,9 +120,6 @@ function HomePage() {
     return () => clearInterval(id);
   }, []);
 
-  /* =========================
-     SCROLL REVEAL (LIQUID GLASS)
-  ========================= */
   const pill1Ref = useRef(null);
   const pill2Ref = useRef(null);
 
@@ -154,9 +143,6 @@ function HomePage() {
     return () => io.disconnect();
   }, []);
 
-  /* =========================
-     UI
-  ========================= */
   return (
     <div className={styles.page}>
       <div className={styles.home}>
