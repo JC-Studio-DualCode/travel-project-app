@@ -1,6 +1,4 @@
-/* =========================
-   Base page background
-========================= */
+
 :root { --nav-safe-top: 84px; }
 
 .page {
@@ -42,9 +40,6 @@
   margin-bottom: 32px;
 }
 
-/* =========================
-   Hero layout
-========================= */
 .hero {
   position: relative;
   background: transparent;
@@ -62,7 +57,6 @@
   gap: 10px;
 }
 
-/* pills arriba (badge + stat) */
 .topRow {
   display: flex;
   flex-direction: column;
@@ -95,18 +89,14 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
-/* =========================
-   Text pills (Liquid Glass)
-========================= */
 .textCardWrapper {
   display: flex;
   flex-direction: column;
   gap: 14px;
   max-width: 280px; 
-  max-height: 300px;/* evita que “se vaya a la derecha” */
+  max-height: 300px;
 }
 
-/* Mismo look para ambas (igual transparencia) */
 .textPill,
 .textPillSecondary {
   position: relative;
@@ -115,7 +105,6 @@
   border-radius: 18px;
   padding: 18px 20px;
 
-  /* ✅ translucidez uniforme para las dos */
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.34);
 
@@ -129,7 +118,6 @@
   isolation: isolate;
 }
 
-/* highlight superior */
 .textPill::before,
 .textPillSecondary::before {
   content: "";
@@ -147,8 +135,6 @@
   z-index: 0;
 }
 
-/* borde “líquido” */
-/* borde “líquido” */
 .textPill::after,
 .textPillSecondary::after {
   content: "";
@@ -164,11 +150,9 @@
     rgba(236, 72, 153, 0.14)
   );
 
-  /* ✅ estándar */
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask-composite: exclude;
 
-  /* ✅ Safari / WebKit */
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
 
@@ -176,34 +160,24 @@
   z-index: 0;
 }
 
-/* contenido encima */
 .textPill > *,
 .textPillSecondary > * {
   position: relative;
   z-index: 1;
 }
 
-/* tipografía unificada: NO jerarquía título/texto */
 .textPill h2,
 .textPillSecondary p {
   margin: 0;
-
-  /* MISMO TEXTO EN AMBAS */
   font-size: 18px;
   font-weight: 650;
   line-height: 1.55;
-
   color: #0f172a;
   letter-spacing: -0.01em;
-
   text-shadow:
     0 4px 14px rgba(255, 255, 255, 0.35);
 }
 
-
-/* =========================
-   Hero Visual (Memory Card)
-========================= */
 .heroVisual {
   position: fixed;
   top: var(--nav-safe-top);
@@ -328,12 +302,9 @@
   color: #0f172a;
 }
 
-/* =========================
-   Cards grid
-========================= */
 .grid {
   align-items: stretch;
-  margin-top: 140px; /* deja ver más fondo arriba */
+  margin-top: 140px; 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
@@ -412,10 +383,6 @@
 .iconMap   { color: #ef4444; }
 .iconStar  { color: #f59e0b; }
 
-/* =========================
-   Scroll micro animation
-   (se dispara cada scroll: reiniciamos clases en JS)
-========================= */
 .revealBase {
   opacity: 0;
   transform: translateY(10px) scale(0.99);
@@ -433,7 +400,6 @@
   filter: blur(0);
 }
 
-/* Respeta reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .revealBase,
   .revealIn {
@@ -444,9 +410,6 @@
   }
 }
 
-/* =========================
-   Responsive
-========================= */
 @media (max-width: 900px) {
   :root { --nav-safe-top: 72px; }
 
