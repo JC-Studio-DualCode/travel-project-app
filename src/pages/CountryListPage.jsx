@@ -52,8 +52,6 @@ function CountryListPage() {
     <div className={styles.pageBg}>
       <div className={styles.country}>
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-          <Link to="/">Home</Link>
-          <span className={styles.crumbSep}>/</span>
           <span>Countries</span>
         </nav>
 
@@ -62,14 +60,6 @@ function CountryListPage() {
           <div className={styles.heroOverlay}>
             <div className={styles.countryTitle}>
               <div className={styles.heroKicker}>Travel Journal • CityVerse</div>
-
-              <h1>
-                Explore Countries <FcGlobe style={{ verticalAlign: "middle" }} />
-              </h1>
-
-              <p className={styles.countrySubtitle}>
-                Pick a country and jump into its city memories.
-              </p>
 
               <div className={styles.heroChips}>
                 <span className={styles.chip}>{countriesCount} countries</span>

@@ -41,10 +41,6 @@ function CityListPage() {
     <div className={styles.pageBg}>
       <div className={styles.cityList}>
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-          <Link to="/">Home</Link>
-          <span className={styles.crumbSep}>/</span>
-          <Link to="/countries">Countries</Link>
-          <span className={styles.crumbSep}>/</span>
           <span>{safeCountry}</span>
         </nav>
 
@@ -52,11 +48,7 @@ function CityListPage() {
         <section className={styles.cityHero}>
           <div className={styles.heroOverlay}>
             <div className={styles.cityTitle}>
-              <h1>Cities in {safeCountry}</h1>
-
-              <p className={styles.citySubtitle}>
-                Browse the city list and open details. You can also add a new city.
-              </p>
+              <h1>{safeCountry}</h1> 
 
               <p className={styles.cityLead}>
                 Found <strong>{cities.length}</strong> cities.

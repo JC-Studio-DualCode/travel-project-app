@@ -10,19 +10,22 @@ function AboutPage() {
   return (
     <div className={styles.about}>
       <section className={styles.aboutHero}>
-        <div className={styles.aboutTitle}>
-          <h1>
-            CityVerse <FcGlobe style={{ verticalAlign: "middle" }} />
-          </h1>
-          <p className={styles.aboutSubtitle}>
-            A React SPA to explore cities, view details, and manage data with CRUD.
-          </p>
-          <p className={styles.aboutLead}>
-            Built as an Ironhack project to practice React Router, API integration with Axios,
-            and clean component-driven UI.
-          </p>
-        </div>
-      </section>
+  <div className={styles.brand}>
+    <h1 className={styles.title}>CityVerse</h1>
+  </div>
+
+  <div className={styles.pills}>
+    <p className={styles.pill}>
+      A React SPA to explore cities, view details, and manage data with CRUD.
+    </p>
+
+    <p className={styles.pill}>
+      Built as an Ironhack project to practice React Router, API integration with Axios,
+      and clean component-driven UI.
+    </p>
+  </div>
+</section>
+
 
       <section className={styles.aboutGrid}>
         <div className={styles.aboutCard}>

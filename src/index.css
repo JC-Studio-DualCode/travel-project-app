@@ -1,15 +1,9 @@
-/* =========================
-   Global Reset
-========================= */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-/* =========================
-   App Base
-========================= */
 
 html,
 body,
@@ -21,8 +15,6 @@ body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: #0f172a;
-
-  /* Fondo global (tu mapa) */
   background-color: #f8fafc;
   background-image: url("/images/page-bg-map.jpg");
   background-repeat: repeat;
@@ -30,9 +22,6 @@ body {
   background-position: center;
 }
 
-/* =========================
-   Global Buttons (reutilizable)
-========================= */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -68,7 +57,3 @@ body {
 .btn.ghost:hover {
   background: rgba(0,0,0,0.04);
 }
-
-/* ===== Fondo global de la app ===== */
-
-

@@ -1,47 +1,66 @@
-/* =========================================================
-   PAGE BACKGROUND — World map full width
-========================================================= */
+
 .pageBg {
   min-height: 100vh;
   position: relative;
-  filter: saturate(1.05) contrast(1.05);
-
   background: url("/images/hero-countries-map.png") center top / cover no-repeat;
 }
-
-/* Soft overlay (doesn't kill the map) */
 .pageBg::before {
   content: "";
   position: absolute;
   inset: 0;
-
-  /* ✅ FIX: rgb() con alpha no es válido */
-  background: rgba(248, 250, 252, 0.55);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.25) 55%),
+    linear-gradient(to bottom, rgba(248, 250, 252, 0.70), rgba(248, 250, 252, 0.35));
   z-index: 0;
   pointer-events: none;
 }
 
-/* =========================================================
-   CONTAINER
-========================================================= */
 .country {
   max-width: 1100px;
   margin: 0 auto;
-
-  /* un pelín menos padding para que no se vea “vacío” arriba */
   padding: 32px 20px;
-
   position: relative;
   z-index: 1;
+}
+
+.countryTitle {
+  max-width: 520px;
 }
 
 .country > section {
   margin-bottom: 24px;
 }
 
-/* =========================================================
-   BREADCRUMBS
-========================================================= */
+.countryCard {
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+}
+
+.countryCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(37, 99, 235, 0.22);
+}
+
+.countryCard h3 {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
 .breadcrumbs {
   display: flex;
   gap: 8px;
@@ -63,132 +82,93 @@
   opacity: 0.5;
 }
 
-/* =========================================================
-   HERO — Glass travel vibes
-========================================================= */
 .countryHero {
   border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(6px);
+  font-family: inherit;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+  position: relative;
+  max-width: 360px;
+  margin: 0;
 }
 
 .heroOverlay {
-  /* más compacto y elegante */
-  padding: 28px 24px;
+  padding: 20px 20px;
+  position: relative;
 }
 
 .heroKicker {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: #0f172a;
-  opacity: 0.75;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 8px 12px;
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  padding: 7px 10px;
   border-radius: 999px;
 }
 
 .countryTitle h1 {
-  display: inline-flex;
-  align-items: center;
-
-  /* ✅ mejor responsive (no se vuelve gigante ni microscópico) */
-  font-size: clamp(28px, 4vw, 44px);
-
-  margin: 14px 0 10px 0;
-  letter-spacing: -0.7px;
-  gap: 10px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+  font-size: clamp(30px, 3.6vw, 42px);
+  line-height: 1.05;
+  margin: 0;
+  letter-spacing: -1px;
 }
 
 .countrySubtitle {
   margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  max-width: 62ch;
   font-size: 16px;
-  color: #111827;
-  opacity: 0.86;
-  max-width: 820px;
-  line-height: 1.55;
+  line-height: 1.6;
+  color: #0f172a;
+  opacity: 0.78;
 }
 
-/* Chips */
 .heroChips {
   margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-
 .chip {
-  padding: 8px 12px;
+  padding: 7px 10px;
   border-radius: 999px;
   border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.75);
-  font-weight: 700;
-  font-size: 13px;
+  background: rgba(255, 255, 255, 0.65);
+  font-weight: 800;
+  font-size: 12px;
   color: #0f172a;
 }
-
 .countryActions {
   margin-top: 18px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-/* =========================================================
-   GRID
-========================================================= */
 .countryGrid {
   align-items: stretch;
   margin-top: 16px;
-
   display: grid;
-
-  /* ✅ grid inteligente: se adapta solo */
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-
   gap: 14px;
 }
 
-.countryCard {
-  transition: transform 0.25s ease, box-shadow 0.25s ease,
-    border-color 0.25s ease;
 
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 16px;
-  padding: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-
-  min-height: 140px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  justify-content: space-between;
-
-  text-decoration: none;
-  color: inherit;
-}
-
-.countryCard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  border-color: rgba(37, 99, 235, 0.22);
-}
-
-.countryCard h3 {
-  margin: 10px 0 0;
-  font-size: 16px;
-}
 
 .cardHint {
   margin: 0;
@@ -197,7 +177,6 @@
   font-size: 13px;
 }
 
-/* Icon badge */
 .iconBadge {
   width: 38px;
   height: 38px;
@@ -209,10 +188,19 @@
   border: 1px solid rgba(37, 99, 235, 0.18);
   color: #2563eb;
 }
+/* Countries: botón primary más “vivo” */
+.countryActions :global(.btn.primary) {
+  background: #1d4ed8;               /* azul más intenso */
+  border-color: rgba(29, 78, 216, 0.35);
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+}
+
+.countryActions :global(.btn.primary:hover) {
+  background: #1e40af;
+  filter: none;
+}
+
+
 @media (max-width: 520px) {
   .heroOverlay {
     padding: 22px 18px;
