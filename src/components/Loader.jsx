@@ -1,8 +1,7 @@
-import "./Loader.css"
+import "./Loader.css";
 
 function Loader() {
-    return <span className="loader"></span>
+  return <span className="loader" aria-label="Loading" />;
 }
 
-export default Loader
-
+export default Loader;

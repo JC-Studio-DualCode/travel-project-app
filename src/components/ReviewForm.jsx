@@ -1,18 +1,17 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import axios from "axios";
 import { MainURL } from "../config/api";
 import styles from "./ReviewForm.module.css";
 
-function ReviewForm({ cityId, reviews = [], onAddReview }) {
+function ReviewForm({ cityId, reviews, onAddReview }) {
+  const safeReviews = useMemo(() => {
+    return Array.isArray(reviews) ? reviews.filter(Boolean) : [];
+  }, [reviews]);
+
   const [user, setUser] = useState("");
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
   const [submitting, setSubmitting] = useState(false);
-
-  const safeNumber = (value, fallback) => {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : fallback;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,21 +19,17 @@ function ReviewForm({ cityId, reviews = [], onAddReview }) {
     const newReview = {
       user: user.trim(),
       comment: comment.trim(),
-      rating: safeNumber(rating, 5),
+      rating: Number(rating),
     };
 
-    // ✅ Extra seguridad: evita guardar strings vacíos con espacios
-    if (!newReview.user || !newReview.comment) return;
-
-    // Add newest review at the top
-    const updatedReviews = [newReview, ...(Array.isArray(reviews) ? reviews : [])];
+    const updatedReviews = [newReview, ...safeReviews];
 
     setSubmitting(true);
 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, { reviews: updatedReviews })
       .then(() => {
-        onAddReview?.(updatedReviews); // Update UI immediately
+        onAddReview(updatedReviews);
         setUser("");
         setComment("");
         setRating(5);
@@ -83,4 +78,5 @@ function ReviewForm({ cityId, reviews = [], onAddReview }) {
 }
 
 export default ReviewForm;
+
 

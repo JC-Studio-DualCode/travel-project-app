@@ -1,15 +1,21 @@
 import axios from "axios";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
 import ReviewForm from "../components/ReviewForm";
 import styles from "./CityDetailsPage.module.css";
 
-import { FiChevronRight, FiHome, FiEdit2, FiTrash2, FiStar } from "react-icons/fi";
+import {
+  FiChevronRight,
+  FiHome,
+  FiEdit2,
+  FiTrash2,
+  FiStar,
+} from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FcPlus } from "react-icons/fc";
 
-const FALLBACK_IMG = "/images/placeholder-city.jpg"; // crea esta imagen o cambia la ruta
+const FALLBACK_IMG = "/images/placeholder-city.jpg";
 
 function CityDetailsPage() {
   const { country, cityId } = useParams();
@@ -30,7 +36,6 @@ function CityDetailsPage() {
   };
 
   const pickBestMainImage = (data) => {
-    // orden de prioridad
     const candidate =
       normalizeImg(data?.mainImage) ||
       normalizeImg(data?.image) ||
@@ -39,12 +44,7 @@ function CityDetailsPage() {
     return candidate;
   };
 
-  const safeNumber = (value, fallback = 0) => {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : fallback;
-  };
-
-  const fetchCity = useCallback(() => {
+  const fetchCity = () => {
     setLoading(true);
 
     axios
@@ -59,11 +59,14 @@ function CityDetailsPage() {
         setCity(null);
       })
       .finally(() => setLoading(false));
-  }, [cityId]);
+  };
 
   useEffect(() => {
     fetchCity();
-  }, [fetchCity]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cityId]);
+
+  const backToCitiesPath = `/countries/${encodeURIComponent(safeCountry)}/cities`;
 
   const deleteCity = () => {
     if (!window.confirm("Are you sure you want to delete this city?")) return;
@@ -72,20 +75,23 @@ function CityDetailsPage() {
 
     axios
       .delete(`${MainURL}/cities/${cityId}.json`)
-      .then(() => navigate(`/countries/${encodeURIComponent(safeCountry)}/cities`))
+      .then(() => navigate(backToCitiesPath))
       .catch((err) => console.error("Error deleting city:", err))
       .finally(() => setDeleting(false));
   };
 
-  // ✅ Borrar review por índice (más seguro que por referencia)
-  const deleteReviewByIndex = (indexToDelete) => {
-    if (!Array.isArray(city?.reviews)) return;
+  // ✅ Normalizamos reviews SIEMPRE a array para evitar crash con Firebase
+  const reviews = useMemo(() => {
+    if (!city) return [];
+    return Array.isArray(city.reviews) ? city.reviews.filter(Boolean) : [];
+  }, [city]);
 
-    const updatedReviews = city.reviews.filter((_, idx) => idx !== indexToDelete);
+  const deleteReviewByIndex = (index) => {
+    const next = reviews.filter((_, i) => i !== index);
 
     axios
-      .patch(`${MainURL}/cities/${cityId}.json`, { reviews: updatedReviews })
-      .then(() => setCity((prev) => ({ ...prev, reviews: updatedReviews })))
+      .patch(`${MainURL}/cities/${cityId}.json`, { reviews: next })
+      .then(() => setCity((prev) => ({ ...(prev || {}), reviews: next })))
       .catch((err) => console.error("Error deleting review:", err));
   };
 
@@ -130,10 +136,7 @@ function CityDetailsPage() {
               Parece que esta ciudad no existe (o la API no la encontró).
             </p>
 
-            <Link
-              to={`/countries/${encodeURIComponent(safeCountry)}/cities`}
-              className={styles.btnPill}
-            >
+            <Link to={backToCitiesPath} className={styles.btnPill}>
               ← Back to Cities
             </Link>
           </div>
@@ -148,16 +151,17 @@ function CityDetailsPage() {
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
-  const reviews = Array.isArray(city.reviews) ? city.reviews : [];
-  const reviewsCount = reviews.length;
+  // ✅ Rating robusto: solo cuenta ratings numéricos válidos
+  const numericRatings = reviews
+    .map((r) => Number(r?.rating))
+    .filter((n) => Number.isFinite(n) && n > 0);
 
-  // ✅ Average rating robusto (no NaN / no crash)
-  const computedAverageRating = useMemo(() => {
-    if (reviews.length === 0) return "—";
-    const sum = reviews.reduce((acc, r) => acc + safeNumber(r?.rating, 0), 0);
-    const avg = sum / reviews.length;
-    return Number.isFinite(avg) ? avg.toFixed(1) : "—";
-  }, [reviews]);
+  const computedAverageRating =
+    numericRatings.length > 0
+      ? (numericRatings.reduce((sum, n) => sum + n, 0) / numericRatings.length).toFixed(1)
+      : "—";
+
+  const reviewsCount = reviews.length;
 
   const onImgError = (e) => {
     if (e.currentTarget.src.includes(FALLBACK_IMG)) return;
@@ -190,10 +194,7 @@ function CityDetailsPage() {
             <FiChevronRight />
           </span>
 
-          <Link
-            className={styles.crumbLink}
-            to={`/countries/${encodeURIComponent(safeCountry)}/cities`}
-          >
+          <Link className={styles.crumbLink} to={backToCitiesPath}>
             {safeCountry}
           </Link>
 
@@ -205,10 +206,7 @@ function CityDetailsPage() {
         </nav>
 
         <header className={styles.topBar}>
-          <Link
-            to={`/countries/${encodeURIComponent(safeCountry)}/cities`}
-            className={styles.btnPill}
-          >
+          <Link to={backToCitiesPath} className={styles.btnPill}>
             ← Back to Cities
           </Link>
 
@@ -320,9 +318,7 @@ function CityDetailsPage() {
           <section className={styles.section}>
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionTitle}>Points of Interest</h2>
-              <p className={styles.sectionHint}>
-                Click on one of the images to enlarge it.
-              </p>
+              <p className={styles.sectionHint}>Click on one of the images to use it as main.</p>
             </div>
 
             <div className={styles.poiGrid}>
@@ -385,9 +381,9 @@ function CityDetailsPage() {
             <div className={styles.formWrap}>
               <ReviewForm
                 cityId={cityId}
-                reviews={reviews}
+                reviews={reviews} // ✅ ya normalizado
                 onAddReview={(updatedReviews) => {
-                  setCity((prev) => ({ ...prev, reviews: updatedReviews }));
+                  setCity((prev) => ({ ...(prev || {}), reviews: updatedReviews }));
                   setShowReviewForm(false);
                 }}
               />
@@ -397,7 +393,7 @@ function CityDetailsPage() {
           {reviews.length > 0 ? (
             <div className={styles.reviewsGrid}>
               {reviews.map((review, index) => (
-                <article key={index} className={styles.reviewCard}>
+                <article key={`${review?.user || "user"}-${index}`} className={styles.reviewCard}>
                   <button
                     className={styles.deleteReviewBtn}
                     onClick={() => deleteReviewByIndex(index)}
@@ -408,20 +404,18 @@ function CityDetailsPage() {
                   </button>
 
                   <div className={styles.reviewTop}>
-                    <strong className={styles.reviewUser}>{review.user}</strong>
-                    <span className={styles.reviewRating}>⭐ {review.rating}</span>
+                    <strong className={styles.reviewUser}>{review?.user || "Anonymous"}</strong>
+                    <span className={styles.reviewRating}>⭐ {review?.rating ?? "—"}</span>
                   </div>
 
-                  <p className={styles.reviewText}>{review.comment}</p>
+                  <p className={styles.reviewText}>{review?.comment || ""}</p>
                 </article>
               ))}
             </div>
           ) : (
             <div className={styles.emptyState}>
               <p className={styles.emptyTitle}>No reviews yet</p>
-              <p className={styles.emptyHint}>
-                Sé el primero en dejar una reseña y quedar como MVP.
-              </p>
+              <p className={styles.emptyHint}>Sé el primero en dejar una reseña y quedar como MVP.</p>
             </div>
           )}
         </section>

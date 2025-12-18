@@ -15,12 +15,14 @@ body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: #0f172a;
-  background-color: #f8fafc;
-  background-image: url("/images/page-bg-map.jpg");
+
+  /* NUEVO FONDO GLOBAL */
+  background-image: url("/images/bg-paper.jpg");
   background-repeat: repeat;
-  background-size: cover;
+  background-size: auto;
   background-position: center;
 }
+
 
 .btn {
   display: inline-flex;
