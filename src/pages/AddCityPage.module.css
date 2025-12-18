@@ -1,96 +1,65 @@
-.add {
+.add, .edit {
   max-width: 1100px;
   margin: 0 auto;
   padding: 48px 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.add > section {
-  margin-bottom: 32px;
-}
-
-/* HERO (misma fórmula que AboutHero) */
-.addHero {
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+/* HERO */
+.addHero, .editHero {
+  background: linear-gradient(160deg, #a3cef1 0%, #d1f2c7 100%);
   border-radius: 18px;
   padding: 36px 28px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  border: 1px solid #8b6d5c; /* marrón suave */
   display: grid;
   gap: 12px;
 }
 
-.addTitle h1 {
+.addTitle h1, .editTitle h1 {
   display: inline-flex;
   align-items: center;
   font-size: 42px;
   margin: 0 0 10px 0;
   letter-spacing: -0.5px;
   gap: 10px;
+  color: #2b3a42; /* azul oscuro */
 }
 
-.addSubtitle {
+.addSubtitle, .editSubtitle {
   margin: 0;
   font-size: 16px;
-  color: #3b3b3b;
-  opacity: 0.9;
-}
-
-.addLead {
-  font-size: 16px;
+  color: #3a3a3a;
   opacity: 0.95;
-  margin-top: 16px;
-  max-width: 850px;
-  line-height: 1.6;
-  color: #333;
 }
 
-.addActions {
-  margin-top: 22px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-/* mismo iconBadge que About */
-.iconBadge {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(37, 99, 235, 0.12);
-  border: 1px solid rgba(37, 99, 235, 0.18);
-  color: #2563eb;
-}
-
-/* CARD del formulario (mismo look que AboutStack/AboutCard) */
+/* FORM CARD */
 .formCard {
-  background: #fff;
+  background: linear-gradient(135deg, #f0e6d2 0%, #d1f2c7 100%);
   border-radius: 16px;
-  padding: 18px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 24px;
+  border: 2px solid #8b6d5c;
+  box-shadow: 0 10px 25px rgba(43,58,66,0.15);
 }
 
 /* FORM */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .formGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 16px;
   align-items: start;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .full {
@@ -99,65 +68,112 @@
 
 .label {
   font-weight: 700;
-  font-size: 13px;
-  color: #0f172a;
+  font-size: 14px;
+  color: #3a3a3a;
 }
 
+/* INPUTS */
 .input,
 .textarea {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.10);
-  background: #f8fafc;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #8b6d5c;
+  background: #fefcf3;
   outline: none;
-  font-size: 14px;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  font-size: 15px;
+  transition: all 0.25s ease;
 }
 
 .textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 140px;
 }
 
 .input:focus,
 .textarea:focus {
-  border-color: rgba(37, 99, 235, 0.45);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
-  background: #fff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  background: #fffbe6;
 }
 
+/* BUTTONS */
+.btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn.primary {
+  background: #2b7a78; 
+  color: #fff;
+  border: none;
+}
+
+.btn.primary:hover {
+  background: #3aa79f;
+}
+
+.btn.secondary {
+  background: #a96d5d; /* marrón */
+  color: #fff;
+  border: none;
+}
+
+.btn.secondary:hover {
+  background: #c7886b;
+}
+
+/* POI ROW */
+.poiRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.removeBtn {
+  background: #f25c54;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.removeBtn:hover {
+  background: #c7433d;
+}
+
+/* HINT */
 .hint {
-  font-size: 12px;
-  color: #333;
-  opacity: 0.75;
+  font-size: 13px;
+  color: #2b3a42;
+  opacity: 0.85;
   line-height: 1.4;
 }
 
-.actions {
-  margin-top: 8px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-/* code style (por consistencia con About) */
-.formCard code,
-.addHero code {
-  background: rgba(0,0,0,0.06);
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
-  font-size: 0.9em;
-}
-
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .formGrid {
     grid-template-columns: 1fr;
   }
 
-  .addTitle h1 {
+  .addTitle h1, .editTitle h1 {
     font-size: 34px;
+  }
+
+  .poiRow {
+    flex-direction: column;
+    gap: 6px;
   }
 }
