@@ -4,6 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
 import ReviewForm from "../components/ReviewForm";
 import styles from "./CityDetailsPage.module.css";
+import { FcPlus } from "react-icons/fc";
+import { SiGooglemaps } from "react-icons/si";
 
 function CityDetailsPage() {
   const { country, cityId } = useParams();
@@ -13,13 +15,17 @@ function CityDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [mainImage, setMainImage] = useState("");
 
   // Fetch city data
   const fetchCity = () => {
     setLoading(true);
     axios
       .get(`${MainURL}/cities/${cityId}.json`)
-      .then((res) => setCity(res.data))
+      .then((res) => {
+        setCity(res.data);
+        setMainImage(res.data.mainImage || res.data.image || "");
+      })
       .catch((err) => console.error("Error fetching city:", err))
       .finally(() => setLoading(false));
   };
@@ -65,13 +71,18 @@ function CityDetailsPage() {
     );
 
   const images = Array.isArray(city.images) ? city.images : [];
-  const mainImage = city.mainImage || city.image || "";
-  const rating = city.averageRating ?? "—";
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
-
-  // Aseguramos que pointsOfInterest sea siempre un array
   const pois = Array.isArray(city.pointsOfInterest) ? city.pointsOfInterest : [];
+
+  // Calcular averageRating en tiempo real
+  const computedAverageRating =
+    city.reviews && city.reviews.length > 0
+      ? (
+          city.reviews.reduce((sum, r) => sum + Number(r.rating), 0) /
+          city.reviews.length
+        ).toFixed(1)
+      : "—";
 
   return (
     <div className={styles.page}>
@@ -105,14 +116,15 @@ function CityDetailsPage() {
           <h1 className={styles.title}>{city.name}</h1>
           <p className={styles.meta}>{city.country}</p>
           <p className={styles.description}>{city.description}</p>
-          <p className={styles.meta}>⭐ {rating}</p>
+          <p className={styles.averageRating}>⭐ {computedAverageRating}</p>
 
           <a
-            className={`btn ghost ${styles.mapBtn}`}
+            className={`btn ${styles.mapBtn}`}
             href={googleMapsUrl}
             target="_blank"
             rel="noreferrer"
           >
+            <SiGooglemaps style={{ marginRight: "8px", fontSize: "20px" }} />
             Open in Google Maps
           </a>
         </div>
@@ -120,7 +132,7 @@ function CityDetailsPage() {
         {mainImage && (
           <img className={styles.heroImg} src={mainImage} alt={city.name} />
         )}
-      </div>
+      </div> 
 
       {/* GALLERY */}
       {images.length > 0 && (
@@ -137,32 +149,35 @@ function CityDetailsPage() {
       )}
 
       {/* POINTS OF INTEREST */}
-      {city.pointsOfInterest?.length > 0 && (
-  <section className={styles.section}>
-    <h2 className={styles.sectionTitle}>Points of Interest</h2>
-    <ul className={styles.list}>
-      {city.pointsOfInterest.map((poi, index) => {
-        // Si es string, lo mostramos tal cual
-        const name = typeof poi === "string" ? poi : poi.name;
-        const url = typeof poi === "string" ? null : poi.url;
+      {pois.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Points of Interest</h2>
+          <ul className={styles.list}>
+            {pois.map((poi, index) => {
+              const name = typeof poi === "string" ? poi : poi.name;
+              const url = typeof poi === "string" ? null : poi.url;
 
-        return (
-          <li key={index} className={styles.poiItem}>
-            <strong>{name}</strong>
-            {url && (
-              <img
-                src={url}
-                alt={name}
-                style={{ width: 100, marginLeft: 8 }}
-              />
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  </section>
-)}
-
+              return (
+                <li
+                  key={index}
+                  className={styles.poiItem}
+                  onClick={() => url && setMainImage(url)}
+                  style={{ cursor: url ? "pointer" : "default" }}
+                >
+                  <strong>{name}</strong>
+                  {url && (
+                    <img
+                      src={url}
+                      alt={name}
+                      style={{ width: 120, marginLeft: 24 }}
+                    />
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       {/* REVIEWS */}
       <section className={styles.section}>
@@ -173,7 +188,12 @@ function CityDetailsPage() {
             className="btn ghost"
             onClick={() => setShowReviewForm((prev) => !prev)}
           >
-            {showReviewForm ? "Cancel" : "Add review"}
+            {showReviewForm ? "Cancel" : (
+              <>
+                <FcPlus style={{ fontSize: "24px", marginRight: "8px" }} />
+                Add review
+              </>
+            )}
           </button>
         </div>
 
@@ -188,15 +208,13 @@ function CityDetailsPage() {
           />
         )}
 
-        {city.reviews?.length > 0 && (
+          {city.reviews?.length > 0 && (
           <div className={styles.reviews}>
             {city.reviews.map((review, index) => (
               <article key={index} className={styles.reviewCard}>
-                <div className={styles.reviewTop}>
-                  <p className={styles.reviewHeader}>
-                    <strong>{review.user}</strong> ⭐ {review.rating}
-                  </p>
-
+                <div className={styles.reviewHeader}>
+                  <strong>{review.user}</strong>
+                  <span className={styles.reviewRating}>⭐ {review.rating}</span>
                   <button
                     className={styles.deleteReviewBtn}
                     onClick={() => deleteReview(review)}
@@ -205,15 +223,13 @@ function CityDetailsPage() {
                     ✕
                   </button>
                 </div>
-
                 <p className={styles.reviewText}>{review.comment}</p>
               </article>
             ))}
           </div>
         )}
       </section>
-    </div>
-  );
+    </div> 
+  );  
 }
-
-export default CityDetailsPage;
+        export default CityDetailsPage;
