@@ -84,7 +84,7 @@ function AddCityPage() {
             Add a new city to this country with image, description, rating, and points of interest.
           </p>
           <div className={styles.addActions}>
-            <Link to={backToCitiesUrl} className="btn ghost">
+            <Link to={backToCitiesUrl} className="btn primary">
               <FiArrowLeft style={{ marginRight: 8 }} />
               Back to Cities
             </Link>
@@ -174,7 +174,11 @@ function AddCityPage() {
                   </button>
                 </div>
               ))}
-              <button type="button" className="btn secondary" onClick={addPOI}>
+              <button
+                type="button"
+                className="btn primary poiBtn"
+                onClick={addPOI}
+              >
                 <FiPlus style={{ marginRight: 4 }} /> Add Point of Interest
               </button>
             </div>
