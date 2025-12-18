@@ -297,22 +297,10 @@ function CountryListPage() {
                 })}
               </section>
 
-              
-
-
-
-
-
             )}
           </>
-
-
-
         )}
       </div>
-
-
-
 
     </div>
   );

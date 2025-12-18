@@ -73,8 +73,8 @@ function AddCityPage() {
       .then(() => navigate(backToCitiesUrl))
       .catch((err) => {
         console.log("Error adding city", err);
-        setSaving(false);
-      });
+      })
+      .finally(() => setSaving(false));
   };
 
   return (

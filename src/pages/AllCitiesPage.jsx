@@ -7,14 +7,14 @@ import styles from "./AllCitiesPage.module.css";
 
 import { FiMapPin, FiHome, FiFlag, FiStar, FiSearch, FiChevronRight } from "react-icons/fi";
 
+const FALLBACK_IMG = "/images/placeholder-city.jpg";
+
 function AllCitiesPage() {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Search
   const [query, setQuery] = useState("");
 
-  // ✅ counters visuales (animación suave)
   const [displayCountries, setDisplayCountries] = useState(0);
   const [displayCities, setDisplayCities] = useState(0);
 
@@ -51,7 +51,6 @@ function AllCitiesPage() {
     return set.size;
   }, [cities]);
 
-  // ✅ animación contadora (solo visual)
   useEffect(() => {
     if (loading) return;
 
@@ -71,7 +70,6 @@ function AllCitiesPage() {
     requestAnimationFrame(animate);
   }, [loading, countriesCount, totalCities]);
 
-  // ✅ Filtrado simple (sin tocar API)
   const filteredCities = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return cities;
@@ -86,7 +84,18 @@ function AllCitiesPage() {
 
   const hasQuery = query.trim().length > 0;
 
-  // ✅ Scroll reveal del grid (IntersectionObserver)
+  const normalizeImg = (v) => (typeof v === "string" ? v.trim() : "");
+  const getCityImage = (city) =>
+    normalizeImg(city?.mainImage) ||
+    normalizeImg(city?.image) ||
+    (Array.isArray(city?.images) ? normalizeImg(city.images[0]) : "") ||
+    "";
+
+  const onImgError = (e) => {
+    if (e.currentTarget.src.includes(FALLBACK_IMG)) return;
+    e.currentTarget.src = FALLBACK_IMG;
+  };
+
   useEffect(() => {
     if (loading) return;
 
@@ -123,7 +132,6 @@ function AllCitiesPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.wrap}>
-        {/* ✅ Breadcrumb pill */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -134,10 +142,8 @@ function AllCitiesPage() {
           <span className={styles.crumbCurrent}>All Cities</span>
         </nav>
 
-        {/* ✅ TÍTULO ARRIBA */}
         <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>All Cities</h1>
 
-        {/* ✅ HERO (igual vibe) */}
         <section className={styles.hero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
@@ -165,12 +171,12 @@ function AllCitiesPage() {
           >
             <span className={styles.chip}>
               <FiFlag aria-hidden="true" />
-              {loading ? "—" : displayCountries} countries
+              {displayCountries} countries
             </span>
 
             <span className={styles.chip}>
               <FiStar aria-hidden="true" />
-              {loading ? "—" : displayCities} cities saved
+              {displayCities} cities saved
             </span>
           </div>
 
@@ -189,7 +195,6 @@ function AllCitiesPage() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search city, country…"
               aria-label="Search city or country"
-              disabled={loading}
             />
 
             {hasQuery && (
@@ -224,7 +229,6 @@ function AllCitiesPage() {
 
         <div className={styles.heroDivider} aria-hidden="true" />
 
-        {/* ✅ STATES */}
         {filteredCities.length === 0 ? (
           <div className={styles.emptyState}>
             <p className={styles.emptyTitle}>No cities found</p>
@@ -245,9 +249,9 @@ function AllCitiesPage() {
             {filteredCities.map((city, index) => {
               const safeCountry = encodeURIComponent((city?.country || "").trim());
               const safeName = city?.name || "City";
-              const img = city?.image;
+              const img = getCityImage(city);
 
-              const isHot = true; // si quieres, luego lo cambiamos por "rating" u otra métrica
+              const isHot = true;
 
               return (
                 <Link
@@ -279,11 +283,12 @@ function AllCitiesPage() {
                   <h3 className={styles.cardTitle}>{safeName}</h3>
 
                   <div className={styles.imageWrap}>
-                    {img ? (
-                      <img src={img} alt={safeName} loading="lazy" />
-                    ) : (
-                      <div className={styles.imageFallback} aria-hidden="true" />
-                    )}
+                    <img
+                      src={img || FALLBACK_IMG}
+                      alt={safeName}
+                      loading="lazy"
+                      onError={onImgError}
+                    />
                   </div>
 
                   <p className={styles.cardHint}>Open memories →</p>
@@ -298,3 +303,4 @@ function AllCitiesPage() {
 }
 
 export default AllCitiesPage;
+

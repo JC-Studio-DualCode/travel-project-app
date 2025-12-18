@@ -19,19 +19,18 @@ function EditCityPage() {
   const { country, cityId } = useParams();
   const navigate = useNavigate();
 
-  const safeCountry = useMemo(
-    () => decodeURIComponent(country || ""),
-    [country]
-  );
+  const safeCountry = useMemo(() => decodeURIComponent(country || ""), [country]);
 
   const backToCitiesUrl = useMemo(
     () => `/countries/${encodeURIComponent(safeCountry)}/cities`,
     [safeCountry]
   );
 
+  // ✅ FIX: en tu App.jsx NO existe /cities/:cityId
+  // Ruta válida siempre: /countries/:country/cities/:cityId
   const backToDetailsUrl = useMemo(() => {
-    if (!safeCountry) return `/cities/${cityId}`;
-    return `/countries/${encodeURIComponent(safeCountry)}/cities/${cityId}`;
+    const countryPart = encodeURIComponent(safeCountry || "");
+    return `/countries/${countryPart}/cities/${cityId}`;
   }, [safeCountry, cityId]);
 
   const [loading, setLoading] = useState(true);
@@ -42,9 +41,7 @@ function EditCityPage() {
   const [image, setImage] = useState("");
   const [averageRating, setAverageRating] = useState("");
 
-  const [pointsOfInterest, setPointsOfInterest] = useState([
-    { name: "", url: "" },
-  ]);
+  const [pointsOfInterest, setPointsOfInterest] = useState([{ name: "", url: "" }]);
 
   // ✅ Fetch city
   useEffect(() => {
@@ -79,8 +76,7 @@ function EditCityPage() {
   }, [cityId]);
 
   // ✅ POIs
-  const addPOI = () =>
-    setPointsOfInterest((prev) => [...prev, { name: "", url: "" }]);
+  const addPOI = () => setPointsOfInterest((prev) => [...prev, { name: "", url: "" }]);
 
   const removePOI = (index) =>
     setPointsOfInterest((prev) => prev.filter((_, i) => i !== index));
@@ -102,7 +98,6 @@ function EditCityPage() {
       description: description.trim(),
       image: image.trim(),
       country: safeCountry?.trim() || "",
-
       pointsOfInterest: pointsOfInterest
         .filter((poi) => (poi?.name || "").trim() !== "")
         .map((poi) => ({
@@ -117,7 +112,6 @@ function EditCityPage() {
 
     setSaving(true);
 
-    // Firebase: PUT reemplaza el objeto (más “limpio” para ediciones)
     axios
       .put(`${MainURL}/cities/${cityId}.json`, updatedCity)
       .then(() => navigate(backToDetailsUrl))
@@ -137,6 +131,7 @@ function EditCityPage() {
           <Link className={styles.crumbLink} to="/">
             Home
           </Link>
+
           <span className={styles.crumbSep} aria-hidden="true">
             <FiChevronRight />
           </span>
@@ -161,12 +156,8 @@ function EditCityPage() {
           <span className={styles.crumbCurrent}>Edit City</span>
         </nav>
 
-        {/* ✅ Title */}
-        <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>
-          Edit City
-        </h1>
+        <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>Edit City</h1>
 
-        {/* ✅ Hero */}
         <section className={styles.hero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>CityVerse • Editor</span>
@@ -186,7 +177,6 @@ function EditCityPage() {
             </span>
           </div>
 
-          {/* ✅ Actions pill */}
           <div className={`${styles.actionsPill} ${styles.enterSoft}`}>
             <div className={styles.actions}>
               <Link className={`btn ghost ${styles.btnSm}`} to={backToDetailsUrl}>
@@ -211,18 +201,12 @@ function EditCityPage() {
 
         <div className={styles.heroDivider} aria-hidden="true" />
 
-        {/* ✅ Form card */}
         <section className={styles.formCard} aria-label="Edit city form">
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formGrid}>
               <div className={styles.field}>
                 <span className={styles.label}>Country</span>
-                <input
-                  className={styles.input}
-                  type="text"
-                  value={safeCountry}
-                  disabled
-                />
+                <input className={styles.input} type="text" value={safeCountry} disabled />
               </div>
 
               <div className={styles.field}>
@@ -270,7 +254,6 @@ function EditCityPage() {
                 />
               </div>
 
-              {/* ✅ POIs */}
               <div className={`${styles.field} ${styles.full}`}>
                 <span className={styles.label}>Points of Interest</span>
 
@@ -280,9 +263,7 @@ function EditCityPage() {
                       type="text"
                       placeholder="POI Name"
                       value={poi?.name || ""}
-                      onChange={(e) =>
-                        updatePOI(index, "name", e.target.value)
-                      }
+                      onChange={(e) => updatePOI(index, "name", e.target.value)}
                       className={styles.input}
                     />
                     <input
@@ -304,18 +285,13 @@ function EditCityPage() {
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  className={styles.poiAddBtn}
-                  onClick={addPOI}
-                >
+                <button type="button" className={styles.poiAddBtn} onClick={addPOI}>
                   <FiPlus style={{ marginRight: 6 }} />
                   Add Point of Interest
                 </button>
               </div>
             </div>
 
-            {/* ✅ Bottom actions */}
             <div className={styles.formActions}>
               <button type="submit" className={styles.saveBtn} disabled={saving}>
                 <FiSave style={{ marginRight: 8 }} />

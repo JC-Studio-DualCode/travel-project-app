@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MainURL } from "../config/api";
-import Loader from "../components/Loader";
 import styles from "./CityListPage.module.css";
 
 import {
@@ -23,10 +22,7 @@ function CityListPage() {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Search
   const [query, setQuery] = useState("");
-
-  // ✅ counter visual
   const [displayCities, setDisplayCities] = useState(0);
 
   useEffect(() => {
@@ -50,7 +46,6 @@ function CityListPage() {
       });
   }, [safeCountry]);
 
-  // ✅ animación contadora
   useEffect(() => {
     if (loading) return;
 
@@ -70,7 +65,6 @@ function CityListPage() {
 
   const hasQuery = query.trim().length > 0;
 
-  // ✅ Filtrado
   const filteredCities = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return cities;
@@ -82,7 +76,6 @@ function CityListPage() {
     });
   }, [cities, query]);
 
-  // ✅ fallback imagen + evita img rota
   const normalizeImg = (v) => (typeof v === "string" ? v.trim() : "");
   const getCityImage = (city) =>
     normalizeImg(city?.mainImage) ||
@@ -95,7 +88,6 @@ function CityListPage() {
     e.currentTarget.src = FALLBACK_IMG;
   };
 
-  // ✅ Scroll reveal del grid (como Countries)
   useEffect(() => {
     if (loading) return;
 
@@ -127,7 +119,6 @@ function CityListPage() {
     return () => observer.disconnect();
   }, [loading, filteredCities.length, styles.cityCard, styles.cardVisible]);
 
-  // Si quieres mantener Loader, ok. Pero con skeleton queda más pro:
   if (loading) {
     return (
       <div className={styles.pageBg}>
@@ -194,7 +185,6 @@ function CityListPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.cityList}>
-        {/* ✅ Breadcrumb pill (igual a Countries) */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -211,12 +201,10 @@ function CityListPage() {
           <span className={styles.crumbCurrent}>{safeCountry}</span>
         </nav>
 
-        {/* ✅ Título arriba */}
         <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>
           {safeCountry}
         </h1>
 
-        {/* ✅ HERO compacto, sin tarjeta gigante */}
         <section className={styles.cityHero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
@@ -247,7 +235,6 @@ function CityListPage() {
             </span>
           </div>
 
-          {/* ✅ Search pill */}
           <div className={styles.searchRow}>
             <span className={styles.searchIcon} aria-hidden="true">
               <FiSearch />
@@ -274,7 +261,6 @@ function CityListPage() {
             )}
           </div>
 
-          {/* ✅ Actions pill */}
           <div className={styles.actionsPill}>
             <div className={styles.cityActions}>
               <Link
@@ -295,7 +281,6 @@ function CityListPage() {
 
         <div className={styles.heroDivider} aria-hidden="true" />
 
-        {/* ✅ Empty state */}
         {filteredCities.length === 0 ? (
           <div className={styles.emptyState}>
             <p className={styles.emptyTitle}>No cities found</p>

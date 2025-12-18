@@ -41,7 +41,7 @@ function HomePage() {
   const [fadeRating, setFadeRating] = useState(false);
 
   const pickNextIndex = (current, length) => {
-    if (length <= 1) return current;
+    if (!length || length <= 1) return current;
     let next = current;
     while (next === current) next = Math.floor(Math.random() * length);
     return next;
@@ -103,14 +103,16 @@ function HomePage() {
     };
   }, [photoSlides, mapSlides, ratingSlides]);
 
-  const photoBg = photoSlides[photoIndex];
-  const mapBg = mapSlides[mapIndex];
-  const ratingBg = ratingSlides[ratingIndex];
+  const photoBg = photoSlides[photoIndex] || "";
+  const mapBg = mapSlides[mapIndex] || "";
+  const ratingBg = ratingSlides[ratingIndex] || "";
 
   const pill1Ref = useRef(null);
   const pill2Ref = useRef(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -125,7 +127,7 @@ function HomePage() {
     if (pill2Ref.current) io.observe(pill2Ref.current);
 
     return () => io.disconnect();
-  }, []);
+  }, [styles.revealIn]);
 
   const heroPillText =
     "Explore cities worldwide and build your personal travel list — save favourites and discover new places.";
@@ -154,12 +156,10 @@ function HomePage() {
           </div>
         </section>
 
-        {/* ✅ ELIMINADO COMPLETO: heroVisual / memoryCard */}
-
         <section className={styles.grid}>
           <article
             className={`${styles.card} ${fadePhoto ? styles.cardFading : ""}`}
-            style={{ backgroundImage: `url(${photoBg})` }}
+            style={{ backgroundImage: photoBg ? `url(${photoBg})` : undefined }}
           >
             <FiImage className={`${styles.iconBadge} ${styles.iconPhoto}`} size={28} />
             <h3>Photos that tell the story</h3>
@@ -168,7 +168,7 @@ function HomePage() {
 
           <article
             className={`${styles.card} ${fadeMap ? styles.cardFading : ""}`}
-            style={{ backgroundImage: `url(${mapBg})` }}
+            style={{ backgroundImage: mapBg ? `url(${mapBg})` : undefined }}
           >
             <FiMapPin className={`${styles.iconBadge} ${styles.iconMap}`} size={28} />
             <h3>Explore and locate cities</h3>
@@ -177,7 +177,7 @@ function HomePage() {
 
           <article
             className={`${styles.card} ${fadeRating ? styles.cardFading : ""}`}
-            style={{ backgroundImage: `url(${ratingBg})` }}
+            style={{ backgroundImage: ratingBg ? `url(${ratingBg})` : undefined }}
           >
             <FiStar className={`${styles.iconBadge} ${styles.iconStar}`} size={28} />
             <h3>Rate what matters to you</h3>

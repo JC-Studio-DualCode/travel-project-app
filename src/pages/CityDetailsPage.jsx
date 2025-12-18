@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MainURL } from "../config/api";
 import ReviewForm from "../components/ReviewForm";
@@ -21,10 +21,7 @@ function CityDetailsPage() {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [mainImage, setMainImage] = useState("");
 
-  const safeCountry = useMemo(
-    () => decodeURIComponent(country || ""),
-    [country]
-  );
+  const safeCountry = useMemo(() => decodeURIComponent(country || ""), [country]);
 
   const normalizeImg = (value) => {
     if (!value || typeof value !== "string") return "";
@@ -42,7 +39,12 @@ function CityDetailsPage() {
     return candidate;
   };
 
-  const fetchCity = () => {
+  const safeNumber = (value, fallback = 0) => {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const fetchCity = useCallback(() => {
     setLoading(true);
 
     axios
@@ -57,12 +59,11 @@ function CityDetailsPage() {
         setCity(null);
       })
       .finally(() => setLoading(false));
-  };
+  }, [cityId]);
 
   useEffect(() => {
     fetchCity();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cityId]);
+  }, [fetchCity]);
 
   const deleteCity = () => {
     if (!window.confirm("Are you sure you want to delete this city?")) return;
@@ -76,9 +77,11 @@ function CityDetailsPage() {
       .finally(() => setDeleting(false));
   };
 
-  const deleteReview = (reviewToDelete) => {
-    if (!city?.reviews) return;
-    const updatedReviews = city.reviews.filter((r) => r !== reviewToDelete);
+  // ✅ Borrar review por índice (más seguro que por referencia)
+  const deleteReviewByIndex = (indexToDelete) => {
+    if (!Array.isArray(city?.reviews)) return;
+
+    const updatedReviews = city.reviews.filter((_, idx) => idx !== indexToDelete);
 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, { reviews: updatedReviews })
@@ -86,7 +89,6 @@ function CityDetailsPage() {
       .catch((err) => console.error("Error deleting review:", err));
   };
 
-  // Loading state (bonito, no “Loading…” pelado)
   if (loading) {
     return (
       <div className={styles.pageBg}>
@@ -101,7 +103,6 @@ function CityDetailsPage() {
     );
   }
 
-  // Not found
   if (!city) {
     return (
       <div className={styles.pageBg}>
@@ -147,18 +148,18 @@ function CityDetailsPage() {
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
-  const computedAverageRating =
-    city.reviews && city.reviews.length > 0
-      ? (
-          city.reviews.reduce((sum, r) => sum + Number(r.rating || 0), 0) /
-          city.reviews.length
-        ).toFixed(1)
-      : "—";
+  const reviews = Array.isArray(city.reviews) ? city.reviews : [];
+  const reviewsCount = reviews.length;
 
-  const reviewsCount = city.reviews?.length || 0;
+  // ✅ Average rating robusto (no NaN / no crash)
+  const computedAverageRating = useMemo(() => {
+    if (reviews.length === 0) return "—";
+    const sum = reviews.reduce((acc, r) => acc + safeNumber(r?.rating, 0), 0);
+    const avg = sum / reviews.length;
+    return Number.isFinite(avg) ? avg.toFixed(1) : "—";
+  }, [reviews]);
 
   const onImgError = (e) => {
-    // Evita loop infinito si el fallback también falla
     if (e.currentTarget.src.includes(FALLBACK_IMG)) return;
     e.currentTarget.src = FALLBACK_IMG;
   };
@@ -171,7 +172,6 @@ function CityDetailsPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.container}>
-        {/* Breadcrumbs (igual vibe que Countries) */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             <FiHome style={{ marginRight: 6 }} />
@@ -204,7 +204,6 @@ function CityDetailsPage() {
           <span className={styles.crumbCurrent}>{city.name}</span>
         </nav>
 
-        {/* Header actions */}
         <header className={styles.topBar}>
           <Link
             to={`/countries/${encodeURIComponent(safeCountry)}/cities`}
@@ -234,7 +233,6 @@ function CityDetailsPage() {
           </div>
         </header>
 
-        {/* Hero */}
         <section className={`${styles.hero} ${styles.enterUp}`}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
@@ -271,7 +269,6 @@ function CityDetailsPage() {
             </a>
           </div>
 
-          {/* Main image */}
           <div className={styles.mainImageWrap}>
             <img
               src={mainImage || FALLBACK_IMG}
@@ -285,7 +282,6 @@ function CityDetailsPage() {
 
         <div className={styles.divider} aria-hidden="true" />
 
-        {/* Gallery (solo si hay más imágenes reales) */}
         {images.length > 0 && (
           <section className={styles.section}>
             <div className={styles.sectionHead}>
@@ -320,7 +316,6 @@ function CityDetailsPage() {
           </section>
         )}
 
-        {/* POIs */}
         {pois.length > 0 && (
           <section className={styles.section}>
             <div className={styles.sectionHead}>
@@ -346,7 +341,6 @@ function CityDetailsPage() {
                   >
                     <div className={styles.poiTop}>
                       <strong className={styles.poiName}>{name}</strong>
-                     
                     </div>
 
                     {url ? (
@@ -367,7 +361,6 @@ function CityDetailsPage() {
           </section>
         )}
 
-        {/* Reviews */}
         <section className={styles.section}>
           <div className={styles.reviewsHeader}>
             <h2 className={styles.sectionTitle}>Reviews</h2>
@@ -392,7 +385,7 @@ function CityDetailsPage() {
             <div className={styles.formWrap}>
               <ReviewForm
                 cityId={cityId}
-                reviews={city.reviews || []}
+                reviews={reviews}
                 onAddReview={(updatedReviews) => {
                   setCity((prev) => ({ ...prev, reviews: updatedReviews }));
                   setShowReviewForm(false);
@@ -401,13 +394,13 @@ function CityDetailsPage() {
             </div>
           )}
 
-          {city.reviews?.length > 0 ? (
+          {reviews.length > 0 ? (
             <div className={styles.reviewsGrid}>
-              {city.reviews.map((review, index) => (
+              {reviews.map((review, index) => (
                 <article key={index} className={styles.reviewCard}>
                   <button
                     className={styles.deleteReviewBtn}
-                    onClick={() => deleteReview(review)}
+                    onClick={() => deleteReviewByIndex(index)}
                     type="button"
                     aria-label="Delete review"
                   >
@@ -426,7 +419,9 @@ function CityDetailsPage() {
           ) : (
             <div className={styles.emptyState}>
               <p className={styles.emptyTitle}>No reviews yet</p>
-              <p className={styles.emptyHint}>Sé el primero en dejar una reseña y quedar como MVP.</p>
+              <p className={styles.emptyHint}>
+                Sé el primero en dejar una reseña y quedar como MVP.
+              </p>
             </div>
           )}
         </section>
@@ -436,3 +431,4 @@ function CityDetailsPage() {
 }
 
 export default CityDetailsPage;
+

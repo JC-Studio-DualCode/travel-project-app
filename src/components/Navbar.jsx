@@ -15,7 +15,10 @@ function Navbar() {
     setOpen(false);
   }, [location.pathname]);
 
+  // ✅ Listeners SOLO cuando el menú está abierto (más seguro + menos ruido)
   useEffect(() => {
+    if (!open) return;
+
     const onClickOutside = (e) => {
       if (!menuRef.current) return;
       if (!menuRef.current.contains(e.target)) setOpen(false);
@@ -32,7 +35,9 @@ function Navbar() {
       document.removeEventListener("mousedown", onClickOutside);
       document.removeEventListener("keydown", onEsc);
     };
-  }, []);
+  }, [open]);
+
+  const toggleMenu = () => setOpen((v) => !v);
 
   return (
     <header className={styles.navWrap}>
@@ -51,10 +56,15 @@ function Navbar() {
               aria-haspopup="menu"
               aria-expanded={open}
               aria-controls="start-exploring-menu"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
               onKeyDown={(e) => {
-                // ✅ Enter / Space abre/cierra, Escape cierra
+                // ✅ Accesibilidad real: Enter / Space abre/cierra, Escape cierra
                 if (e.key === "Escape") setOpen(false);
+
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault(); // evita scroll con Space
+                  toggleMenu();
+                }
               }}
             >
               Start Exploring
@@ -70,6 +80,7 @@ function Navbar() {
                   to="/cities"
                   className={styles.dropdownItem}
                   role="menuitem"
+                  onClick={() => setOpen(false)}
                 >
                   All Cities
                 </NavLink>
@@ -78,6 +89,7 @@ function Navbar() {
                   to="/countries"
                   className={styles.dropdownItem}
                   role="menuitem"
+                  onClick={() => setOpen(false)}
                 >
                   Countries
                 </NavLink>
@@ -105,4 +117,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

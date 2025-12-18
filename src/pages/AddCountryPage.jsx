@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MainURL } from "../config/api";
 import styles from "./AddCountryPage.module.css";
 
-import { FiChevronRight, FiHome, FiArrowLeft, FiPlus } from "react-icons/fi";
+import { FiChevronRight, FiPlus } from "react-icons/fi";
 
 function AddCountryPage() {
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ function AddCountryPage() {
 
     if (!country.trim() || !name.trim()) return;
 
-    const newCity = {
+    // ✅ Es “la primera ciudad del país”, tu modelo usa cities.json
+    const firstCity = {
       country: country.trim(),
       name: name.trim(),
       image: image.trim(),
@@ -30,9 +31,9 @@ function AddCountryPage() {
     setSaving(true);
 
     axios
-      .post(`${MainURL}/cities.json`, newCity)
+      .post(`${MainURL}/cities.json`, firstCity)
       .then(() => {
-        navigate(`/countries/${encodeURIComponent(newCity.country)}/cities`);
+        navigate(`/countries/${encodeURIComponent(firstCity.country)}/cities`);
       })
       .catch((err) => {
         console.log("Error creating country/city:", err);
@@ -43,7 +44,6 @@ function AddCountryPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.page}>
-        {/* Breadcrumb pill (igual que Countries/About) */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -60,10 +60,8 @@ function AddCountryPage() {
           <span className={styles.crumbCurrent}>Add Country</span>
         </nav>
 
-        {/* Title arriba (mismo vibe) */}
         <h1 className={styles.heroTitle}>Add Country</h1>
 
-        {/* Hero compacto tipo glass */}
         <section className={styles.hero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
@@ -85,7 +83,6 @@ function AddCountryPage() {
 
         <div className={styles.heroDivider} aria-hidden="true" />
 
-        {/* Form Card (glass) */}
         <section className={styles.formCard}>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.field}>
@@ -142,3 +139,4 @@ function AddCountryPage() {
 }
 
 export default AddCountryPage;
+
