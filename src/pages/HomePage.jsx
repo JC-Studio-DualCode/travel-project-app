@@ -18,22 +18,40 @@ function HomePage() {
   }, []);
 
   const photoSlides = useMemo(
-    () => ["images/card-photo.jpg", "/images/card-photo-1.jpg", "/images/card-photo-2.jpg",
-       "/images/card-photo-3.jpg", "/images/card-photo-4.jpg", 
-       "/images/card-photo-5.jpg", "/images/card-photo-6.jpg"],
+    () => [
+      "/images/card-photo.jpg",
+      "/images/card-photo-1.jpg",
+      "/images/card-photo-2.jpg",
+      "/images/card-photo-3.jpg",
+      "/images/card-photo-4.jpg",
+      "/images/card-photo-5.jpg",
+      "/images/card-photo-6.jpg",
+    ],
     []
   );
 
   const mapSlides = useMemo(
-    () => ["/images/card-map-4.jpg", "/images/card-map.jpg",
-       "/images/card-map-2.jpg", "/images/card-map-3.jpg", ],
+    () => [
+      "/images/card-map-4.jpg",
+      "/images/card-map.jpg",
+      "/images/card-map-1.jpg",
+      "/images/card-map-2.jpg",
+      "/images/card-map-3.jpg",
+      "/images/card-map-5.jpg",
+      "/images/card-map-6.jpg",
+    ],
     []
   );
 
   const ratingSlides = useMemo(
-    () => ["/images/card-rating-1.jpg", "/images/card-rating-2.jpg",
-       "/images/card-rating-3.jpg", "/images/card-rating-4.jpg",
-       "/images/card-rating-5.jpg", "/images/card-rating-6.jpg"],
+    () => [
+      "/images/card-rating-1.jpg",
+      "/images/card-rating-2.jpg",
+      "/images/card-rating-3.jpg",
+      "/images/card-rating-4.jpg",
+      "/images/card-rating-5.jpg",
+      "/images/card-rating-6.jpg",
+    ],
     []
   );
 
