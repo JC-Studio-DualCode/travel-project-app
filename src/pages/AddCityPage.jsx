@@ -80,7 +80,7 @@ function AddCityPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.wrap}>
-        {/* ✅ Breadcrumb */}
+    
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -101,10 +101,10 @@ function AddCityPage() {
           <span className={styles.crumbCurrent}>Add City</span>
         </nav>
 
-        {/* ✅ Title */}
+     
         <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>Add City</h1>
 
-        {/* ✅ Hero */}
+    
         <section className={styles.hero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>CityVerse • Create</span>

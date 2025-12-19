@@ -20,7 +20,7 @@ function AddCountryPage() {
 
     if (!country.trim() || !name.trim()) return;
 
-    // ✅ Es “la primera ciudad del país”, tu modelo usa cities.json
+    
     const firstCity = {
       country: country.trim(),
       name: name.trim(),

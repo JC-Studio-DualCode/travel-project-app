@@ -50,7 +50,7 @@
    Navigation
 ========================= */
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .breadcrumbs {
   align-items: center;
   display: inline-flex;
@@ -149,7 +149,7 @@
   gap: 10px;
 }
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .heroKicker {
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -172,7 +172,6 @@
   gap: 10px;
 }
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
 .heroJournal {
   display: inline-flex;
   align-items: center;
@@ -244,7 +243,7 @@
   flex-wrap: wrap;
 }
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -266,7 +265,7 @@
    Search
 ========================= */
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .searchRow {
   display: flex;
   align-items: center;
@@ -308,7 +307,7 @@
   opacity: 0.6;
 }
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .clearBtn {
   padding: 7px 12px;
   font-size: 12px;
@@ -324,7 +323,7 @@
    Actions
 ========================= */
 
-/* ✅ Unificado con las tarjetas (.countryCard) */
+
 .actionsPill {
   margin-top: 14px;
   padding: 10px 12px;
@@ -372,7 +371,7 @@
 }
 
 .countryCard {
-  /* estado inicial (hidden) */
+
   opacity: 0;
   transform: translateY(14px);
   filter: blur(1px);
