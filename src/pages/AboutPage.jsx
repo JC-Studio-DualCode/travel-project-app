@@ -86,7 +86,7 @@ function AboutPage() {
                 <div className={styles.avatar}>C</div>
 
                 <div className={styles.profileText}>
-                  <h3 className={styles.profileName}>Carlos</h3>
+                  <h3 className={styles.profileName}>Carlos Alfonzo</h3>
                   <p className={styles.role}>Frontend Developer · UI & Pages</p>
                 </div>
               </div>
@@ -105,7 +105,7 @@ function AboutPage() {
               </div>
 
               <div className={styles.links}>
-                <a href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer">
+                <a href="https://github.com/carliitosway-collab" target="_blank" rel="noreferrer">
                   <FiGithub style={{ verticalAlign: "middle", marginRight: 6 }} />
                   GitHub
                 </a>
@@ -122,7 +122,7 @@ function AboutPage() {
                 <div className={styles.avatarAlt}>T</div>
 
                 <div className={styles.profileText}>
-                  <h3 className={styles.profileName}>Teammate</h3>
+                  <h3 className={styles.profileName}>Joan Jiménez</h3>
                   <p className={styles.role}>Frontend Developer · Data & Navigation</p>
                 </div>
               </div>
@@ -141,11 +141,11 @@ function AboutPage() {
               </div>
 
               <div className={styles.links}>
-                <a href="https://github.com/TEAMMATE_GITHUB" target="_blank" rel="noreferrer">
+                <a href="https://github.com/Jimix91" target="_blank" rel="noreferrer">
                   <FiGithub style={{ verticalAlign: "middle", marginRight: 6 }} />
                   GitHub
                 </a>
-                <a href="https://linkedin.com/in/TEAMMATE_LINKEDIN" target="_blank" rel="noreferrer">
+                <a href="https://www.linkedin.com/in/joan-jim%C3%A9nez-camps-4084a8226/" target="_blank" rel="noreferrer">
                   <FiLinkedin style={{ verticalAlign: "middle", marginRight: 6 }} />
                   LinkedIn
                 </a>
