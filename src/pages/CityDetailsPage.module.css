@@ -503,42 +503,29 @@
 }
 
 /* =========================
-   Reviews
+   Reviews (final fix)
 ========================= */
-.reviewsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-
-.formWrap {
-  margin-bottom: 12px;
-}
 
 .reviewsGrid {
   display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr;
+  gap: 14px;
 }
 
 .reviewCard {
   position: relative;
-  padding: 20px 14px;
-  border-radius: 16px;
+  padding: 16px 16px;
+  border-radius: 14px;
 
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
 
   backdrop-filter: blur(10px) saturate(145%);
-  -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
 /* ✅ CHANGED: layout para que ⭐ vaya antes del nombre */
 .reviewTop {
+  grid-column: 1;
   display: flex;
   align-items: center;
   justify-content: flex-start; /* ya no "space-between" */
@@ -547,6 +534,7 @@
 }
 
 .reviewUser {
+  font-size: 14px;
   font-weight: 900;
   font-size: 13px;
 }
@@ -565,35 +553,67 @@
 }
 
 .reviewText {
+  grid-column: 1;
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.55;
   font-weight: 700;
-  opacity: 0.85;
+  opacity: 0.82;
+  max-width: 60ch;
 }
 
+/* Rating pill */
+.reviewRating {
+  grid-column: 2;
+  align-self: center;
+  justify-self: end;
+
+  font-size: 13px;
+  font-weight: 900;
+  color: #92400e;
+
+  background: rgba(250, 204, 21, 0.25);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+
+
+/* Delete button */
 .deleteReviewBtn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
 
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
-  border: 1px solid rgba(239, 68, 68, 0.22);
-  background: rgba(254, 242, 242, 0.8);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  background: rgba(254, 242, 242, 0.75);
   color: #7f1d1d;
 
   display: grid;
   place-items: center;
-  cursor: pointer;
+  font-size: 12px;
   font-weight: 900;
 
-  transition: transform 200ms ease;
+  opacity: 0.6;
+}
+
+.reviewCard:hover .deleteReviewBtn {
+  opacity: 1;
+}
+
+.reviewCard:hover .deleteReviewBtn {
+  opacity: 1;
 }
 
 .deleteReviewBtn:hover {
   transform: scale(1.05);
 }
+
 
 /* =========================
    Empty State

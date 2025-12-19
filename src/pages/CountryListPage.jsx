@@ -19,10 +19,9 @@ function CountryListPage() {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Search
+
   const [query, setQuery] = useState("");
 
-  // ✅ counters visuales (animación suave)
   const [displayCountries, setDisplayCountries] = useState(0);
   const [displayCities, setDisplayCities] = useState(0);
 
@@ -57,7 +56,6 @@ function CountryListPage() {
     [countries]
   );
 
-  // ✅ animación contadora (solo visual)
   useEffect(() => {
     if (loading) return;
 
@@ -77,7 +75,6 @@ function CountryListPage() {
     requestAnimationFrame(animate);
   }, [loading, countriesCount, totalCities]);
 
-  // ✅ Filtrado simple (sin tocar API)
   const filteredCountries = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return countries;
@@ -86,7 +83,6 @@ function CountryListPage() {
 
   const hasQuery = query.trim().length > 0;
 
-  // ✅ Scroll reveal del grid (IntersectionObserver)
   useEffect(() => {
     if (loading) return;
 
@@ -121,7 +117,7 @@ function CountryListPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.country}>
-        {/* ✅ Breadcrumb ahora en “pill” */}
+       
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -132,18 +128,18 @@ function CountryListPage() {
           <span className={styles.crumbCurrent}>Countries</span>
         </nav>
 
-        {/* ✅ TÍTULO SUBIDO ARRIBA (solo esto) */}
+    
         <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>
           Countries
         </h1>
 
-        {/* ✅ HERO (sin tarjeta grande) */}
+
         <section className={styles.countryHero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
           </div>
 
-          {/* ✅ Chip secundario debajo del kicker */}
+          
           <div className={styles.heroSecondaryChips}>
             <span
               className={styles.heroJournal}

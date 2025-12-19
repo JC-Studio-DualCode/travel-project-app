@@ -57,7 +57,7 @@ function CityDetailsPage() {
 
   useEffect(() => {
     fetchCity();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [cityId]);
 
   const backToCitiesPath = `/countries/${encodeURIComponent(safeCountry)}/cities`;
@@ -74,7 +74,7 @@ function CityDetailsPage() {
       .finally(() => setDeleting(false));
   };
 
-  // ✅ Normalizamos reviews SIEMPRE a array para evitar crash con Firebase
+
   const reviews = useMemo(() => {
     if (!city) return [];
     return Array.isArray(city.reviews) ? city.reviews.filter(Boolean) : [];
@@ -145,7 +145,6 @@ function CityDetailsPage() {
   const mapQuery = encodeURIComponent(`${city.name}, ${city.country}`);
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
-  // ✅ Rating robusto: solo cuenta ratings numéricos válidos
   const numericRatings = reviews
     .map((r) => Number(r?.rating))
     .filter((n) => Number.isFinite(n) && n > 0);
@@ -418,7 +417,7 @@ function CityDetailsPage() {
           ) : (
             <div className={styles.emptyState}>
               <p className={styles.emptyTitle}>No reviews yet</p>
-              <p className={styles.emptyHint}>Sé el primero en dejar una reseña y quedar como MVP.</p>
+              <p className={styles.emptyHint}>Be the first to leave a review and become an MVP.</p>
             </div>
           )}
         </section>
