@@ -26,7 +26,6 @@ function EditCityPage() {
     [safeCountry]
   );
 
-  // ✅ FIX: Ruta válida: /countries/:country/cities/:cityId
   const backToDetailsUrl = useMemo(() => {
     const countryPart = encodeURIComponent(safeCountry || "");
     return `/countries/${countryPart}/cities/${cityId}`;
@@ -42,7 +41,7 @@ function EditCityPage() {
 
   const [pointsOfInterest, setPointsOfInterest] = useState([{ name: "", url: "" }]);
 
-  // ✅ Fetch city
+ 
   useEffect(() => {
     setLoading(true);
 
@@ -92,8 +91,6 @@ function EditCityPage() {
     e.preventDefault();
     if (!name.trim()) return;
 
-    // ✅ OJO: Solo mandamos campos editables.
-    // Con PATCH, Firebase NO borra comments/reviews/etc.
     const updatedCity = {
       name: name.trim(),
       description: description.trim(),
@@ -110,13 +107,12 @@ function EditCityPage() {
     if (averageRating !== "") {
       updatedCity.averageRating = Number(averageRating);
     } else {
-      // ✅ Si quieres que “vaciar rating” lo elimine en Firebase, descomenta esto:
-      // updatedCity.averageRating = null;
+    
     }
 
     setSaving(true);
 
-    // ✅ FIX CLAVE: PATCH en vez de PUT
+ 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, updatedCity)
       .then(() => {

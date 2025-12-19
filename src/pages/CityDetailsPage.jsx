@@ -8,6 +8,7 @@ import styles from "./CityDetailsPage.module.css";
 import { FiChevronRight, FiHome, FiEdit2, FiTrash2, FiStar } from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FcPlus } from "react-icons/fc";
+import { FaAcquisitionsIncorporated } from "react-icons/fa";
 
 const FALLBACK_IMG = "/images/placeholder-city.jpg";
 
@@ -57,7 +58,7 @@ function CityDetailsPage() {
 
   useEffect(() => {
     fetchCity();
-   
+
   }, [cityId]);
 
   const backToCitiesPath = `/countries/${encodeURIComponent(safeCountry)}/cities`;
@@ -152,8 +153,8 @@ function CityDetailsPage() {
   const computedAverageRating =
     numericRatings.length > 0
       ? (
-          numericRatings.reduce((sum, n) => sum + n, 0) / numericRatings.length
-        ).toFixed(1)
+        numericRatings.reduce((sum, n) => sum + n, 0) / numericRatings.length
+      ).toFixed(1)
       : "—";
 
   const reviewsCount = reviews.length;
@@ -398,8 +399,9 @@ function CityDetailsPage() {
                     onClick={() => deleteReviewByIndex(index)}
                     type="button"
                     aria-label="Delete review"
+                    title="Delete review"
                   >
-                    ✕
+                    <FiTrash2 />
                   </button>
 
                   {/* ✅ CHANGED: rating antes del nombre */}
@@ -425,5 +427,4 @@ function CityDetailsPage() {
     </div>
   );
 }
-
 export default CityDetailsPage;
