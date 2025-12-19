@@ -15,12 +15,54 @@ function AddCountryPage() {
   const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
 
+  // ✅ Upload
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  // ✅ Cloudinary config
+  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "de0a4pyo2";
+  const UPLOAD_PRESET =
+    import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "cityverse_upload";
+
+  const uploadToCloudinary = async (file) => {
+    if (!file) return;
+
+    setUploadError("");
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const msg = data?.error?.message || "Upload failed";
+        throw new Error(msg);
+      }
+
+      const url = data?.secure_url || data?.url || "";
+      if (!url) throw new Error("No URL returned from Cloudinary");
+
+      setImage(url);
+    } catch (err) {
+      console.log("Cloudinary upload error:", err);
+      setUploadError(err?.message || "Error uploading image");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!country.trim() || !name.trim()) return;
 
-    
     const firstCity = {
       country: country.trim(),
       name: name.trim(),
@@ -117,6 +159,34 @@ function AddCountryPage() {
               </p>
             </div>
 
+            {/* ✅ NEW: Upload image from device (mobile friendly) */}
+            <div className={styles.field}>
+              <label>Upload Image (mobile)</label>
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                disabled={uploading}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  uploadToCloudinary(file);
+                  e.target.value = "";
+                }}
+              />
+
+              {uploading && (
+                <small style={{ display: "block", marginTop: 8, opacity: 0.8 }}>
+                  Uploading to Cloudinary...
+                </small>
+              )}
+
+              {uploadError && (
+                <small style={{ display: "block", marginTop: 8, color: "#b91c1c" }}>
+                  {uploadError}
+                </small>
+              )}
+            </div>
+
             <div className={styles.field}>
               <label>Description</label>
               <textarea
@@ -127,9 +197,14 @@ function AddCountryPage() {
               />
             </div>
 
-            <button className={`btn primary ${styles.btnSm}`} type="submit" disabled={saving}>
+            <button
+              className={`btn primary ${styles.btnSm}`}
+              type="submit"
+              disabled={saving || uploading}
+              title={uploading ? "Wait for the upload to finish" : "Create Country"}
+            >
               <FiPlus style={{ marginRight: 8, verticalAlign: "middle" }} />
-              {saving ? "Saving..." : "Create Country"}
+              {saving ? "Saving..." : uploading ? "Uploading..." : "Create Country"}
             </button>
           </form>
         </section>
@@ -139,4 +214,3 @@ function AddCountryPage() {
 }
 
 export default AddCountryPage;
-
