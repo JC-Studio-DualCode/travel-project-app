@@ -62,7 +62,7 @@
   font-weight: 800;
   color: rgba(15, 23, 42, 0.85);
 
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
 
@@ -122,7 +122,7 @@
   text-decoration: none;
 
   color: rgba(15, 23, 42, 0.92);
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
 
   display: inline-flex;
@@ -149,7 +149,7 @@
 
 .dangerBtn {
   color: #7f1d1d;
-  background: rgba(254, 242, 242, 0.95); /* más blanco */
+  background: rgba(254, 242, 242, 0.95);
   border-color: rgba(239, 68, 68, 0.22);
 }
 
@@ -216,7 +216,7 @@
   padding: 18px;
   border-radius: 18px;
 
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 16px 46px rgba(2, 6, 23, 0.12);
 
@@ -232,7 +232,7 @@
 }
 
 .heroKicker {
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
   padding: 7px 10px;
@@ -279,7 +279,7 @@
 }
 
 .heroAverage {
-  font-size: 32px; /* más grande */
+  font-size: 32px;
   font-weight: 900;
   color: #1e40af;
   background: rgba(37, 99, 235, 0.15);
@@ -290,28 +290,45 @@
   margin-top: 8px;
 }
 
+/* ✅ CHANGED: chips más grandes */
 .heroChips {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 14px;
+  margin-top: 18px;
   flex-wrap: wrap;
 }
 
+/* ✅ CHANGED: chip más grande y legible */
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
+  gap: 10px;
+  padding: 10px 16px;
 
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
 
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 999px;
 
   backdrop-filter: blur(10px) saturate(145%);
   -webkit-backdrop-filter: blur(10px) saturate(145%);
+}
+
+/* ✅ CHANGED: icono (FiStar) dorado y más grande */
+.chip :global(svg) {
+  font-size: 20px;
+  color: #f59e0b;
+  transform: translateY(1px);
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.10));
+}
+
+/* ✅ BONUS: primer chip (rating) más destacado */
+.chipPrimary {
+  background: rgba(255, 251, 235, 0.85);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 6px 18px rgba(245, 158, 11, 0.18);
 }
 
 .heroActions {
@@ -401,7 +418,7 @@
   border-radius: 14px;
   border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 10px 26px rgba(2, 6, 23, 0.10);
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
 }
 
 /* =========================
@@ -419,7 +436,7 @@
   border-radius: 16px;
   cursor: pointer;
 
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
 
@@ -512,7 +529,7 @@
   padding: 20px 14px;
   border-radius: 16px;
 
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   box-shadow: 0 14px 38px rgba(2, 6, 23, 0.10);
 
@@ -520,13 +537,13 @@
   -webkit-backdrop-filter: blur(10px) saturate(145%);
 }
 
+/* ✅ CHANGED: layout para que ⭐ vaya antes del nombre */
 .reviewTop {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
   align-items: center;
+  justify-content: flex-start; /* ya no "space-between" */
+  gap: 12px;
   margin-bottom: 8px;
-  position: relative; /* necesario para centrar rating */
 }
 
 .reviewUser {
@@ -534,18 +551,17 @@
   font-size: 13px;
 }
 
+/* ✅ CHANGED: sin absolute, ahora es un pill normal a la izquierda */
 .reviewRating {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 900;
   color: #92400e;
   background: rgba(250, 204, 21, 0.25);
   border: 1px solid rgba(250, 204, 21, 0.35);
-  padding: 5px 14px;
+  padding: 6px 12px;
   border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .reviewText {
@@ -583,7 +599,7 @@
    Empty State
 ========================= */
 .emptyState {
-  background: rgba(255, 255, 255, 0.95); /* más blanco */
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(200, 200, 200, 0.25);
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
