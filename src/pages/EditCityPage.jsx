@@ -168,10 +168,12 @@ function EditCityPage() {
           </p>
 
           <div className={`${styles.heroChips} ${styles.enterSoft}`}>
-            <span className={styles.chip}>
+            {/* ✅ CHANGED: primer chip con clase extra para resaltarlo */}
+            <span className={`${styles.chip} ${styles.chipPrimary}`}>
               <FiMapPin aria-hidden="true" />
               {safeCountry || "No country"}
             </span>
+
             <span className={styles.chip}>
               ID: <strong style={{ fontWeight: 900 }}>{cityId}</strong>
             </span>

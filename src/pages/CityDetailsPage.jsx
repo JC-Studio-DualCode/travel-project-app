@@ -5,13 +5,7 @@ import { MainURL } from "../config/api";
 import ReviewForm from "../components/ReviewForm";
 import styles from "./CityDetailsPage.module.css";
 
-import {
-  FiChevronRight,
-  FiHome,
-  FiEdit2,
-  FiTrash2,
-  FiStar,
-} from "react-icons/fi";
+import { FiChevronRight, FiHome, FiEdit2, FiTrash2, FiStar } from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FcPlus } from "react-icons/fc";
 
@@ -157,7 +151,9 @@ function CityDetailsPage() {
 
   const computedAverageRating =
     numericRatings.length > 0
-      ? (numericRatings.reduce((sum, n) => sum + n, 0) / numericRatings.length).toFixed(1)
+      ? (
+          numericRatings.reduce((sum, n) => sum + n, 0) / numericRatings.length
+        ).toFixed(1)
       : "—";
 
   const reviewsCount = reviews.length;
@@ -242,7 +238,8 @@ function CityDetailsPage() {
           </p>
 
           <div className={styles.heroChips}>
-            <span className={styles.chip}>
+            {/* ✅ CHANGED: primer chip con clase extra para el BONUS */}
+            <span className={`${styles.chip} ${styles.chipPrimary}`}>
               <FiStar aria-hidden="true" />
               {computedAverageRating}
             </span>
@@ -380,7 +377,7 @@ function CityDetailsPage() {
             <div className={styles.formWrap}>
               <ReviewForm
                 cityId={cityId}
-                reviews={reviews} 
+                reviews={reviews}
                 onAddReview={(updatedReviews) => {
                   setCity((prev) => ({ ...(prev || {}), reviews: updatedReviews }));
                   setShowReviewForm(false);
@@ -392,7 +389,10 @@ function CityDetailsPage() {
           {reviews.length > 0 ? (
             <div className={styles.reviewsGrid}>
               {reviews.map((review, index) => (
-                <article key={`${review?.user || "user"}-${index}`} className={styles.reviewCard}>
+                <article
+                  key={`${review?.user || "user"}-${index}`}
+                  className={styles.reviewCard}
+                >
                   <button
                     className={styles.deleteReviewBtn}
                     onClick={() => deleteReviewByIndex(index)}
@@ -402,9 +402,12 @@ function CityDetailsPage() {
                     ✕
                   </button>
 
+                  {/* ✅ CHANGED: rating antes del nombre */}
                   <div className={styles.reviewTop}>
-                    <strong className={styles.reviewUser}>{review?.user || "Anonymous"}</strong>
                     <span className={styles.reviewRating}>⭐ {review?.rating ?? "—"}</span>
+                    <strong className={styles.reviewUser}>
+                      {review?.user || "Anonymous"}
+                    </strong>
                   </div>
 
                   <p className={styles.reviewText}>{review?.comment || ""}</p>
@@ -424,4 +427,3 @@ function CityDetailsPage() {
 }
 
 export default CityDetailsPage;
-
