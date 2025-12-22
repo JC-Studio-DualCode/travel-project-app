@@ -15,13 +15,13 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 
+import { useAuth } from "../components/AuthContext"; // <-- import your auth context
+
 function CountryListPage() {
+  const { user } = useAuth(); // <-- get the logged-in user
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
   const [query, setQuery] = useState("");
-
   const [displayCountries, setDisplayCountries] = useState(0);
   const [displayCities, setDisplayCities] = useState(0);
 
@@ -117,7 +117,6 @@ function CountryListPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.country}>
-       
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -128,18 +127,13 @@ function CountryListPage() {
           <span className={styles.crumbCurrent}>Countries</span>
         </nav>
 
-    
-        <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>
-          Countries
-        </h1>
-
+        <h1 className={`${styles.heroTitle} ${styles.enterTitle}`}>Countries</h1>
 
         <section className={styles.countryHero}>
           <div className={styles.heroTopRow}>
             <span className={styles.heroKicker}>Travel Journal • CityVerse</span>
           </div>
 
-          
           <div className={styles.heroSecondaryChips}>
             <span
               className={styles.heroJournal}
@@ -209,10 +203,12 @@ function CountryListPage() {
             style={{ animationDelay: "220ms" }}
           >
             <div className={styles.countryActions}>
-              <Link className={`btn primary ${styles.btnSm}`} to="/countries/add">
-                <FiPlus style={{ marginRight: 8, verticalAlign: "middle" }} />
-                Add Country
-              </Link>
+              {user && (  /* <-- only show if user is logged in */
+                <Link className={`btn primary ${styles.btnSm}`} to="/countries/add">
+                  <FiPlus style={{ marginRight: 8, verticalAlign: "middle" }} />
+                  Add Country
+                </Link>
+              )}
 
               <Link className={`btn ghost ${styles.btnSm}`} to="/">
                 <FiHome style={{ marginRight: 8, verticalAlign: "middle" }} />
@@ -292,12 +288,10 @@ function CountryListPage() {
                   );
                 })}
               </section>
-
             )}
           </>
         )}
       </div>
-
     </div>
   );
 }

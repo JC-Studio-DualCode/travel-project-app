@@ -8,14 +8,14 @@ import styles from "./CityDetailsPage.module.css";
 import { FiChevronRight, FiHome, FiEdit2, FiTrash2, FiStar } from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FcPlus } from "react-icons/fc";
-import { FaAcquisitionsIncorporated } from "react-icons/fa";
+import { useAuth } from "../components/AuthContext"
 
 const FALLBACK_IMG = "/images/placeholder-city.jpg";
 
 function CityDetailsPage() {
   const { country, cityId } = useParams();
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const [city, setCity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
@@ -205,7 +205,7 @@ function CityDetailsPage() {
           <Link to={backToCitiesPath} className={styles.btnPill}>
             ← Back to Cities
           </Link>
-
+        {user && (
           <div className={styles.topBarRight}>
             <Link
               to={`/countries/${encodeURIComponent(safeCountry)}/cities/${cityId}/edit`}
@@ -225,6 +225,7 @@ function CityDetailsPage() {
               {deleting ? "Deleting..." : "Delete"}
             </button>
           </div>
+        )}
         </header>
 
         <section className={`${styles.hero} ${styles.enterUp}`}>
@@ -239,7 +240,7 @@ function CityDetailsPage() {
           </p>
 
           <div className={styles.heroChips}>
-            {/* ✅ CHANGED: primer chip con clase extra para el BONUS */}
+          
             <span className={`${styles.chip} ${styles.chipPrimary}`}>
               <FiStar aria-hidden="true" />
               {computedAverageRating}

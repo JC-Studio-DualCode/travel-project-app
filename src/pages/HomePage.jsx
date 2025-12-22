@@ -3,8 +3,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiImage, FiMapPin, FiStar } from "react-icons/fi";
 import { MainURL } from "../config/api";
 import styles from "./HomePage.module.css";
+import { useAuth } from "../components/AuthContext.jsx";
+
 
 function HomePage() {
+  const { user } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+
   const [citiesCount, setCitiesCount] = useState(null);
 
   useEffect(() => {
@@ -18,22 +23,37 @@ function HomePage() {
   }, []);
 
   const photoSlides = useMemo(
-    () => ["images/card-photo.jpg", "/images/card-photo-1.jpg", "/images/card-photo-2.jpg",
-       "/images/card-photo-3.jpg", "/images/card-photo-4.jpg", 
-       "/images/card-photo-5.jpg", "/images/card-photo-6.jpg"],
+    () => [
+      "images/card-photo.jpg",
+      "/images/card-photo-1.jpg",
+      "/images/card-photo-2.jpg",
+      "/images/card-photo-3.jpg",
+      "/images/card-photo-4.jpg",
+      "/images/card-photo-5.jpg",
+      "/images/card-photo-6.jpg",
+    ],
     []
   );
 
   const mapSlides = useMemo(
-    () => ["/images/card-map-4.jpg", "/images/card-map.jpg",
-       "/images/card-map-2.jpg", "/images/card-map-3.jpg", ],
+    () => [
+      "/images/card-map-4.jpg",
+      "/images/card-map.jpg",
+      "/images/card-map-2.jpg",
+      "/images/card-map-3.jpg",
+    ],
     []
   );
 
   const ratingSlides = useMemo(
-    () => ["/images/card-rating-1.jpg", "/images/card-rating-2.jpg",
-       "/images/card-rating-3.jpg", "/images/card-rating-4.jpg",
-       "/images/card-rating-5.jpg", "/images/card-rating-6.jpg"],
+    () => [
+      "/images/card-rating-1.jpg",
+      "/images/card-rating-2.jpg",
+      "/images/card-rating-3.jpg",
+      "/images/card-rating-4.jpg",
+      "/images/card-rating-5.jpg",
+      "/images/card-rating-6.jpg",
+    ],
     []
   );
 
@@ -69,7 +89,10 @@ function HomePage() {
         }, 260);
       };
 
-      mainTimeout = setTimeout(tick, Math.random() * (maxMs - minMs) + minMs);
+      mainTimeout = setTimeout(
+        tick,
+        Math.random() * (maxMs - minMs) + minMs
+      );
 
       return () => {
         clearTimeout(mainTimeout);
@@ -121,7 +144,8 @@ function HomePage() {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add(styles.revealIn);
+          if (entry.isIntersecting)
+            entry.target.classList.add(styles.revealIn);
           else entry.target.classList.remove(styles.revealIn);
         });
       },
@@ -145,16 +169,24 @@ function HomePage() {
             <div className={styles.topRow}>
               <p className={styles.badge}>Travel Journal · CityVerse</p>
               <span className={styles.stat}>
-                {citiesCount === null ? "Loading..." : `${citiesCount} cities added`}
+                {citiesCount === null
+                  ? "Loading..."
+                  : `${citiesCount} cities added`}
               </span>
             </div>
 
             <div className={styles.textCardWrapper}>
-              <div ref={pill1Ref} className={`${styles.textPill} ${styles.revealBase}`}>
+              <div
+                ref={pill1Ref}
+                className={`${styles.textPill} ${styles.revealBase}`}
+              >
                 <p>{heroPillText}</p>
               </div>
 
-              <div ref={pill2Ref} className={`${styles.textPillSecondary} ${styles.revealBase}`}>
+              <div
+                ref={pill2Ref}
+                className={`${styles.textPillSecondary} ${styles.revealBase}`}
+              >
                 <p>{heroPillText}</p>
               </div>
             </div>
@@ -163,33 +195,65 @@ function HomePage() {
 
         <section className={styles.grid}>
           <article
-            className={`${styles.card} ${fadePhoto ? styles.cardFading : ""}`}
-            style={{ backgroundImage: photoBg ? `url(${photoBg})` : undefined }}
+            className={`${styles.card} ${
+              fadePhoto ? styles.cardFading : ""
+            }`}
+            style={{
+              backgroundImage: photoBg
+                ? `url(${photoBg})`
+                : undefined,
+            }}
           >
-            <FiImage className={`${styles.iconBadge} ${styles.iconPhoto}`} size={28} />
+            <FiImage
+              className={`${styles.iconBadge} ${styles.iconPhoto}`}
+              size={28}
+            />
             <h3>Photos that tell the story</h3>
-            <p>Add an image to each city and keep your travel memories visual.</p>
+            <p>
+              Add an image to each city and keep your travel memories visual.
+            </p>
           </article>
 
           <article
             className={`${styles.card} ${fadeMap ? styles.cardFading : ""}`}
-            style={{ backgroundImage: mapBg ? `url(${mapBg})` : undefined }}
+            style={{
+              backgroundImage: mapBg ? `url(${mapBg})` : undefined,
+            }}
           >
-            <FiMapPin className={`${styles.iconBadge} ${styles.iconMap}`} size={28} />
+            <FiMapPin
+              className={`${styles.iconBadge} ${styles.iconMap}`}
+              size={28}
+            />
             <h3>Explore and locate cities</h3>
-            <p>Open any city on Google Maps directly from the details page.</p>
+            <p>
+              Open any city on Google Maps directly from the details page.
+            </p>
           </article>
 
           <article
-            className={`${styles.card} ${fadeRating ? styles.cardFading : ""}`}
-            style={{ backgroundImage: ratingBg ? `url(${ratingBg})` : undefined }}
+            className={`${styles.card} ${
+              fadeRating ? styles.cardFading : ""
+            }`}
+            style={{
+              backgroundImage: ratingBg
+                ? `url(${ratingBg})`
+                : undefined,
+            }}
           >
-            <FiStar className={`${styles.iconBadge} ${styles.iconStar}`} size={28} />
+            <FiStar
+              className={`${styles.iconBadge} ${styles.iconStar}`}
+              size={28}
+            />
             <h3>Rate what matters to you</h3>
-            <p>Give each city a rating so you remember what you’d repeat (or avoid).</p>
+            <p>
+              Give each city a rating so you remember what you’d repeat (or
+              avoid).
+            </p>
           </article>
         </section>
       </div>
+
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
     </div>
   );
 }

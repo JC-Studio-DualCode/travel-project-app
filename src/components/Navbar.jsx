@@ -1,21 +1,27 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.css";
+import { useAuth } from "../components/AuthContext.jsx";
+import LoginModal from "./LoginModal.jsx";
+
 
 function Navbar() {
+  const { user, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+
   const linkClass = ({ isActive }) =>
     isActive ? `${styles.link} ${styles.active}` : styles.link;
 
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // ✅ Cierra dropdown si cambias de ruta (consistencia total)
+  // Close dropdown on route change
   const location = useLocation();
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
 
-  // ✅ Listeners SOLO cuando el menú está abierto (más seguro + menos ruido)
+  // Click outside / Escape listeners for dropdown
   useEffect(() => {
     if (!open) return;
 
@@ -40,79 +46,104 @@ function Navbar() {
   const toggleMenu = () => setOpen((v) => !v);
 
   return (
-    <header className={styles.navWrap}>
-      <nav className={styles.navbar}>
-        {/* LEFT */}
-        <div className={styles.left}>
-          <NavLink to="/" className={linkClass}>
-            Home
-          </NavLink>
+    <>
+      <header className={styles.navWrap}>
+        <nav className={styles.navbar}>
+          {/* LEFT */}
+          <div className={styles.left}>
+            <NavLink to="/" className={linkClass}>
+              Home
+            </NavLink>
 
-          {/* CTA Dropdown */}
-          <div className={styles.dropdownWrap} ref={menuRef}>
-            <button
-              type="button"
-              className={styles.ctaBtn}
-              aria-haspopup="menu"
-              aria-expanded={open}
-              aria-controls="start-exploring-menu"
-              onClick={toggleMenu}
-              onKeyDown={(e) => {
-                // ✅ Accesibilidad real: Enter / Space abre/cierra, Escape cierra
-                if (e.key === "Escape") setOpen(false);
-
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault(); // evita scroll con Space
-                  toggleMenu();
-                }
-              }}
-            >
-              Start Exploring
-            </button>
-
-            {open && (
-              <div
-                id="start-exploring-menu"
-                className={styles.dropdown}
-                role="menu"
+            {/* CTA Dropdown */}
+            <div className={styles.dropdownWrap} ref={menuRef}>
+              <button
+                type="button"
+                className={styles.ctaBtn}
+                aria-haspopup="menu"
+                aria-expanded={open}
+                aria-controls="start-exploring-menu"
+                onClick={toggleMenu}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setOpen(false);
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleMenu();
+                  }
+                }}
               >
-                <NavLink
-                  to="/cities"
-                  className={styles.dropdownItem}
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
-                >
-                  All Cities
-                </NavLink>
+                Start Exploring
+              </button>
 
-                <NavLink
-                  to="/countries"
-                  className={styles.dropdownItem}
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
+              {open && (
+                <div
+                  id="start-exploring-menu"
+                  className={styles.dropdown}
+                  role="menu"
                 >
-                  Countries
-                </NavLink>
+                  <NavLink
+                    to="/cities"
+                    className={styles.dropdownItem}
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                  >
+                    All Cities
+                  </NavLink>
+
+                  <NavLink
+                    to="/countries"
+                    className={styles.dropdownItem}
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                  >
+                    Countries
+                  </NavLink>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CENTER */}
+          <div className={styles.center} aria-label="Brand">
+            <NavLink to="/" className={styles.brand}>
+              CityVerse
+            </NavLink>
+          </div>
+
+          {/* RIGHT */}
+          <div className={styles.right}>
+            <NavLink to="/about" className={linkClass}>
+              About
+            </NavLink>
+
+            {user ? (
+              <div className={styles.userBox}>
+                <img
+                  src={user.photoURL || userIcon}  
+                  alt={user.displayName || "User"}
+                  className={styles.avatar}
+                />
+                <span className={styles.userName}>
+                  {user.displayName || "User"}
+                </span>
+                <button className={styles.logoutBtn} onClick={logout}>
+                  Logout
+                </button>
               </div>
+            ) : (
+              <button
+                className={styles.loginBtn}
+                onClick={() => setShowLogin(true)}
+              >
+                Login
+              </button>
             )}
           </div>
-        </div>
+        </nav>
+      </header>
 
-        {/* CENTER */}
-        <div className={styles.center} aria-label="Brand">
-          <NavLink to="/" className={styles.brand}>
-            CityVerse
-          </NavLink>
-        </div>
-
-        {/* RIGHT */}
-        <div className={styles.right}>
-          <NavLink to="/about" className={linkClass}>
-            About
-          </NavLink>
-        </div>
-      </nav>
-    </header>
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+    </>
   );
 }
 
