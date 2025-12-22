@@ -41,7 +41,50 @@ function EditCityPage() {
 
   const [pointsOfInterest, setPointsOfInterest] = useState([{ name: "", url: "" }]);
 
- 
+  // ✅ Upload
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  // ✅ Cloudinary config
+  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "de0a4pyo2";
+  const UPLOAD_PRESET =
+    import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "cityverse_upload";
+
+  const uploadToCloudinary = async (file) => {
+    if (!file) return;
+
+    setUploadError("");
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        { method: "POST", body: formData }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const msg = data?.error?.message || "Upload failed";
+        throw new Error(msg);
+      }
+
+      const url = data?.secure_url || data?.url || "";
+      if (!url) throw new Error("No URL returned from Cloudinary");
+
+      setImage(url);
+    } catch (err) {
+      console.log("Cloudinary upload error:", err);
+      setUploadError(err?.message || "Error uploading image");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
 
@@ -104,15 +147,10 @@ function EditCityPage() {
         })),
     };
 
-    if (averageRating !== "") {
-      updatedCity.averageRating = Number(averageRating);
-    } else {
-    
-    }
+    if (averageRating !== "") updatedCity.averageRating = Number(averageRating);
 
     setSaving(true);
 
- 
     axios
       .patch(`${MainURL}/cities/${cityId}.json`, updatedCity)
       .then(() => {
@@ -130,7 +168,6 @@ function EditCityPage() {
   return (
     <div className={styles.pageBg}>
       <div className={styles.wrap}>
-        {/* ✅ Breadcrumb */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link className={styles.crumbLink} to="/">
             Home
@@ -237,6 +274,36 @@ function EditCityPage() {
                 />
               </div>
 
+              {/* ✅ NEW: Upload image from device */}
+              <div className={styles.field}>
+                <span className={styles.label}>Upload Image (mobile)</span>
+
+                <input
+                  className={styles.input}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    uploadToCloudinary(file);
+                    e.target.value = "";
+                  }}
+                />
+
+                {uploading && (
+                  <small style={{ display: "block", marginTop: 8, opacity: 0.8 }}>
+                    Uploading to Cloudinary...
+                  </small>
+                )}
+
+                {uploadError && (
+                  <small style={{ display: "block", marginTop: 8, color: "#b91c1c" }}>
+                    {uploadError}
+                  </small>
+                )}
+              </div>
+
               <div className={styles.field}>
                 <span className={styles.label}>Average Rating</span>
                 <input
@@ -298,9 +365,14 @@ function EditCityPage() {
             </div>
 
             <div className={styles.formActions}>
-              <button type="submit" className={styles.saveBtn} disabled={saving}>
+              <button
+                type="submit"
+                className={styles.saveBtn}
+                disabled={saving || uploading}
+                title={uploading ? "Wait for the upload to finish" : "Save changes"}
+              >
                 <FiSave style={{ marginRight: 8 }} />
-                {saving ? "Saving..." : "Save changes"}
+                {saving ? "Saving..." : uploading ? "Uploading..." : "Save changes"}
               </button>
 
               <span className={styles.hint}>

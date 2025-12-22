@@ -24,7 +24,7 @@ function HomePage() {
 
   const photoSlides = useMemo(
     () => [
-      "images/card-photo.jpg",
+      "/images/card-photo.jpg",
       "/images/card-photo-1.jpg",
       "/images/card-photo-2.jpg",
       "/images/card-photo-3.jpg",
@@ -39,8 +39,11 @@ function HomePage() {
     () => [
       "/images/card-map-4.jpg",
       "/images/card-map.jpg",
+      "/images/card-map-1.jpg",
       "/images/card-map-2.jpg",
       "/images/card-map-3.jpg",
+      "/images/card-map-5.jpg",
+      "/images/card-map-6.jpg",
     ],
     []
   );
